@@ -1,0 +1,302 @@
+[
+  {
+    "id": "p1",
+    "name1": "Bahia Inglesa",
+    "name2": "Bahia Inglesa / Chile",
+    "país": "Chile",
+    "img": "/imagenes/Bahía_Inglesa_Chile2.jpg",
+    "temp": "🌡️ 21°C",
+    "hum": "HR 83%",
+    "estado": "Soleado",
+    "íconoEst": "☀️​",
+    "flag": "/imagenes/B_Chile.jpg",
+    "desc": "Conocida por sus playas de arena blanca y aguas cristalinas de tono turquesa, Bahía Inglesa es un balneario que promete una experiencia inolvidable. Su clima cálido y agradable, te invita a relajarte y disfrutar de la naturaleza en su máxima expresión. Ubicada en la región de Atacama, al norte de Chile, esta joya es una parte integral del desierto más árido del mundo. A pesar de su entorno desértico, Bahía Inglesa se destaca como un verdadero oasis, brindando un refugio lleno de vida y color. Es el lugar perfecto para quienes buscan disfrutar del sol, el mar y la belleza natural.",
+    "pronSem": [
+      
+    
+      {"dia": "Mañana", "min": 17,"max": 21,"estado": "Parcialmente nublado", "icon":"🌥️​"},
+      {"dia": "Sabado","min": 17,"max": 23,"estado": "Parcialmente nublado", "icon":"🌥️​"},
+      {"dia": "Domingo","min": 17,"max": 23,"estado": "Soleado","icon":"☀️​"},
+      {"dia": "Lunes", "min": 16, "max": 22,"estado": "Soleado", "icon":"☀️"},
+      {"dia": "Martes", "min": 16, "max": 22, "estado": "Parcialmente nublado", "icon":"🌥️​"},
+      {"dia": "Miércoles", "min": 15, "max": 21, "estado": "Parcialmente nublado", "icon":"🌥️​"},
+      {"dia": "Jueves", "min": 15,"max": 21, "estado": "Parcialmente nublado", "icon":"🌥️​"}
+
+    ]
+   
+  },
+  {
+    "id": "p2",
+    "name1": "Bahia Tortuga",
+    "name2": "Bahia Tortuga / Ecuador",
+     "país": "Ecuador",
+    "img": "/imagenes/Bahía_Tortuga_Ecuador.jpg",
+    "temp": "🌡️ 30°C",
+    "hum": "HR 93%",
+    "estado": "Lluvia débil",
+    "íconoEst":"🌧️​",
+    "flag": "/imagenes/B_Ec.jpg",
+    "desc": "Bahía Tortuga está situada en la isla de Santa Cruz en las Galápagos, Ecuador. Puerto Ayora está alrededor de 40 minutos a pie. Hay un pequeño camino de 2500 metros de largo y se debe iniciar y cerrar sesión en la oficina del Parque Nacional Galápagos, cuando el acceso a la Bahía Tortuga se concede a los visitantes de forma gratuita.La playa está perfectamente preservarda y con presencia de animales salvajes como iguanas, cangrejos de playa. Sólo se permite nadar en el manglar que está separado de la playa.",
+    "pronSem": [
+      
+      {"dia": "Mañana","min": 24,"max": 28,"estado": "Tormenta", "icon":"​⛈️​"},
+      {"dia": "Sabado", "min": 23,"max": 29,"estado": "Tormenta", "icon":"​⛈️​"},
+      {"dia": "Domingo", "min": 23,"max": 29,"estado": "Lluvia débil","icon":"🌧️​"},
+      {"dia": "Lunes", "min": 24,"max": 28,"estado": "Lluvia débil", "icon":"🌧️​"},
+      {"dia": "Martes", "min": 23,"max": 29,"estado": "Lluvia débil", "icon":"🌧️​"},
+      {"dia": "Miércoles", "min": 23,"max": 29,"estado": "Lluvia débil", "icon":"🌧️​"},
+      {"dia": "Jueves", "min": 23,"max": 29,"estado": "Lluvia débil", "icon":"🌧️​"}
+
+    ]
+   
+  },
+    {
+    "id": "p3",
+    "name1": "Bocas del Toro",
+    "name2": "Bocas del Toro / Panamá",
+     "país": "Panamá",
+    "img": "/imagenes/Bocas_del_Toro_Panamá.jpg",
+    "temp": "🌡️ 27°C",
+    "hum": "HR 84%",
+    "estado": "Lluvia débil",
+    "íconoEst": "🌧️​",
+    "flag": "/imagenes/B_Pa.jpg",
+    "desc": "Bocas del Toro es un paraíso tropical en Panamá, conocido por sus hermosas playas, ideales para actividades acuáticas. Uno de los imprescindibles es un tour en bote hacia el Cayo Zapatilla, un paraíso tropical con aguas cristalinas y arenas blancas. También puedes disfrutar de snorkel en la Isla de los Delfines, donde podrás observar a estos encantadores mamíferos en su hábitat natural. Los amantes de la naturaleza pueden explorar el Parque Nacional Marino Isla Bastimentos, hogar de una increíble biodiversidad. Si prefieres algo más relajante, la vida nocturna de Bocas es igualmente interesante. Con una amplia gama de bares y restaurantes, podrás disfrutar de música en vivo, cócteles tropicales y una atmósfera única. La isla también es famosa por su ambiente relajado, lo que la convierte en el destino perfecto para desconectar de la rutina diaria.",
+    "pronSem": [
+      
+      {"dia": "Mañana", "min": 24,"max": 28,"estado": "Lluvia débil", "icon":"🌧️​"},
+      {"dia": "Sabado", "min": 23,"max": 27,"estado": "Lluvia débil", "icon":"🌧️​"},
+      {"dia": "Domingo","min": 23,"max": 27,"estado": "Lluvia débil","icon":"🌧️​"},
+      {"dia": "Lunes", "min": 23,"max": 28,"estado": "Lluvia débil", "icon":"🌧️​"},
+      {"dia": "Martes", "min": 24,"max": 28,"estado": "Lluvia débil", "icon":"🌧️​"},
+      {"dia": "Miércoles", "min": 24,"max": 28,"estado": "Lluvia débil", "icon":"🌧️​"},
+      {"dia": "Jueves","min": 24,"max": 28,"estado": "Lluvia débil", "icon":"🌧️​"}
+
+    ]
+   
+  },
+    {
+    "id": "p4",
+    "name1": "Florianópolis",
+    "name2": "Florianópolis / Brasil",
+     "país": "Brasil",
+    "img": "/imagenes/Florianópolis_Brasil2.jpg",
+    "temp": "🌡️ 28°C",
+    "hum": "HR 84%",
+    "estado": "Parcialmente nublado",
+    "íconoEst": "🌥️​",
+    "flag": "/imagenes/B_Br.jpg",
+    "desc": "Florianópolis, conocida popularmente como Floripa, es la capital del Estado de Santa Catarina, en la Región Sur de Brasil. Posee una gran diversidad de paisajes compuestos por manglares, lagunas, dunas, cerros y pequeñas islas forman la costa de esta región, la cual ha sido premiada con 42 impresionantes playas. La isla está dividida en dos partes: una isla costera y la pequeña península continental que forman la ciudad, y es esta geografía única la que transforma a Florianópolis en uno de los principales destinos de playa de Brasil. Parte de la ciudad es un área de preservación ambiental, con playas rodeadas de cerros cubiertos por vegetación de Mata Atlántica.",
+    "pronSem": [
+      
+      {"dia": "Mañana", "iconTemp": "🌡️​","min": 21,"max": 29,"estado": "Lluvia débil", "icon":"🌧️​"},
+      {"dia": "Sabado", "iconTemp": "🌡️​","min": 22,"max": 28,"estado": "Lluvia débil", "icon":"🌧️​"},
+      {"dia": "Domingo", "iconTemp": "🌡️​","min": 22,"max": 30,"estado": "Lluvia débil","icon":"🌧️​"},
+      {"dia": "Lunes", "iconTemp": "🌡️​","min": 20,"max": 26,"estado": "Lluvia débil", "icon":"🌧️​"},
+      {"dia": "Martes", "iconTemp": "🌡️​","min": 21,"max": 25,"estado": "Lluvia débil", "icon":"🌧️​"},
+      {"dia": "Miércoles", "iconTemp": "🌡️​","min": 21,"max": 25,"estado": "Lluvia débil", "icon":"🌧️​"},
+      {"dia": "Jueves", "iconTemp": "🌡️​","min": 21,"max": 25,"estado": "Lluvia débil", "icon":"🌧️​"}
+
+    ]
+   
+  },
+    {
+    "id": "p5",
+    "name1": "Los Roques",
+    "name2": "Los Roques / Venezuela",
+     "país": "Venezuela",
+    "img": "/imagenes/Los Roques_Venezuela2.jpg",
+    "temp": "🌡️ 26°C",
+    "hum": "HR 82%",
+    "estado": "Parcialmente nublado",
+    "íconoEst": "🌥️​",
+    "flag": "/imagenes/B_Ve.jpg",
+    "desc": "El archipiélago de Los Roques es una dependencia federal que agrupa un conjunto de islas y cayos en las Antillas Menores pertenecientes a Venezuela y es considerado el segundo parque marino más grande de América Latina (Parque nacional Archipiélago de Los Roques). Además el archipiélago posee el arrecife coralino más grande del sur del mar Caribe. Las actividades turísticas han sido estimuladas por sus playas de arenas blancas, navegación recreativa en diversos tipos de embarcaciones como kayak, velero, bote de remo y catamarán; windsurf, buceo o submarinismo sin tanques, pesca deportiva con caña, observación de aves y excursiones a pie. ",
+    "pronSem": [
+     
+      {"dia": "Mañana", "min": 25,"max": 27,"estado": "Lluvia débil", "icon":"🌧️​"},
+      {"dia": "Sabado","min": 25,"max": 27,"estado": "Lluvia débil", "icon":"🌧️​"},
+      {"dia": "Domingo","min": 26,"max": 26,"estado": "Lluvia débil","icon":"🌧️​"},
+      {"dia": "Lunes","min": 26,"max": 26,"estado": "Lluvia débil", "icon":"🌧️​"},
+      {"dia": "Martes","min": 26,"max": 26,"estado": "Lluvia débil", "icon":"🌧️​"},
+      {"dia": "Miércoles","min": 26,"max": 26,"estado": "Lluvia débil", "icon":"🌧️​"},
+      {"dia": "Jueves","min": 26,"max": 26,"estado": "Lluvia débil", "icon":"🌧️​"}
+
+    ]
+   
+  },
+    {
+    "id": "p6",
+    "name1": "Máncora",
+    "name2": "Máncora / Perú",
+     "país": "Perú",
+    "img": "/imagenes/Máncora_Perú.jpg",
+    "temp": "🌡️ 29°C",
+    "hum": "HR 86%",
+    "estado": "Parcialmente nublado",
+    "íconoEst": "🌥️​",
+    "flag": "/imagenes/B_Pe.jpg",
+    "desc": "Máncora es un balneario y localidad del norte del Perú,capital del distrito de Máncora, en la provincia de Talara, departamento de Piura. Además de su función como caleta de pesca, Máncora se ha consolidado en las últimas décadas como un destino turístico de playa, reconocido por sus condiciones favorables para la práctica del surf y otras actividades acuáticas.",
+    "pronSem": [
+   
+      {"dia": "Mañana","min": 24,"max": 28,"estado": "Lluvia débil", "icon":"🌧️​"},
+      {"dia": "Sabado","min": 25,"max": 29,"estado": "Lluvia débil", "icon":"🌧️​"},
+      {"dia": "Domingo","min": 24,"max": 28,"estado": "Lluvia débil","icon":"🌧️​"},
+      {"dia": "Lunes","min": 22,"max": 28,"estado": "Lluvia débil", "icon":"🌧️​"},
+      {"dia": "Martes","min": 24,"max": 28,"estado": "Lluvia débil", "icon":"🌧️​"},
+      {"dia": "Miércoles","min": 24,"max": 30,"estado": "Lluvia débil", "icon":"🌧️​"},
+      {"dia": "Jueves","min": 25,"max": 29,"estado": "Lluvia débil", "icon":"🌧️​"}
+
+    ]
+   
+  },
+    {
+    "id": "p7",
+    "name1": "Mar del Plata",
+    "name2": "Mar del Plata / Argentina",
+     "país": "Argentina",
+    "img": "/imagenes/Mar del Plata_Argentina.jpg",
+    "temp": "🌡️ 19°C",
+    "hum": "HR 58%",
+    "estado": "Parcialmente nublado",
+    "íconoEst": "🌥️​",
+    "flag": "/imagenes/B_Arg.jpg",
+    "desc": "Mar del Plata es una ciudad ubicada en el sudeste de la provincia de Buenos Aires, Argentina, sobre la costa del mar argentino. Es la localidad balnearia más importante del país y el segundo destino turístico después de Buenos Aires. Conocida por su extensa costa atlántica, ofreceuna variedad de playas que se adaptan a todos los gustos, desde las más animadas y céntricas hasta las tranquilas y naturales. Cada playa de Mar del Plata tiene su propia personalidad, desde el bullicio de Bristol hasta la calma de Chapadmalal.",
+    "pronSem": [
+     
+      {"dia": "Mañana","min": 14,"max": 20,"estado": "Lluvia débil", "icon":"🌧️​"},
+      {"dia": "Sabado","min": 16,"max": 20,"estado": "Parcialmente nublado", "icon":"🌥️​"},
+      {"dia": "Domingo","min": 17,"max": 21,"estado": "Parcialmente nublado","icon":"🌥️​"},
+      {"dia": "Lunes","min": 16,"max": 22,"estado": "Parcialmente nublado", "icon":"🌥️​"},
+      {"dia": "Martes","min": 17,"max": 23,"estado": "Parcialmente nublado", "icon":"🌥️​"},
+      {"dia": "Miércoles","min": 17,"max": 23,"estado": "Parcialmente nublado", "icon":"🌥️​"},
+      {"dia": "Jueves","min": 18,"max": 24,"estado": "Lluvia débil", "icon":"🌧️​"}
+
+    ]
+   
+  },
+    {
+    "id": "p8",
+    "name1": "Playa Blanca",
+    "name2": "Playa Blanca / Colombia",
+     "país": "Colombia",
+    "img": "/imagenes/Playa_Blanca_Colombia2.jpg",
+    "temp": "🌡️ 29°C",
+    "hum": "HR 86%",
+    "estado": "Parcialmente nublado",
+    "íconoEst": "🌥️​",
+    "flag": "/imagenes/B_Co.jpg",
+    "desc": "Playa Blanca es una de las playas más emblemáticas de Colombia, ubicada en la isla de Barú, que forma parte del Parque Nacional Natural Corales del Rosario y de San Bernardo. Esta playa es conocida por su arena blanca y fina, así como por sus aguas cristalinas de un azul intenso, lo que la convierteen un destino turístico muy atractivo tanto para locales como para visitantes internacionales. La belleza natural de Playa Blanca, junto con su entorno tropical, ofrece un ambiente ideal para el descanso y la recreación.",
+    "pronSem": [
+     
+      {"dia": "Mañana","min": 25,"max": 29,"estado": "Soleado", "icon":"☀️​"},
+      {"dia": "Sabado","min": 25,"max": 29,"estado": "Parcialmente nublado", "icon":"🌥️​"},
+      {"dia": "Domingo","min": 26,"max": 30,"estado": "Lluvia débil","icon":"🌧️​"},
+      {"dia": "Lunes","min": 24,"max": 28,"estado": "Parcialmente nublado", "icon":"🌥️​"},
+      {"dia": "Martes","min": 25,"max": 29,"estado": "Parcialmente nublado", "icon":"🌥️​"},
+      {"dia": "Miércoles","min": 24,"max": 28,"estado": "Parcialmente nublado", "icon":"🌥️​"},
+      {"dia": "Jueves","min": 26,"max": 30,"estado": "Parcialmente nublado", "icon":"🌥️​"}
+
+    ]
+   
+  },
+    {
+    "id": "p9",
+    "name1": "Playa Conchal",
+    "name2": "Playa Conchal / Costa Rica",
+    "país": "Costa Rica",
+    "img": "/imagenes/Playa_Conchal_Costa_Rica2.jpg",
+    "temp": "🌡️ 29°C",
+    "hum": "HR 61%",
+    "estado": "Parcialmente nublado",
+    "íconoEst": "🌥️​",
+    "flag": "/imagenes/B_CR.jpg",
+    "desc": "Playa Conchal está ubicada al norte de la provincia de Guanacaste. Es considerada por muchos como una de las playas más exóticas de Costa Rica. Es una playa blanca y brillante hecha de pequeñas conchas rotas y coral. Le da al mar una claridad rara y un color azul turquesa. Esta playa es totalmente virgen, y tan pacífica como lo era hace veinte años. Se encuentra a sólo 2 km de Playa Brasilito, y muy cerca de Flamingo y Tamarindo. Además de ser un destino ideal para los amantes del sol y la naturaleza, esta playa ofrece múltiples actividades para viajeros de todas las edades.",
+    "pronSem": [
+     
+      {"dia": "Mañana","min": 23,"max": 33,"estado": "Parcialmente nublado", "icon":"🌥️​"},
+      {"dia": "Sabado","min": 26,"max": 32,"estado": "Lluvia débil", "icon":"🌧️​"},
+      {"dia": "Domingo","min": 25,"max": 33,"estado": "Lluvia débil","icon":"🌧️​"},
+      {"dia": "Lunes","min": 23,"max": 33,"estado": "Parcialmente nublado", "icon":"🌥️​"},
+      {"dia": "Martes","min": 25,"max": 33,"estado": "Parcialmente nublado", "icon":"🌥️​"},
+      {"dia": "Miércoles","min": 25,"max": 33,"estado": "Soleado", "icon":"☀️​"},
+      {"dia": "Jueves","min": 25,"max": 33,"estado": "Soleado", "icon":"☀️​"}
+
+    ]
+   
+  },
+    {
+    "id": "p10",
+    "name1": "Playa del Carmen",
+    "name2": "Playa del Carmen / México",
+    "país": "México",
+    "img": "/imagenes/Playa_del_Carmen_México.jpg",
+    "temp": "🌡️ 28°C",
+    "hum": "HR 70%",
+    "estado": "Lluvia débil",
+    "íconoEst": "🌧️​",
+    "flag": "/imagenes/B_Mx.jpg",
+    "desc": "Situada en el corazón de la Riviera Maya, Playa del Carmen es una increíble mezcla de hermosas playas de fina arena, hoteles para todos los gustos, y los mejores restaurantes y bares con una incomparable vida nocturna. En Playa del Carmen, antiguamente llamada Xamán-Ha, conviven dos mundos.Por un lado, el ambiente pueblerino que se respira de una aldea dedicada a la pesca. Y, por otro, la mezcla cultural y social que generación tras generación ha dado vida a un centro de moda conformado por una arquitectura y gastronomía eclécticas.",
+    "pronSem": [
+
+      {"dia": "Mañana","min": 22,"max": 28,"estado": "Lluvia débil", "icon":"🌧️​"},
+      {"dia": "Sabado","min": 23,"max": 27,"estado": "Lluvia débil", "icon":"🌧️​"},
+      {"dia": "Domingo","min": 24,"max": 28,"estado": "Lluvia débil","icon":"🌧️​"},
+      {"dia": "Lunes","min": 24,"max": 28,"estado": "Lluvia débil", "icon":"🌧️​"},
+      {"dia": "Martes","min": 24,"max": 28,"estado": "Lluvia débil", "icon":"🌧️​"},
+      {"dia": "Miércoles","min": 24,"max": 30,"estado": "Lluvia débil", "icon":"🌧️​"},
+      {"dia": "Jueves","min": 24,"max": 30,"estado": "Parcialmente nublado", "icon":"🌥️​"}
+
+    ]
+  },
+    {
+    "id": "p11",
+    "name1": "Punta Cana",
+    "name2": "Punta Cana / R. Dominicana",
+    "país": "República Dominicana",
+    "img": "/imagenes/Punta_Cana_RD2.jpg",
+    "temp": "🌡️ 27°C",
+    "hum": "HR 77%",
+    "estado": "Lluvia débil",
+    "íconoEst": "🌧️​",
+    "flag": "/imagenes/B_RD.jpg",
+    "desc": "Punta Cana es el sinónimo de descanso y relajación frente al mar. Aquí, donde el Océano Atlántico se encuentra con el Mar Caribe, desde el extremo norte en Uvero Alto al sur en Cap Cana, los resorts todo incluido y hoteles boutique ofrecen todos los mimos y el confort de la vidamoderna frente al mar. Las familias podrán disfrutar de centros de entretenimiento en miniatura, así como parques de agua para niños, mientras que las parejas hallarán enclaves de ensueño para celebrar bodas, con ofertas recluidas en la playa para una estancia aún más romántica. Pero no solo encontrarás diversión bajo el sol, con fina arena blanca y un mar cristalino e iridiscente para nadar, pescar, o darte un chapuzón entre vida marina y barcos hundidos. Punta Cana, también es el paraíso para los golfistas, con 10 campos de golf ubicados a lo largo de la costa, un escape de playa con lujosas marinas y cenas gourmet, y una zona de bienestar con los mejores spas del país.",
+    "pronSem": [
+      
+      {"dia": "Mañana","min": 21,"max": 27,"estado": "Lluvia débil", "icon":"🌧️​"},
+      {"dia": "Sabado","min": 22,"max": 26,"estado": "Tormenta", "icon":"​⛈️​"},
+      {"dia": "Domingo","min": 23,"max": 27,"estado": "Lluvia débil","icon":"🌧️​"},
+      {"dia": "Lunes","min": 24,"max": 28,"estado": "Lluvia débil", "icon":"🌧️​"},
+      {"dia": "Martes","min": 23,"max": 27,"estado": "Lluvia débil", "icon":"🌧️​"},
+      {"dia": "Miércoles","min": 23,"max": 27,"estado": "Lluvia débil", "icon":"🌧️​"},
+      {"dia": "Jueves","min": 22,"max": 26,"estado": "Lluvia débil", "icon":"🌧️​"}
+
+    ]
+  },
+    {
+    "id": "p12",
+    "name1": "Punta del Este",
+    "name2": "Punta del Este / Uruguay",
+    "país": "Uruaguay",
+    "img": "/imagenes/Punta_del_Este_Uruguay2.jpg",
+    "temp": "🌡️ 22°C",
+    "hum": "HR 84%",
+    "estado": "Lluvia débil",
+    "íconoEst": "🌧️​",
+    "flag": "/imagenes/B_Ug.jpg",
+    "desc": "Punta del Este es una ciudad peninsular, situada en el extremo meridional de Uruguay. Es uno de los balnearios más exclusivos de América Latina. Sus playas más conocidas son Playa Mansa y Playa Brava y ambas hacen honor a sus nombres. “La Mansa”, como suele denominársele, es ideal para niños y para quienes desean tomar un placentero baño de mar. Sus aguas bañan la Bahía de Maldonado y la Isla Gorriti. “La Brava”, desde la que se divisa la Isla de Lobos, es para quienes gustan de las aguas más picadas del océano Atlántico. En invierno, sus olas son el paraíso de aquellos que practican windsurf. En estas playas se congregan familias enteras con sus niños, amigos que se juntan para tomar sol y bañarse y aquellos que gustan de practicar deportes acuáticos de todo tipo. Contemplar el amanecer o atardecer es un espectáculo imperdible e inolvidable.",
+    "pronSem": [
+     
+      {"dia": "Mañana","min": 20,"max": 22,"estado": "Lluvia débil", "icon":"🌧️​"},
+      {"dia": "Sabado","min": 18,"max": 22,"estado": "Lluvia débil", "icon":"🌧️​"},
+      {"dia": "Domingo","min": 19,"max": 21,"estado": "Parcialmente nublado","icon":"🌥️​"},
+      {"dia": "Lunes","min": 19,"max": 21,"estado": "Parcialmente nublado", "icon":"🌥️​"},
+      {"dia": "Martes","min": 18,"max": 22,"estado": "Parcialmente nublado", "icon":"🌥️​"},
+      {"dia": "Miércoles","min": 18,"max": 22,"estado": "Lluvia débil", "icon":"🌧️​"},
+      {"dia": "Jueves","min": 20,"max": 22,"estado": "Parcialmente nublado", "icon":"🌥️​"}
+
+    ]
+   
+  }
+   
+]
