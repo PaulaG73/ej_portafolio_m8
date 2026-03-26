@@ -1,5 +1,5 @@
 
-# 🌤️ ej_portafolio_m8 (Playas Soñadas de América) - App de Clima por Lugares
+# 🌤️ ej_portafolio_gm8 (Playas Soñadas de América) - App de Clima por Lugares
 
 > Proyecto desarrollado como parte del curso de Desarrollo Web con Vue.js
 
