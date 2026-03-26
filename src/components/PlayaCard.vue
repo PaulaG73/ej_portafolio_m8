@@ -43,8 +43,15 @@ const prop=defineProps({
 })
 
 const cambiotemperatura=computed(()=>{
-return prop.escalaTemp=='°C'? prop.playa.temp : `🌡️${Math.ceil((parseInt(prop.playa.temp.match(/\d+/)[0]) *9/5) +32)}°F` 
 
+  if (prop.escalaTemp === '°C') return prop.playa.temp
+
+  const tempText = String(prop.playa.temp ?? '')
+  const match = tempText.match(/-?\d+(\.\d+)?/)
+  const c = match ? Number(match[0]) : NaN
+  const f = Number.isFinite(c) ? Math.ceil((c * 9 / 5) + 32) : ''
+
+  return `🌡️${f}°F`
 
 })
 

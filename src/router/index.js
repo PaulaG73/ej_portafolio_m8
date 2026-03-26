@@ -8,7 +8,7 @@ const routes = [
     name: 'home',
     component: HomeView
   },
- 
+
   {
     path: '/detalle_playas/:id',
     name: 'detalle_playas',
@@ -22,6 +22,3 @@ const router = createRouter({
 })
 
 export default router
-
-
- 
