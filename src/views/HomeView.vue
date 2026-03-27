@@ -1,15 +1,38 @@
 <template>
-  <nav class ="navbar bg-dark">
-  <div class="container-fluid">
-    <a id="inicio" class="navbar-brand text-light fs-1">Playas soñadas de América</a>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a id="inicio" class="navbar-brand text-light fs-2 fs-md-4 fs-lg-3">
+        Playas soñadas de América
+      </a>
 
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#homeNavbar"
+        aria-controls="homeNavbar"
+        aria-expanded="false"
+        aria-label="Alternar navegación"
+      >
+        <span class="navbar-toggler-icon" />
+      </button>
 
-<select class="btn btn-outline-success" v-model="escalaTemp">
-<option value="°C">°C</option>
-<option value="°F">°F</option>
-</select>
-</div>
-</nav>
+      <div id="homeNavbar" class="collapse navbar-collapse justify-content-lg-end">
+        <div class="d-flex align-items-center gap-2 ms-lg-3 mt-3 mt-lg-0">
+          <label class="text-light small mb-0" for="escala-temp-home">Escala</label>
+          <select
+            id="escala-temp-home"
+            class="form-select form-select-sm border-success text-light bg-dark"
+            style="width: auto; min-width: 5rem"
+            v-model="escalaTemp"
+          >
+            <option value="°C">°C</option>
+            <option value="°F">°F</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </nav>
   <div class="home">
 
     <PlayaGrid :playas="playas"

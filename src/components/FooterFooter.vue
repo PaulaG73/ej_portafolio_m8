@@ -16,9 +16,9 @@
             </svg>
             <p>Todos los Derechos Reservados</p>
           </div>
-          
-          
-        
+          <a href="#inicio" class="btn btn-dark mt-2">
+            Volver al inicio
+          </a>
         </div>
       </div>
     </footer>
