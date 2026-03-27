@@ -1,15 +1,15 @@
 <template>
-    <div class="card">
-        <h6 class="card-title">{{ detalle.dia }}</h6>
+    <div class="detail-card">
+        <h6 class="detail-card-title">{{ detalle.dia }}</h6>
         <p class="icon-temp"> 🌡️</p>
         <div class="container-temp">
-            <p class="card-temp"> máx {{ maxDisplay }}{{ unidad }}</p>
-            <p class="card-temp"> mín {{ minDisplay }}{{ unidad }}</p>
+            <p class="detail-card-temp"> máx {{ maxDisplay }}{{ unidad }}</p>
+            <p class="detail-card-temp"> mín {{ minDisplay }}{{ unidad }}</p>
         </div>
-        <p class="card-temp"> prom {{ promDisplay }}{{ unidad }}</p>
+        <p class="detail-card-temp"> prom {{ promDisplay }}{{ unidad }}</p>
         <div class="card-estado d-flex">
             <p>{{ detalle.icon }}</p>
-            <h6 class="card-subtitle mb-2">{{ detalle.estado }}</h6>
+            <h6 class="detail-card-subtitle">{{ detalle.estado }}</h6>
 
         </div>
     </div>
@@ -65,38 +65,64 @@ const promDisplay = computed(() => {
 </script>
 
 <style scoped>
-.card {
-    margin: 15px;
-    padding: 5px;
-    border-radius: solid;
-    border-color: black;
-    border-radius: 1px;
-    width: 120px;
-    height: 170px;
+.detail-card {
+    margin: 0;
+    padding: 0.5rem;
+    width: 100%;
+    min-height: 145px;
+    height: auto;
     color: black;
+    border: 1px solid #dee2e6;
+    border-radius: 0.375rem;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
 }
 
-.card-title {
+.detail-card-title {
     font-weight: bold;
+    font-size: 0.85rem;
+    margin: 0;
 }
 
 .container-temp{
-
     display: flex;
-    font-size: x-small;
+    font-size: 0.72rem;
     justify-content: space-around;
-
-
+    gap: 0.35rem;
+    margin: 0;
 }
-.card-temp{
-    font-size: x-small;
+
+.icon-temp {
+  margin: 0;
+  line-height: 1;
+}
+
+.detail-card-temp{
+    font-size: 0.72rem;
+    margin: 0;
 }
 .card-estado{
   justify-content: space-around;
+  align-items: center;
+  gap: 0.25rem;
 }
-.card-subtitle{
-margin-top: 2px;
-    font-size: x-small;
+
+.card-estado p {
+  margin: 0;
+}
+
+.detail-card-subtitle{
+    margin: 0;
+    font-size: 0.72rem;
     font-weight: bold;
+}
+
+@media (max-width: 576px) {
+  .detail-card {
+    min-height: 135px;
+    padding: 0.45rem;
+  }
 }
 </style>

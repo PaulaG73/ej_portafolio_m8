@@ -2,17 +2,17 @@
 
     <div class="card-detail bg-dark text-light ">
 
-        <div class="container mt-4 justify-content-around">
+        <div class="detail-top mt-4">
 
             <div>
 
-                <h3 class="text-capitalize pt-4">{{ playa.name2 }}</h3>
+                <h3 class="text-capitalize pt-4 detail-title">{{ playa.name2 }}</h3>
 
 
 
-                <div class="row">
+                <div class="row g-3 detail-content-row">
 
-                    <div class="col-md-6">
+                    <div class="col-12 col-md-6">
 
                         <img :src="playa.img" :alt="playa.name" class="img-fluid rounded">
 
@@ -20,7 +20,7 @@
 
 
 
-                    <div class="col-md-6">
+                    <div class="col-12 col-md-6">
 
                         <p class="desc">{{ playa.desc }}</p>
 
@@ -40,7 +40,7 @@
 
 
 
-        <div class="pronSem d-flex justify-content-center flex-wrap">
+        <div class="pronSem">
 
             <PlayaCardDetalle v-for="dia in pronSem" :detalle="dia" :key="dia.dia" />
 
@@ -48,7 +48,7 @@
 
 
 
-        <router-link to="/" class="btn btn-outline-success mb-2">Volver</router-link>
+        <router-link to="/" class="btn btn-outline-success btn-back-home mb-2">Volver</router-link>
 
     </div>
 
@@ -123,29 +123,72 @@ const pronSem = computed(() => {
 <style scoped>
 
 .img-fluid {
-
     height: 250px;
-
-
-
-
-
+    width: 100%;
+    object-fit: cover;
 }
 
 
 
 .desc {
-
-
-
-    margin-top: 40px;
-
+    margin-top: 0;
     text-align: justify;
-
     font-size: small;
+}
 
+.detail-top {
+  width: min(100%, 1100px);
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+}
 
+.detail-title {
+  text-align: left;
+}
 
+.detail-content-row {
+  margin: 0;
+}
+
+.pronSem {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.5rem;
+  margin: 0.5rem auto 0;
+  padding: 0;
+  max-width: 1100px;
+  width: min(100%, 1100px);
+}
+
+.card-detail {
+  padding-bottom: 0.5rem;
+}
+
+.btn-back-home {
+  margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+  .pronSem {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 0.25rem;
+    gap: 0.4rem;
+  }
+
+  .btn-back-home {
+    margin-top: 0.75rem;
+  }
+
+  .detail-title {
+    text-align: center;
+  }
+}
+
+@media (max-width: 380px) {
+  .pronSem {
+    grid-template-columns: 1fr;
+  }
 }
 
 </style>
