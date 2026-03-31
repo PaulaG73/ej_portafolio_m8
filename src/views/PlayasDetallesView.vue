@@ -218,12 +218,14 @@ const cardsPerSlide = computed(() => {
 
   if (width < 768) return 1
   if (coarse && width >= 900 && width <= 1400) return 2
+  if (width >= 1200) return 4
   return 3
 })
 
 const cardColClass = computed(() => {
   if (cardsPerSlide.value === 1) return 'col-12'
   if (cardsPerSlide.value === 2) return 'col-12 col-md-6'
+  if (cardsPerSlide.value === 4) return 'col-12 col-md-6 col-xl-3'
   return 'col-12 col-md-4'
 })
 

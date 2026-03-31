@@ -6,7 +6,7 @@
             <p class="detail-card-temp"> máx {{ maxDisplay }}{{ unidad }}</p>
             <p class="detail-card-temp"> mín {{ minDisplay }}{{ unidad }}</p>
         </div>
-        <p class="detail-card-temp"> prom {{ promDisplay }}{{ unidad }}</p>
+        <p class="detail-card-temp detail-card-temp-prom"> prom {{ promDisplay }}{{ unidad }}</p>
         <div class="card-estado d-flex">
             <p>{{ detalle.icon }}</p>
             <h6 class="detail-card-subtitle">{{ detalle.estado }}</h6>
@@ -106,6 +106,10 @@ const promDisplay = computed(() => {
     font-size: 0.72rem;
     margin: 0;
     text-align: justify;
+}
+
+.detail-card-temp-prom {
+  text-align: center;
 }
 .card-estado{
   flex-direction: column;
