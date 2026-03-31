@@ -19,7 +19,8 @@
 </template>
 
 <script setup>
-import { computed, defineProps, ref } from 'vue'
+import { computed, defineProps } from 'vue'
+import { useStore } from 'vuex'
 
 const props = defineProps({
   detalle: {
@@ -28,13 +29,15 @@ const props = defineProps({
   }
 })
 
+const store = useStore()
+
 // Evita destructuring (eslint: vue/no-setup-props-destructure).
 // En template, Vue desenvuelve refs automáticamente.
 const detalle = computed(() => props.detalle)
 
-const escalaTemp = ref(localStorage.getItem('escalaTemp') || '°C')
-
-const unidad = computed(() => (escalaTemp.value === '°F' ? '°F' : '°C'))
+const unidad = computed(() =>
+  store.getters.tempScale === '°F' ? '°F' : '°C'
+)
 
 const toF = (c) => Math.ceil(c * 9 / 5 + 32)
 
@@ -102,11 +105,15 @@ const promDisplay = computed(() => {
 .detail-card-temp{
     font-size: 0.72rem;
     margin: 0;
+    text-align: justify;
 }
 .card-estado{
-  justify-content: space-around;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.6rem;
+  text-align: center;
+  margin-top: 0.25rem;
 }
 
 .card-estado p {
@@ -117,6 +124,7 @@ const promDisplay = computed(() => {
     margin: 0;
     font-size: 0.72rem;
     font-weight: bold;
+    text-align: justify;
 }
 
 @media (max-width: 576px) {

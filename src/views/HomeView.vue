@@ -1,46 +1,80 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-      <a id="inicio" class="navbar-brand text-light fs-2 fs-md-4 fs-lg-3">
-        Playas soñadas de América
-      </a>
+  <div class="home-page min-vh-100 overflow-x-hidden">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark home-nav">
+      <div class="container-fluid px-2 px-sm-3">
+        <a
+          id="inicio"
+          class="navbar-brand text-light fs-5 fs-md-4 fs-lg-3 mb-0 text-truncate home-nav-brand"
+        >
+          Playas soñadas de América
+        </a>
 
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#homeNavbar"
-        aria-controls="homeNavbar"
-        aria-expanded="false"
-        aria-label="Alternar navegación"
-      >
-        <span class="navbar-toggler-icon" />
-      </button>
+        <button
+          class="navbar-toggler flex-shrink-0"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#homeNavbar"
+          aria-controls="homeNavbar"
+          aria-expanded="false"
+          aria-label="Alternar navegación"
+        >
+          <span class="navbar-toggler-icon" />
+        </button>
 
-      <div id="homeNavbar" class="collapse navbar-collapse justify-content-lg-end">
-        <div class="d-flex align-items-center gap-2 ms-lg-3 mt-3 mt-lg-0">
-          <label class="text-light small mb-0" for="escala-temp-home">Escala</label>
-          <select
-            id="escala-temp-home"
-            class="form-select form-select-sm border-success text-light bg-dark"
-            style="width: auto; min-width: 5rem"
-            v-model="escalaTemp"
+        <div id="homeNavbar" class="collapse navbar-collapse flex-lg-grow-1">
+          <div
+            class="d-flex flex-column flex-lg-row align-items-stretch align-items-lg-center w-100 gap-3 mt-3 mt-lg-0 ms-lg-2 py-lg-1 pb-3 pb-lg-0"
           >
-            <option value="°C">°C</option>
-            <option value="°F">°F</option>
-          </select>
+            <div class="d-none d-lg-block flex-lg-grow-1" aria-hidden="true" />
+            <div
+              class="d-flex flex-wrap align-items-center gap-2 justify-content-center flex-shrink-0 ms-0 ms-sm-2 ms-lg-5 ps-lg-2 ps-xl-4"
+            >
+              <label class="text-light small mb-0 text-nowrap" for="escala-temp-home">Escala</label>
+              <select
+                id="escala-temp-home"
+                class="form-select form-select-sm border-success text-success bg-dark flex-shrink-0"
+                style="width: auto; min-width: 5rem"
+                v-model="escalaTemp"
+              >
+                <option value="°C">°C</option>
+                <option value="°F">°F</option>
+              </select>
+            </div>
+            <div
+              class="d-flex flex-wrap align-items-center gap-2 justify-content-center justify-content-lg-end flex-lg-grow-1 w-100 min-w-0 ms-lg-auto"
+            >
+              <template v-if="isAuthenticated">
+                <span class="text-white small mb-0 text-center text-lg-start text-break mw-100 px-1">{{ userLabel }}</span>
+                <button
+                  type="button"
+                  class="btn btn-outline-success btn-sm flex-shrink-0"
+                  @click="onLogout"
+                >
+                  Salir
+                </button>
+              </template>
+              <template v-else>
+                <router-link
+                  :to="{ name: 'login' }"
+                  class="btn btn-success btn-sm flex-shrink-0"
+                >
+                  Entrar
+                </router-link>
+              </template>
+            </div>
+          </div>
         </div>
       </div>
+    </nav>
+    <div class="home pb-2">
+
+      <PlayaGrid :playas="playas"
+      :escalaTemp="escalaTemp"/>
+
+      <FooterFooter/>
+
+
     </div>
-  </nav>
-  <div class="home">
-
-    <PlayaGrid :playas="playas"
-    :escalaTemp="escalaTemp"/>
-
-    <FooterFooter/>
-
-
   </div>
 
 </template>
@@ -49,7 +83,9 @@
 import FooterFooter from '../components/FooterFooter.vue';
 import PlayaGrid from '../components/PlayaGrid.vue';
 import playasData from '../data/playas.json';
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, computed } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 import { coordsById } from '../data/coordsById'
 import { fetchOpenMeteoForecast } from '../services/openMeteo'
 import { mapWeatherCodeToEstadoIcon } from '../utils/weatherMapper'
@@ -62,11 +98,21 @@ const CACHE_TTL_MS = 30 * 60 * 1000 // 30 min
 
 const playas = ref(playasData.map((p) => ({ ...p })))
 
-const escalaTemp = ref(localStorage.getItem('escalaTemp') || '°C')
+const store = useStore()
+const router = useRouter()
 
-watch(escalaTemp, (v) => {
-  localStorage.setItem('escalaTemp', v)
+const isAuthenticated = computed(() => store.getters.isAuthenticated)
+const userLabel = computed(() => store.getters.userName || store.getters.userEmail || '')
+
+const escalaTemp = computed({
+  get: () => store.getters.tempScale,
+  set: (v) => store.dispatch('updateTempScale', v)
 })
+
+async function onLogout () {
+  await store.dispatch('logout')
+  router.push({ name: 'home' })
+}
 
 function readForecastCache () {
   try {
@@ -217,13 +263,22 @@ onMounted(async () => {
 </script>
 
 <style>
-.card-derechos{
-
+.card-derechos {
   display: flex;
   justify-content: center;
   gap: 5px;
 }
 
+@media (max-width: 991.98px) {
+  .home-nav .home-nav-brand {
+    max-width: calc(100vw - 4.5rem);
+  }
+}
 
-
+@media (min-width: 992px) {
+  .home-nav .home-nav-brand {
+    max-width: none;
+    white-space: normal;
+  }
+}
 </style>
