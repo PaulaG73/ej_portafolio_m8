@@ -84,4 +84,3 @@ export function mapWeatherCodeToEstadoIcon (code) {
       return { estado: 'Estado no disponible', icon: '🌡️' }
   }
 }
-

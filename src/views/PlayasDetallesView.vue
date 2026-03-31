@@ -1,13 +1,13 @@
 <template>
 
-  <div class="card-detail bg-dark text-light min-vh-100 overflow-x-hidden">
+  <div class="card-detail min-vh-100 overflow-x-hidden">
 
     <nav class="navbar navbar-dark bg-dark border-bottom border-secondary shadow-sm detail-nav">
       <div class="container-fluid px-2 px-sm-3 py-2">
         <div class="d-flex flex-column flex-md-row align-items-stretch align-items-md-center w-100 gap-2 gap-md-3">
           <div class="d-flex justify-content-between align-items-center w-100 w-md-auto flex-shrink-0">
             <router-link
-              class="text-light text-decoration-none small fw-semibold py-1"
+              class="text-success text-decoration-none small fw-semibold py-1"
               :to="{ name: 'home' }"
             >
               ← Inicio
@@ -42,6 +42,24 @@
         </div>
       </div>
     </nav>
+
+    <div
+      v-if="registerSuccessBanner"
+      class="container-fluid px-2 px-sm-3 pt-3 register-success-wrap"
+    >
+      <div
+        class="alert alert-success alert-dismissible text-start mb-0 py-2 small shadow-sm border-0"
+        role="status"
+      >
+        <strong>Listo.</strong> Tu cuenta fue creada con éxito. Ya puedes ver el detalle de esta playa.
+        <button
+          type="button"
+          class="btn-close"
+          aria-label="Cerrar aviso"
+          @click="dismissRegisterBanner"
+        />
+      </div>
+    </div>
 
     <template v-if="playa">
       <div class="detail-top mt-3 mt-md-4 px-2 px-sm-3">
@@ -120,18 +138,9 @@
           </button>
         </div>
       </div>
-
-      <div class="detail-footer-actions px-2 px-sm-3 pb-4 text-center">
-        <router-link
-          to="/"
-          class="btn btn-outline-success btn-back-home"
-        >
-          Volver al inicio
-        </router-link>
-      </div>
     </template>
 
-    <div v-else class="container px-3 py-5 text-center text-light">
+    <div v-else class="container px-3 py-5 text-center text-dark">
       <p class="mb-3">No encontramos esta playa.</p>
       <router-link :to="{ name: 'home' }" class="btn btn-success">
         Ir al inicio
@@ -154,6 +163,11 @@ import Allplayas from "../data/playas.json";
 
 import PlayaCardDetalle from "../components/PlayaCardDetalle.vue"
 
+import {
+  FORECAST_STORAGE_KEY,
+  FORECAST_CACHE_SCHEMA_VERSION
+} from "../utils/forecastCacheConstants"
+
 
 
 
@@ -166,7 +180,15 @@ const route = useRoute();
 const router = useRouter();
 const store = useStore();
 
-const userLabel = computed(() => store.getters.userName || store.getters.userEmail || "");
+const userLabel = computed(() => store.getters.userNavLabel);
+
+const registerSuccessBanner = computed(
+  () => store.state.flashAuthBanner === "registered"
+);
+
+function dismissRegisterBanner () {
+  store.commit("SET_FLASH_AUTH_BANNER", null);
+}
 
 const escalaTemp = computed({
   get: () => store.getters.tempScale,
@@ -180,14 +202,16 @@ async function onLogout () {
 
 const playa = computed(() => playas.value.find(playa => playa.id === route.params.id))
 
-const FORECAST_KEY = 'forecastById_v1'
-
 function readForecastCache () {
   try {
-    const raw = localStorage.getItem(FORECAST_KEY)
+    const raw = localStorage.getItem(FORECAST_STORAGE_KEY)
     if (!raw) return null
     const parsed = JSON.parse(raw)
     if (!parsed || typeof parsed !== 'object') return null
+    if (parsed.cacheVersion !== FORECAST_CACHE_SCHEMA_VERSION) {
+      localStorage.removeItem(FORECAST_STORAGE_KEY)
+      return null
+    }
     if (!parsed.byId) parsed.byId = {}
     return parsed
   } catch {
@@ -393,20 +417,8 @@ const pronSemSlides = computed(() => {
 
 .card-detail {
   padding-bottom: 0.5rem;
-}
-
-.btn-back-home {
-  display: block;
-  width: 100%;
-  margin-top: 1.75rem;
-  max-width: 20rem;
-}
-
-@media (min-width: 576px) {
-  .btn-back-home {
-    display: inline-block;
-    width: auto;
-  }
+  background-color: var(--app-success-surface);
+  color: #2c3e50;
 }
 
 @media (max-width: 767.98px) {
@@ -420,11 +432,6 @@ const pronSemSlides = computed(() => {
 
   .pronSem-item-wrap {
     max-width: 100%;
-  }
-
-  .btn-back-home {
-    margin-top: 0.75rem;
-    max-width: none;
   }
 
   .detail-title {

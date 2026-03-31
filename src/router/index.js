@@ -3,6 +3,8 @@ import store from '../store'
 import HomeView from '../views/HomeView.vue'
 import DetallePlayas from '../views/PlayasDetallesView.vue'
 import LoginView from '../views/LoginView.vue'
+import RegisterView from '../views/RegisterView.vue'
+import ForgotPasswordView from '../views/ForgotPasswordView.vue'
 
 const routes = [
   {
@@ -14,6 +16,18 @@ const routes = [
     path: '/login',
     name: 'login',
     component: LoginView,
+    meta: { guestOnly: true }
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: RegisterView,
+    meta: { guestOnly: true }
+  },
+  {
+    path: '/forgot-password',
+    name: 'forgot-password',
+    component: ForgotPasswordView,
     meta: { guestOnly: true }
   },
 
@@ -30,7 +44,25 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach((to) => {
+const AUTH_FLOW_NAMES = new Set(['login', 'register', 'forgot-password'])
+
+router.beforeEach((to, from) => {
+  if (
+    AUTH_FLOW_NAMES.has(to.name) &&
+    from.name &&
+    from.name !== to.name
+  ) {
+    store.commit('SET_AUTH_ERROR', null)
+  }
+
+  if (
+    from.name &&
+    AUTH_FLOW_NAMES.has(from.name) &&
+    !AUTH_FLOW_NAMES.has(to.name)
+  ) {
+    store.commit('SET_AUTH_ERROR', null)
+  }
+
   if (to.meta.requiresAuth && !store.getters.isAuthenticated) {
     return { name: 'login', query: { redirect: to.fullPath } }
   }

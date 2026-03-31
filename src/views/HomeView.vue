@@ -4,7 +4,7 @@
       <div class="container-fluid px-2 px-sm-3">
         <a
           id="inicio"
-          class="navbar-brand text-light fs-5 fs-md-4 fs-lg-3 mb-0 text-truncate home-nav-brand"
+          class="navbar-brand text-light fs-5 fs-md-4 fs-lg-3 mb-0 text-truncate text-uppercase home-nav-brand"
         >
           Playas soñadas de América
         </a>
@@ -55,6 +55,12 @@
               </template>
               <template v-else>
                 <router-link
+                  :to="{ name: 'register' }"
+                  class="btn btn-outline-success btn-sm flex-shrink-0"
+                >
+                  Registrarse
+                </router-link>
+                <router-link
                   :to="{ name: 'login' }"
                   class="btn btn-success btn-sm flex-shrink-0"
                 >
@@ -66,14 +72,34 @@
         </div>
       </div>
     </nav>
+
+    <div
+      v-if="registerSuccessBanner"
+      class="container-fluid px-2 px-sm-3 pt-3 register-success-wrap"
+    >
+      <div
+        class="alert alert-success alert-dismissible text-start mb-0 py-2 small shadow-sm border-0"
+        role="status"
+      >
+        <strong>Listo.</strong> Tu cuenta fue creada con éxito. Ya puedes ver el detalle de cada playa.
+        <button
+          type="button"
+          class="btn-close"
+          aria-label="Cerrar aviso"
+          @click="dismissRegisterBanner"
+        />
+      </div>
+    </div>
+
     <div class="home pb-2">
+      <section class="home-playas-section py-2 pb-3 pb-md-4">
+        <PlayaGrid
+          :playas="playas"
+          :escala-temp="escalaTemp"
+        />
+      </section>
 
-      <PlayaGrid :playas="playas"
-      :escalaTemp="escalaTemp"/>
-
-      <FooterFooter/>
-
-
+      <FooterFooter />
     </div>
   </div>
 
@@ -89,8 +115,10 @@ import { useRouter } from 'vue-router'
 import { coordsById } from '../data/coordsById'
 import { fetchOpenMeteoForecast } from '../services/openMeteo'
 import { mapWeatherCodeToEstadoIcon } from '../utils/weatherMapper'
-
-const FORECAST_KEY = 'forecastById_v1'
+import {
+  FORECAST_STORAGE_KEY,
+  FORECAST_CACHE_SCHEMA_VERSION
+} from '../utils/forecastCacheConstants'
 // La UI espera `pronSem` con "Mañana" + 6 días = 7 items,
 // así que pedimos 8 días para cubrir mañana..día+6 con margen.
 const FORECAST_DAYS = 8
@@ -101,8 +129,16 @@ const playas = ref(playasData.map((p) => ({ ...p })))
 const store = useStore()
 const router = useRouter()
 
+const registerSuccessBanner = computed(
+  () => store.state.flashAuthBanner === 'registered'
+)
+
+function dismissRegisterBanner () {
+  store.commit('SET_FLASH_AUTH_BANNER', null)
+}
+
 const isAuthenticated = computed(() => store.getters.isAuthenticated)
-const userLabel = computed(() => store.getters.userName || store.getters.userEmail || '')
+const userLabel = computed(() => store.getters.userNavLabel)
 
 const escalaTemp = computed({
   get: () => store.getters.tempScale,
@@ -116,10 +152,14 @@ async function onLogout () {
 
 function readForecastCache () {
   try {
-    const raw = localStorage.getItem(FORECAST_KEY)
+    const raw = localStorage.getItem(FORECAST_STORAGE_KEY)
     if (!raw) return null
     const parsed = JSON.parse(raw)
     if (!parsed || typeof parsed !== 'object') return null
+    if (parsed.cacheVersion !== FORECAST_CACHE_SCHEMA_VERSION) {
+      localStorage.removeItem(FORECAST_STORAGE_KEY)
+      return null
+    }
     if (!parsed.byId) parsed.byId = {}
     return parsed
   } catch {
@@ -240,6 +280,7 @@ onMounted(async () => {
 
   nextCache.updatedAt = nowMs
   nextCache.byId = nextCache.byId || {}
+  nextCache.cacheVersion = FORECAST_CACHE_SCHEMA_VERSION
 
   for (const playa of playas.value) {
     const entry = resultsById[playa.id]
@@ -256,17 +297,15 @@ onMounted(async () => {
     nextCache.byId[playa.id] = entry
   }
 
-  localStorage.setItem(FORECAST_KEY, JSON.stringify(nextCache))
+  localStorage.setItem(FORECAST_STORAGE_KEY, JSON.stringify(nextCache))
 })
 
 
 </script>
 
 <style>
-.card-derechos {
-  display: flex;
-  justify-content: center;
-  gap: 5px;
+.home-playas-section {
+  background-color: var(--app-success-surface);
 }
 
 @media (max-width: 991.98px) {

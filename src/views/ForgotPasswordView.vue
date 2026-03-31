@@ -15,22 +15,31 @@
       <div class="container px-3 px-md-4">
         <div class="row justify-content-center">
           <div class="col-12 col-sm-11 col-md-8 col-lg-5 col-xl-4">
-            <div
-              v-if="redirectNotice"
-              class="alert alert-info alert-login small mb-3 text-start border-0 shadow-sm"
-              role="status"
-            >
-              Inicia sesión para continuar hacia la página que intentaste abrir.
-            </div>
-
             <div class="card login-card border-0 shadow">
               <div class="card-body p-4 p-md-5">
-                <h1 class="h4 mb-2 text-start login-title">Iniciar sesión</h1>
+                <h1 class="h4 mb-2 text-start login-title">Recuperar contraseña</h1>
                 <p class="text-muted small mb-4 text-start login-lead">
-                  Ingresa para acceder al detalle de playas.
+                  Te enviaremos un correo con un enlace para elegir una contraseña nueva.
                 </p>
 
-                <form @submit.prevent="onSubmit" class="login-form">
+                <div v-if="sent" class="mb-4 text-start">
+                  <div
+                    class="alert alert-success small mb-3 border-0 shadow-sm forgot-success"
+                    role="status"
+                  >
+                    Si hay una cuenta asociada a ese email, recibirás un mensaje en unos minutos.
+                    Revisa también la carpeta de spam.
+                  </div>
+                  <button
+                    type="button"
+                    class="btn btn-link btn-sm text-success text-decoration-none p-0 forgot-again"
+                    @click="onSendAnother"
+                  >
+                    Enviar a otro email
+                  </button>
+                </div>
+
+                <form v-else @submit.prevent="onSubmit" class="login-form">
                   <div class="mb-3 text-start">
                     <label class="form-label fw-semibold" for="email">Email</label>
                     <input
@@ -41,24 +50,6 @@
                       placeholder="tuemail@dominio.com"
                       autocomplete="email"
                     >
-                  </div>
-
-                  <div class="mb-2 text-start">
-                    <label class="form-label fw-semibold" for="password">Contraseña</label>
-                    <input
-                      id="password"
-                      v-model="password"
-                      type="password"
-                      class="form-control form-control-lg login-input"
-                      placeholder="Tu contraseña"
-                      autocomplete="current-password"
-                    >
-                  </div>
-
-                  <div class="text-start mb-3">
-                    <router-link :to="forgotPasswordTo" class="small login-forgot-link">
-                      ¿Olvidaste tu contraseña?
-                    </router-link>
                   </div>
 
                   <p
@@ -74,20 +65,20 @@
                     class="btn btn-success w-100 py-2 fw-semibold login-submit"
                     :disabled="authLoading"
                   >
-                    {{ authLoading ? 'Entrando…' : 'Entrar' }}
+                    {{ authLoading ? 'Enviando…' : 'Enviar enlace' }}
                   </button>
                 </form>
 
                 <router-link
-                  :to="registerTo"
-                  class="btn btn-outline-success w-100 py-2 fw-semibold mt-3 login-register-cta"
+                  :to="loginTo"
+                  class="btn btn-outline-secondary w-100 mt-3 login-back"
                 >
-                  Crear cuenta nueva
+                  Volver a iniciar sesión
                 </router-link>
 
                 <router-link
                   :to="{ name: 'home' }"
-                  class="btn btn-outline-secondary w-100 mt-3 login-back"
+                  class="btn btn-outline-secondary w-100 mt-2 login-back"
                 >
                   Volver al inicio
                 </router-link>
@@ -102,56 +93,40 @@
 
 <script setup>
 import { computed, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 
 const store = useStore()
-const router = useRouter()
 const route = useRoute()
 
 const email = ref('')
-const password = ref('')
+const sent = ref(false)
 
 const authLoading = computed(() => store.state.authLoading)
 const authError = computed(() => store.state.authError)
 
-const redirectNotice = computed(() => {
-  const r = route.query.redirect
-  return typeof r === 'string' && r.startsWith('/')
-})
-
-const registerTo = computed(() => {
+const loginTo = computed(() => {
   const q = {}
   const r = route.query.redirect
   if (typeof r === 'string' && r.startsWith('/')) {
     q.redirect = r
   }
-  return { name: 'register', query: q }
-})
-
-const forgotPasswordTo = computed(() => {
-  const q = {}
-  const r = route.query.redirect
-  if (typeof r === 'string' && r.startsWith('/')) {
-    q.redirect = r
-  }
-  return { name: 'forgot-password', query: q }
+  return { name: 'login', query: q }
 })
 
 async function onSubmit () {
-  const ok = await store.dispatch('login', {
-    email: email.value.trim(),
-    password: password.value
+  sent.value = false
+  const ok = await store.dispatch('sendPasswordReset', {
+    email: email.value.trim()
   })
-
   if (ok) {
-    const redirect = route.query.redirect
-    if (typeof redirect === 'string' && redirect.startsWith('/')) {
-      await router.replace(redirect)
-    } else {
-      await router.replace({ name: 'home' })
-    }
+    sent.value = true
   }
+}
+
+function onSendAnother () {
+  sent.value = false
+  store.commit('SET_AUTH_ERROR', null)
 }
 </script>
 
@@ -211,10 +186,10 @@ async function onSubmit () {
   box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.18);
 }
 
-.alert-login {
+.forgot-success {
   border-radius: 0.5rem;
-  color: #055160;
-  background: #cff4fc;
+  color: #0f5132;
+  background: #d1e7dd;
 }
 
 .login-error {
@@ -231,20 +206,8 @@ async function onSubmit () {
   border-radius: 0.5rem;
 }
 
-.login-register-cta {
-  border-radius: 0.5rem;
-}
-
-.login-forgot-link {
+.forgot-again {
   font-weight: 600;
-  color: #198754;
-  text-decoration: none;
-}
-
-.login-forgot-link:hover,
-.login-forgot-link:focus-visible {
-  color: #146c43;
-  text-decoration: underline;
 }
 
 @media (max-width: 576px) {
@@ -254,4 +217,3 @@ async function onSubmit () {
   }
 }
 </style>
-

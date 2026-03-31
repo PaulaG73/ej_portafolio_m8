@@ -1,6 +1,6 @@
 <template>
     <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex">
-      <div class="card flex-fill w-100 shadow-sm">
+      <div class="card home-playa-card flex-fill w-100 shadow-sm">
         <img :src="playa.img" class="card-img-top card-img-fixed" :alt="playa.name1 || 'Playa'">
 
         <div class="card-body d-flex flex-column">
@@ -19,7 +19,7 @@
             <p class="mb-0 text-center text-break">{{ playa.estado }}</p>
           </div>
           <router-link
-            class="btn btn-dark mt-auto w-100"
+            class="btn btn-outline-success btn-sm mt-auto align-self-center"
             :to="`/detalle_playas/${playa.id}`"
           >
             Ver detalle
@@ -66,7 +66,10 @@ const cambiotemperatura=computed(()=>{
 
 <style scoped>
 
-
+.home-playa-card {
+  border-radius: 1rem;
+  overflow: hidden;
+}
 
 .card-img-fixed{
 
@@ -88,4 +91,5 @@ const cambiotemperatura=computed(()=>{
     align-items: center;
     gap: 0.5rem 1rem;
 }
+
 </style>

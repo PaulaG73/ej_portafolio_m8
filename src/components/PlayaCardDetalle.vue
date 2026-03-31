@@ -76,7 +76,7 @@ const promDisplay = computed(() => {
     height: auto;
     color: black;
     border: 1px solid #dee2e6;
-    border-radius: 0.375rem;
+    border-radius: 1.25rem;
     background: #ffffff;
     display: flex;
     flex-direction: column;

@@ -14,23 +14,59 @@
     <main class="login-main">
       <div class="container px-3 px-md-4">
         <div class="row justify-content-center">
-          <div class="col-12 col-sm-11 col-md-8 col-lg-5 col-xl-4">
+          <div class="col-12 col-sm-11 col-md-10 col-lg-8 col-xl-7">
             <div
               v-if="redirectNotice"
               class="alert alert-info alert-login small mb-3 text-start border-0 shadow-sm"
               role="status"
             >
-              Inicia sesión para continuar hacia la página que intentaste abrir.
+              Tras registrarte irás a la página que intentaste abrir.
             </div>
 
             <div class="card login-card border-0 shadow">
               <div class="card-body p-4 p-md-5">
-                <h1 class="h4 mb-2 text-start login-title">Iniciar sesión</h1>
+                <h1 class="h4 mb-2 text-start login-title">Crear cuenta</h1>
                 <p class="text-muted small mb-4 text-start login-lead">
-                  Ingresa para acceder al detalle de playas.
+                  Regístrate para acceder al detalle de playas.
                 </p>
 
-                <form @submit.prevent="onSubmit" class="login-form">
+                <form @submit.prevent="onSubmit" class="login-form register-form">
+                  <div class="mb-3 text-start">
+                    <label class="form-label fw-semibold" for="nombre">Nombre</label>
+                    <input
+                      id="nombre"
+                      v-model="nombre"
+                      type="text"
+                      class="form-control form-control-lg login-input"
+                      placeholder="Tu nombre"
+                      autocomplete="given-name"
+                    >
+                  </div>
+
+                  <div class="mb-3 text-start">
+                    <label class="form-label fw-semibold" for="apellido">Apellido</label>
+                    <input
+                      id="apellido"
+                      v-model="apellido"
+                      type="text"
+                      class="form-control form-control-lg login-input"
+                      placeholder="Tu apellido"
+                      autocomplete="family-name"
+                    >
+                  </div>
+
+                  <div class="mb-3 text-start">
+                    <label class="form-label fw-semibold" for="telefono">Celular</label>
+                    <input
+                      id="telefono"
+                      v-model="telefono"
+                      type="tel"
+                      class="form-control form-control-lg login-input"
+                      placeholder="Ej. 9 1234 5678"
+                      autocomplete="tel"
+                    >
+                  </div>
+
                   <div class="mb-3 text-start">
                     <label class="form-label fw-semibold" for="email">Email</label>
                     <input
@@ -43,22 +79,20 @@
                     >
                   </div>
 
-                  <div class="mb-2 text-start">
+                  <div class="mb-3 text-start">
                     <label class="form-label fw-semibold" for="password">Contraseña</label>
                     <input
                       id="password"
                       v-model="password"
                       type="password"
                       class="form-control form-control-lg login-input"
-                      placeholder="Tu contraseña"
-                      autocomplete="current-password"
+                      placeholder="Elige una contraseña segura"
+                      autocomplete="new-password"
                     >
-                  </div>
-
-                  <div class="text-start mb-3">
-                    <router-link :to="forgotPasswordTo" class="small login-forgot-link">
-                      ¿Olvidaste tu contraseña?
-                    </router-link>
+                    <ul class="password-rules small text-muted mt-2 mb-0 ps-3 text-start">
+                      <li>Mínimo 6 caracteres, con letras y números.</li>
+                      <li>Al menos una mayúscula y al menos un número.</li>
+                    </ul>
                   </div>
 
                   <p
@@ -74,20 +108,20 @@
                     class="btn btn-success w-100 py-2 fw-semibold login-submit"
                     :disabled="authLoading"
                   >
-                    {{ authLoading ? 'Entrando…' : 'Entrar' }}
+                    {{ authLoading ? 'Creando cuenta…' : 'Registrarme' }}
                   </button>
                 </form>
 
-                <router-link
-                  :to="registerTo"
-                  class="btn btn-outline-success w-100 py-2 fw-semibold mt-3 login-register-cta"
-                >
-                  Crear cuenta nueva
-                </router-link>
+                <p class="small text-muted text-center mt-3 mb-2 login-secondary-text">
+                  ¿Ya tienes cuenta?
+                  <router-link :to="loginTo" class="login-inline-link">
+                    Iniciar sesión
+                  </router-link>
+                </p>
 
                 <router-link
                   :to="{ name: 'home' }"
-                  class="btn btn-outline-secondary w-100 mt-3 login-back"
+                  class="btn btn-outline-secondary w-100 mt-2 login-back"
                 >
                   Volver al inicio
                 </router-link>
@@ -109,6 +143,9 @@ const store = useStore()
 const router = useRouter()
 const route = useRoute()
 
+const nombre = ref('')
+const apellido = ref('')
+const telefono = ref('')
 const email = ref('')
 const password = ref('')
 
@@ -120,26 +157,20 @@ const redirectNotice = computed(() => {
   return typeof r === 'string' && r.startsWith('/')
 })
 
-const registerTo = computed(() => {
+const loginTo = computed(() => {
   const q = {}
   const r = route.query.redirect
   if (typeof r === 'string' && r.startsWith('/')) {
     q.redirect = r
   }
-  return { name: 'register', query: q }
-})
-
-const forgotPasswordTo = computed(() => {
-  const q = {}
-  const r = route.query.redirect
-  if (typeof r === 'string' && r.startsWith('/')) {
-    q.redirect = r
-  }
-  return { name: 'forgot-password', query: q }
+  return { name: 'login', query: q }
 })
 
 async function onSubmit () {
-  const ok = await store.dispatch('login', {
+  const ok = await store.dispatch('register', {
+    nombre: nombre.value,
+    apellido: apellido.value,
+    telefono: telefono.value,
     email: email.value.trim(),
     password: password.value
   })
@@ -211,6 +242,45 @@ async function onSubmit () {
   box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.18);
 }
 
+/* Placeholders claramente más pequeños que el texto escrito (inputs siguen en form-control-lg). */
+.register-form .login-input::placeholder {
+  font-size: 0.68rem;
+  font-weight: 400;
+  line-height: 1.35;
+  color: #868e96;
+  opacity: 1;
+}
+
+.register-form .login-input::-moz-placeholder {
+  font-size: 0.68rem;
+  font-weight: 400;
+  line-height: 1.35;
+  color: #868e96;
+  opacity: 1;
+}
+
+.register-form .login-input:-ms-input-placeholder {
+  font-size: 0.68rem;
+  font-weight: 400;
+  color: #868e96;
+}
+
+.password-rules {
+  line-height: 1.45;
+}
+
+.login-inline-link {
+  font-weight: 600;
+  color: #198754;
+  text-decoration: none;
+}
+
+.login-inline-link:hover,
+.login-inline-link:focus-visible {
+  color: #146c43;
+  text-decoration: underline;
+}
+
 .alert-login {
   border-radius: 0.5rem;
   color: #055160;
@@ -231,22 +301,6 @@ async function onSubmit () {
   border-radius: 0.5rem;
 }
 
-.login-register-cta {
-  border-radius: 0.5rem;
-}
-
-.login-forgot-link {
-  font-weight: 600;
-  color: #198754;
-  text-decoration: none;
-}
-
-.login-forgot-link:hover,
-.login-forgot-link:focus-visible {
-  color: #146c43;
-  text-decoration: underline;
-}
-
 @media (max-width: 576px) {
   .login-main {
     padding: 1.25rem 0 2rem;
@@ -254,4 +308,3 @@ async function onSubmit () {
   }
 }
 </style>
-
