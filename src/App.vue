@@ -39,9 +39,22 @@ body {
 }
 
 /* Letter-spacing como el título del pie (.footer-kicker). */
-#app .home-nav .navbar-brand.home-nav-brand,
-#app .login-nav .navbar-brand.login-brand {
+#app .home-nav .navbar-brand.home-nav-brand {
   letter-spacing: 0.06em;
+}
+
+/* Flecha “Ir al Home” (formularios auth + Mis favoritos) */
+.login-nav-home-link {
+  line-height: 1;
+}
+
+.login-nav-home-icon {
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+}
+
+.login-nav-home-link:hover,
+.login-nav-home-link:focus-visible {
+  color: #d2f4e8 !important;
 }
 
 /* Icono de clima (emoji) en círculo: fondo success suave, sin borde */

@@ -36,19 +36,25 @@
             </span>
             <p class="mb-0 text-center text-break card-estado-text">{{ playa.estado }}</p>
           </div>
-          <div
-            v-if="weatherRuleAlert"
-            class="app-weather-alert app-weather-alert--compact mt-2 mb-3"
-            :class="weatherRuleAlert.variant === 'danger' ? 'app-weather-alert--heat' : 'app-weather-alert--wet'"
-            role="alert"
-          >
-            <i
-              class="bi app-weather-alert__icon"
-              :class="weatherRuleAlert.variant === 'danger' ? 'bi-thermometer-half' : 'bi-cloud-rain'"
-              aria-hidden="true"
-            />
-            <span class="app-weather-alert__text">{{ weatherRuleAlert.message }}</span>
+
+          <!-- Misma altura en todas las tarjetas; la alerta se lee en el modal -->
+          <div class="playa-card-alert-slot">
+            <button
+              v-if="weatherRuleAlert"
+              type="button"
+              class="btn btn-outline-success btn-sm playa-weather-popup-btn rounded-pill"
+              data-bs-toggle="modal"
+              :data-bs-target="'#playaWeatherModal-' + playa.id"
+              :aria-label="'Abrir alerta meteorológica: ' + weatherRuleAlert.message"
+            >
+              <i
+                class="bi"
+                :class="weatherRuleAlert.variant === 'danger' ? 'bi-thermometer-high' : 'bi-cloud-rain'"
+                aria-hidden="true"
+              />
+            </button>
           </div>
+
           <router-link
             class="btn btn-outline-success btn-sm mt-auto align-self-center"
             :to="`/detalle_playas/${playa.id}`"
@@ -56,9 +62,45 @@
             Ver detalle
           </router-link>
         </div>
+
+        <Teleport to="body">
+          <div
+            v-if="weatherRuleAlert"
+            :id="'playaWeatherModal-' + playa.id"
+            class="modal fade"
+            tabindex="-1"
+            :aria-labelledby="'playaWeatherModalLabel-' + playa.id"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content border-success">
+                <div
+                  class="modal-header py-2"
+                  :class="weatherRuleAlert.variant === 'danger' ? 'bg-danger bg-opacity-10' : 'app-meteo-modal-header--rain'"
+                >
+                  <h5
+                    :id="'playaWeatherModalLabel-' + playa.id"
+                    class="modal-title mb-0 text-dark"
+                  >
+                    Alerta meteorológica
+                  </h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Cerrar"
+                  />
+                </div>
+                <div class="modal-body text-start small text-dark">
+                  {{ weatherRuleAlert.message }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </Teleport>
       </div>
     </div>
-   
+
 </template>
 
 <script setup>
@@ -167,6 +209,20 @@ const cambiotemperatura = computed(() => {
     justify-content: center;
     align-items: center;
     gap: 0.5rem 1rem;
+}
+
+.playa-card-alert-slot {
+  min-height: 2.35rem;
+  margin-bottom: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.playa-weather-popup-btn {
+  line-height: 1;
+  padding: 0.28rem 0.55rem;
 }
 
 </style>

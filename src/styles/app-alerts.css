@@ -102,9 +102,16 @@
 }
 
 .app-weather-alert--wet {
-  background: linear-gradient(145deg, #f0f9ff 0%, #f8fafc 100%);
+  /* Zona superior más azul tenue (icono + título visual) */
+  background: linear-gradient(180deg, #dbeafe 0%, #e8f4fc 42%, #f8fafc 100%);
   color: #0c4a6e;
   border-color: rgba(14, 165, 233, 0.25);
+}
+
+/* Encabezado del modal (home) cuando la alerta es de lluvia */
+.app-meteo-modal-header--rain {
+  background: linear-gradient(180deg, #dbeafe 0%, #e8f4fc 100%);
+  border-bottom: 1px solid rgba(14, 165, 233, 0.2);
 }
 
 .app-weather-alert--wet .app-weather-alert__icon {

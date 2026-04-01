@@ -25,6 +25,15 @@ import {
 // Misma clave que ya usan HomeView y PlayaCardDetalle
 const TEMP_SCALE_KEY = 'escalaTemp'
 
+/** URL tras restablecer contraseña en la página de Firebase (dominio autorizado en consola). */
+function getPasswordResetContinueUrl () {
+  if (typeof window === 'undefined') return undefined
+  const raw = process.env.BASE_URL || '/'
+  const trimmed = raw === '/' ? '' : raw.replace(/\/$/, '')
+  const path = trimmed ? `${trimmed}/login` : '/login'
+  return `${window.location.origin}${path.startsWith('/') ? path : `/${path}`}`
+}
+
 function loadTempScale () {
   try {
     return localStorage.getItem(TEMP_SCALE_KEY) || '°C'
@@ -219,7 +228,7 @@ export default createStore({
         }
 
         const credencialMsg =
-          'No encontramos una cuenta con ese email o la contraseña no es correcta. Comprueba los datos o crea una cuenta nueva desde Registrarse.'
+          'No encontramos una cuenta con ese email o la contraseña no es correcta. Comprueba los datos o crea una cuenta nueva desde Registrarse. Si acabas de restablecer la contraseña desde el correo, usa la contraseña nueva (no la anterior).'
 
         const byCode = {
           'auth/invalid-credential': credencialMsg,
@@ -255,7 +264,11 @@ export default createStore({
 
       commit('SET_AUTH_LOADING', true)
       try {
-        await sendPasswordResetEmail(auth, e)
+        const continueUrl = getPasswordResetContinueUrl()
+        const actionCodeSettings = continueUrl
+          ? { url: continueUrl, handleCodeInApp: false }
+          : undefined
+        await sendPasswordResetEmail(auth, e, actionCodeSettings)
         return true
       } catch (err) {
         const code = err?.code || ''
@@ -271,9 +284,13 @@ export default createStore({
         const byCode = {
           'auth/invalid-email': 'El email no tiene un formato válido.',
           'auth/missing-email': 'Ingresa tu email.',
+          'auth/invalid-credential':
+            'No pudimos enviar el enlace con ese dato. Revisa que el email sea el mismo con el que te registraste.',
+          'auth/invalid-login-credentials':
+            'No pudimos enviar el enlace. Revisa el email o inténtalo más tarde.',
           'auth/too-many-requests': 'Demasiados intentos. Espera unos minutos.',
           'auth/network-request-failed': 'Sin conexión o error de red. Revisa tu internet.',
-          'auth/operation-not-allowed': 'La recuperación por email no está disponible. Revisa Authentication en Firebase.',
+          'auth/operation-not-allowed': 'La recuperación por email no está disponible. Revisa Authentication en Firebase (Sign-in method → Email/Password).',
           'auth/invalid-api-key': 'API key de Firebase inválida. Revisa las variables VUE_APP_FIREBASE_* y reinicia npm run serve.'
         }
 

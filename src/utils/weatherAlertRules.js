@@ -43,22 +43,22 @@ function hasRainyWeek (pronSem) {
 }
 
 /**
- * Una sola alerta. Si aplican ola de calor y semana lluviosa, prioriza ola de calor.
+ * Una sola alerta. Si aplican ola de calor y semana lluviosa, prioriza semana lluviosa.
  * @param {Array<{ max?: number, estado?: string }>} pronSem
  * @returns { null | { message: string, variant: 'danger' | 'warning' } }
  */
 export function getWeatherRuleAlert (pronSem) {
-  if (hasHeatWave(pronSem)) {
-    return {
-      message: `Ola de calor: al menos ${HEAT_CONSECUTIVE_DAYS} días seguidos con máximas ${GTE_SYMBOL} ${HEAT_MAX_THRESHOLD_C} °C.`,
-      variant: 'danger'
-    }
-  }
   if (hasRainyWeek(pronSem)) {
     return {
       message:
         'Semana lluviosa: al menos 4 días con lluvia, llovizna o chubascos.',
       variant: 'warning'
+    }
+  }
+  if (hasHeatWave(pronSem)) {
+    return {
+      message: `Ola de calor: al menos ${HEAT_CONSECUTIVE_DAYS} días seguidos con máximas ${GTE_SYMBOL} ${HEAT_MAX_THRESHOLD_C} °C.`,
+      variant: 'danger'
     }
   }
   return null

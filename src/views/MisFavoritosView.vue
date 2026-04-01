@@ -2,8 +2,15 @@
   <div class="favoritos-page min-vh-100 overflow-x-hidden bg-light">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark favoritos-nav">
       <div class="container-fluid px-2 px-sm-3">
+        <router-link
+          class="login-nav-home-link text-success text-decoration-none d-inline-flex align-items-center py-2 px-1"
+          :to="{ name: 'home' }"
+          aria-label="Ir al Home"
+        >
+          <i class="bi bi-arrow-left login-nav-home-icon" aria-hidden="true" />
+        </router-link>
         <button
-          class="navbar-toggler flex-shrink-0"
+          class="navbar-toggler flex-shrink-0 ms-auto"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#favNavbar"
@@ -15,12 +22,6 @@
         </button>
         <div id="favNavbar" class="collapse navbar-collapse">
           <div class="d-flex flex-wrap align-items-center gap-2 ms-lg-auto mt-3 mt-lg-0 py-2 py-lg-0 justify-content-lg-end w-100">
-            <router-link
-              :to="{ name: 'home' }"
-              class="btn btn-outline-success btn-sm"
-            >
-              Home
-            </router-link>
             <span class="text-white small mb-0 text-break">{{ userLabel }}</span>
             <button
               type="button"

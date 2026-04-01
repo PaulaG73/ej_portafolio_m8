@@ -3,10 +3,11 @@
     <nav class="login-nav navbar navbar-dark bg-dark border-bottom border-secondary shadow-sm">
       <div class="container-fluid px-3 px-md-4">
         <router-link
-          class="navbar-brand text-light text-uppercase login-brand mb-0"
+          class="login-nav-home-link text-success text-decoration-none d-inline-flex align-items-center py-2 px-1"
           :to="{ name: 'home' }"
+          aria-label="Ir al Home"
         >
-          Playas soñadas de América
+          <i class="bi bi-arrow-left login-nav-home-icon" aria-hidden="true" />
         </router-link>
       </div>
     </nav>
@@ -193,21 +194,6 @@ async function onSubmit () {
   flex-direction: column;
   background-color: var(--app-success-surface);
   color: #2c3e50;
-}
-
-.login-nav :deep(.navbar-brand) {
-  font-weight: 600;
-  letter-spacing: 0.02em;
-}
-
-.login-brand {
-  font-size: clamp(1rem, 2.5vw, 1.35rem);
-  text-decoration: none;
-}
-
-.login-brand:hover,
-.login-brand:focus-visible {
-  color: #d2f4e8 !important;
 }
 
 .login-main {

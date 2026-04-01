@@ -68,14 +68,14 @@ npm run deploy:firestore-rules
 - Título de marca **«Playas soñadas de América»** en la barra: contorno fino color success (`-webkit-text-stroke`) sobre fondo oscuro.
 - Selector **°C / °F** (Vuex + `localStorage`) dentro de la barra colapsable (misma lógica que el detalle).
 - Datos meteorológicos desde **Open-Meteo** cuando no hay caché válida: mensaje **«Cargando datos del clima…»** con spinner (`app-banner--info`). Si la petición falla, aviso tipo advertencia (`app-banner--warn`). Si existe caché anterior, puede usarse como respaldo.
-- **Reglas meteorológicas** (`src/utils/weatherAlertRules.js`) en cada tarjeta: si en la semana se cumplen criterios de **ola de calor** o **semana lluviosa**, se muestra un aviso compacto con icono (`app-weather-alert`).
+- **Reglas meteorológicas** (`src/utils/weatherAlertRules.js`) en cada tarjeta del home: si aplica ola de calor o semana lluviosa, un botón con icono abre un **modal** con el texto (todas las tarjetas conservan la misma altura). En la **vista detalle** la alerta sigue en línea (`app-weather-alert`) bajo el carrusel.
 - Invitados no ven el botón de corazón / favoritos en las tarjetas.
 
 ### Detalle de playa
 
 - Barra **navbar-expand-lg** alineada con el patrón del home (selector de escala, Mis favoritos, usuario, Salir).
 - Carrusel de pronóstico diario; corazón para añadir o quitar **favorito** (misma colección Firestore que el home).
-- **Alerta de reglas** bajo el carrusel cuando corresponda (misma prioridad que en tarjeta: si aplica ola de calor y semana lluviosa, se prioriza ola de calor).
+- **Alerta de reglas** bajo el carrusel cuando corresponda (misma prioridad que en tarjeta: si aplican ambas, se prioriza **semana lluviosa**).
 - **Resumen semanal** (`src/utils/weeklyWeatherStats.js`): temperatura **mínima** y **máxima** de la semana según los días mostrados; **promedio semanal** (media de las medias diarias (mín+máx)/2); en °C el promedio se muestra con **techo** (`Math.ceil`). En vista no móvil el bloque tiene ancho máximo acotado (~`28rem`) y centrado.
 - Escala °C/°F coherente con el resto de la app (incl. resumen).
 
@@ -86,12 +86,12 @@ npm run deploy:firestore-rules
 | **Ola de calor** | Al menos **3 días seguidos** con máxima **≥ 30 °C** (mensaje con símbolo ≥). |
 | **Semana lluviosa** | Al menos **4 días** cuyo texto de estado contiene **lluvia**, **llovizna** o **chubasco** (sin distinguir mayúsculas). |
 
-Solo se muestra **una** alerta a la vez; si encajan ambas, gana la de ola de calor.
+Solo se muestra **una** alerta a la vez; si encajan ambas, gana la de **semana lluviosa**.
 
 ### Favoritos
 
 - Firestore: colección **`users/{uid}/favorites/{playaId}`** — cada documento con datos útiles para listar (nombre, país, miniatura, etc.).
-- **Mis favoritos**: lista desde el listener Vuex; barra con botón **Home** a la derecha (junto a usuario y Salir), sin marca duplicada a la izquierda.
+- **Mis favoritos**: lista desde el listener Vuex; barra con **flecha al home** a la izquierda (igual que en formularios de auth) y a la derecha usuario + **Salir**.
 - Reglas: solo el usuario autenticado puede leer/escribir su documento de usuario y subcolección `favorites` (ver `firestore.rules`).
 
 ### Flujo de auth
