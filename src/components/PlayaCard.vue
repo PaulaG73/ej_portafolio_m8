@@ -1,6 +1,6 @@
 <template>
     <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex">
-      <div class="card home-playa-card flex-fill w-100 shadow-sm">
+      <div class="card home-playa-card flex-fill w-100 shadow-sm border border-success">
         <div class="position-relative">
           <img :src="playa.img" class="card-img-top card-img-fixed" :alt="playa.name1 || 'Playa'">
           <button
@@ -31,8 +31,23 @@
             <p class="mb-0 text-center">{{ playa.hum }}</p>
           </div>
           <div class="card__estado flex-wrap">
-            <p class="mb-0">{{ playa.íconoEst }}</p>
+            <span class="clima-estado-icon-wrap" aria-hidden="true">
+              <span class="clima-estado-icon-inner">{{ playa.íconoEst }}</span>
+            </span>
             <p class="mb-0 text-center text-break card-estado-text">{{ playa.estado }}</p>
+          </div>
+          <div
+            v-if="weatherRuleAlert"
+            class="app-weather-alert app-weather-alert--compact mt-2 mb-3"
+            :class="weatherRuleAlert.variant === 'danger' ? 'app-weather-alert--heat' : 'app-weather-alert--wet'"
+            role="alert"
+          >
+            <i
+              class="bi app-weather-alert__icon"
+              :class="weatherRuleAlert.variant === 'danger' ? 'bi-thermometer-half' : 'bi-cloud-rain'"
+              aria-hidden="true"
+            />
+            <span class="app-weather-alert__text">{{ weatherRuleAlert.message }}</span>
           </div>
           <router-link
             class="btn btn-outline-success btn-sm mt-auto align-self-center"
@@ -51,6 +66,7 @@
 
 import { defineProps, computed } from 'vue'
 import { useStore } from 'vuex'
+import { getWeatherRuleAlert } from '../utils/weatherAlertRules'
 
 const prop = defineProps({
     playa: {
@@ -70,10 +86,12 @@ const store = useStore()
 
 const isAuthenticated = computed(() => store.getters.isAuthenticated)
 
-/* `store.state.favoritesById`: los getters que devuelven funciones a veces no
-   refrescan el computed cuando Firestore actualiza favoritos. */
 const cardFavorite = computed(
   () => !!(prop.playa?.id && store.state.favoritesById[prop.playa.id])
+)
+
+const weatherRuleAlert = computed(() =>
+  getWeatherRuleAlert(prop.playa?.pronSem)
 )
 
 function onToggleFavorite () {
@@ -96,9 +114,10 @@ const cambiotemperatura = computed(() => {
 
 <style scoped>
 
-.home-playa-card {
+.home-playa-card.card {
   border-radius: 1rem;
   overflow: hidden;
+  border-color: var(--bs-success);
 }
 
 .playa-favorite-btn {

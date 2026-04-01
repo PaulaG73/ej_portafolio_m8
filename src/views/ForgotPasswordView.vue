@@ -24,7 +24,7 @@
 
                 <div v-if="sent" class="mb-4 text-start">
                   <div
-                    class="alert alert-success small mb-3 border-0 shadow-sm forgot-success"
+                    class="app-banner app-banner--success small mb-3"
                     role="status"
                   >
                     Si hay una cuenta asociada a ese email, recibirás un mensaje en unos minutos.
@@ -207,12 +207,6 @@ function onSendAnother () {
   font-size: 0.68rem;
   font-weight: 400;
   color: #868e96;
-}
-
-.forgot-success {
-  border-radius: 0.5rem;
-  color: #0f5132;
-  background: #d1e7dd;
 }
 
 .login-error {

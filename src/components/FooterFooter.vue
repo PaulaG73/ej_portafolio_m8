@@ -2,7 +2,9 @@
   <footer id="Footer" class="footer navbar-dark bg-dark border-top border-secondary shadow-sm mt-2">
     <div class="container-fluid px-2 px-sm-3 py-3 text-light">
       <div class="d-flex flex-column align-items-center">
-        <p class="mb-2 mb-lg-3 fw-semibold small text-uppercase footer-kicker text-center">
+        <p
+          class="mb-2 mb-lg-3 fw-semibold small text-uppercase footer-kicker footer-agency-title text-center text-light"
+        >
           Agencia de Turismo Vinóloga SpA
         </p>
 
@@ -68,6 +70,12 @@
 <style scoped>
 .footer-kicker {
   letter-spacing: 0.06em;
+}
+
+/* Mismo contorno success que el título del home en la NavBar */
+.footer-agency-title {
+  -webkit-text-stroke: 1px var(--bs-success);
+  paint-order: stroke fill;
 }
 
 .footer-rights {

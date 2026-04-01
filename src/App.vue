@@ -6,6 +6,8 @@
 /* Superficie muy clara en la gama Bootstrap success (tinte, no el verde pleno). */
 :root {
   --app-success-surface: color-mix(in srgb, var(--bs-success) 16%, white 84%);
+  /* Success un poco apagado (iconos de clima en círculo) */
+  --app-success-soft: color-mix(in srgb, var(--bs-success) 68%, white 32%);
   --app-font-family: 'Fredoka', system-ui, sans-serif;
   /* Reboot y componentes Bootstrap heredan la misma familia. */
   --bs-body-font-family: var(--app-font-family);
@@ -40,5 +42,28 @@ body {
 #app .home-nav .navbar-brand.home-nav-brand,
 #app .login-nav .navbar-brand.login-brand {
   letter-spacing: 0.06em;
+}
+
+/* Icono de clima (emoji) en círculo: fondo success suave, sin borde */
+.clima-estado-icon-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.125rem;
+  height: 2.125rem;
+  border-radius: 50%;
+  border: none;
+  background: var(--app-success-soft);
+  line-height: 1;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.clima-estado-icon-inner {
+  font-size: 1.12rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

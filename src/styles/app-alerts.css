@@ -1,0 +1,125 @@
+/* Avisos de estado (home, registro, login): tonos suaves, sin saturación Bootstrap por defecto */
+
+.app-banner {
+  position: relative;
+  margin: 0;
+  padding: 0.65rem 0.9rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  font-size: 0.875rem;
+  line-height: 1.45;
+  text-align: start;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+}
+
+.app-banner--success {
+  background: linear-gradient(145deg, #f0fdf4 0%, #ecfdf5 100%);
+  color: #166534;
+  border-color: rgba(22, 163, 74, 0.22);
+}
+
+.app-banner--info {
+  background: linear-gradient(145deg, #eff6ff 0%, #f0f9ff 100%);
+  color: #1e3a8a;
+  border-color: rgba(59, 130, 246, 0.22);
+}
+
+.app-banner--warn {
+  background: linear-gradient(145deg, #fffbeb 0%, #fefce8 100%);
+  color: #92400e;
+  border-color: rgba(245, 158, 11, 0.28);
+}
+
+.app-banner--muted {
+  background: linear-gradient(145deg, #f8fafc 0%, #f1f5f9 100%);
+  color: #475569;
+  border-color: rgba(100, 116, 139, 0.2);
+}
+
+.app-banner--dismissible {
+  padding-right: 2.75rem;
+}
+
+.app-banner--dismissible .btn-close {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.55rem;
+  opacity: 0.5;
+  padding: 0.4rem;
+}
+
+.app-banner--dismissible .btn-close:hover {
+  opacity: 0.85;
+}
+
+.app-banner--inline-flex {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.app-banner--inline-flex .spinner-border {
+  flex-shrink: 0;
+}
+
+/* Reglas meteorológicas (tarjeta home + detalle playa) */
+
+.app-weather-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0.65rem 0.85rem;
+  border-radius: 0.7rem;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  font-size: 0.8125rem;
+  line-height: 1.42;
+  text-align: start;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+}
+
+.app-weather-alert__icon {
+  flex-shrink: 0;
+  font-size: 1.05rem;
+  line-height: 1;
+  margin-top: 0.1rem;
+  opacity: 0.9;
+}
+
+.app-weather-alert__text {
+  flex: 1;
+  min-width: 0;
+}
+
+.app-weather-alert--heat {
+  background: linear-gradient(145deg, #fff7ed 0%, #fffbeb 50%, #fef3c7 100%);
+  color: #7c2d12;
+  border-color: rgba(234, 88, 12, 0.22);
+}
+
+.app-weather-alert--heat .app-weather-alert__icon {
+  color: #c2410c;
+}
+
+.app-weather-alert--wet {
+  background: linear-gradient(145deg, #f0f9ff 0%, #f8fafc 100%);
+  color: #0c4a6e;
+  border-color: rgba(14, 165, 233, 0.25);
+}
+
+.app-weather-alert--wet .app-weather-alert__icon {
+  color: #0369a1;
+}
+
+.app-weather-alert--compact {
+  padding: 0.45rem 0.55rem;
+  border-radius: 0.55rem;
+  font-size: 0.72rem;
+  line-height: 1.35;
+  gap: 0.4rem;
+}
+
+.app-weather-alert--compact .app-weather-alert__icon {
+  font-size: 0.88rem;
+  margin-top: 0.06rem;
+}

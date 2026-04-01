@@ -98,8 +98,6 @@ export default createStore({
       return 'Usuario'
     },
     tempScale: (state) => state.preferences.tempScale,
-    isFavorite: (state) => (playaId) =>
-      !!(playaId && state.favoritesById[playaId]),
     favoritesList: (state) =>
       Object.entries(state.favoritesById)
         .map(([playaId, data]) => ({ playaId, ...data }))

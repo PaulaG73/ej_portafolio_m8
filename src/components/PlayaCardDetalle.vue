@@ -8,9 +8,10 @@
         </div>
         <p class="detail-card-temp detail-card-temp-prom"> prom {{ promDisplay }}{{ unidad }}</p>
         <div class="card-estado d-flex">
-            <p>{{ detalle.icon }}</p>
+            <span class="clima-estado-icon-wrap" aria-hidden="true">
+              <span class="clima-estado-icon-inner">{{ detalle.icon }}</span>
+            </span>
             <h6 class="detail-card-subtitle">{{ detalle.estado }}</h6>
-
         </div>
     </div>
 
@@ -75,7 +76,7 @@ const promDisplay = computed(() => {
     min-height: 145px;
     height: auto;
     color: black;
-    border: 1px solid #dee2e6;
+    border: 1px solid var(--bs-success);
     border-radius: 1.25rem;
     background: #ffffff;
     display: flex;

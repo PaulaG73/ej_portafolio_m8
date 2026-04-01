@@ -2,50 +2,66 @@
 
   <div class="card-detail min-vh-100 overflow-x-hidden">
 
-    <nav class="navbar navbar-dark bg-dark border-bottom border-secondary shadow-sm detail-nav">
-      <div class="container-fluid px-2 px-sm-3 py-2">
-        <div class="d-flex flex-column flex-md-row align-items-stretch align-items-md-center w-100 gap-2 gap-md-3">
-          <div class="d-flex justify-content-between align-items-center w-100 w-md-auto flex-shrink-0">
-            <router-link
-              class="detail-nav-home-link text-success text-decoration-none d-inline-flex align-items-center gap-1 py-1 px-1"
-              :to="{ name: 'home' }"
-              aria-label="Ir al Home"
-            >
-              <i class="bi bi-arrow-left detail-nav-home-icon flex-shrink-0" aria-hidden="true" />
-              <span class="detail-nav-home-text small fw-semibold">Ir al Home</span>
-            </router-link>
-          </div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary shadow-sm detail-nav">
+      <div class="container-fluid px-2 px-sm-3">
+        <router-link
+          class="navbar-brand text-success text-decoration-none d-inline-flex align-items-center gap-1 py-1 px-1 detail-nav-home-link mb-0"
+          :to="{ name: 'home' }"
+          aria-label="Ir al Home"
+        >
+          <i class="bi bi-arrow-left detail-nav-home-icon flex-shrink-0" aria-hidden="true" />
+          <span class="detail-nav-home-text small fw-semibold">Ir al Home</span>
+        </router-link>
+
+        <button
+          class="navbar-toggler flex-shrink-0"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#detailNavbar"
+          aria-controls="detailNavbar"
+          aria-expanded="false"
+          aria-label="Alternar navegación"
+        >
+          <span class="navbar-toggler-icon" />
+        </button>
+
+        <div id="detailNavbar" class="collapse navbar-collapse flex-lg-grow-1">
           <div
-            class="d-flex flex-md-grow-1 flex-wrap align-items-center gap-2 justify-content-center w-100 min-w-0 ms-md-3 ms-lg-4 ps-md-1 ps-lg-3"
+            class="d-flex flex-column flex-lg-row align-items-stretch align-items-lg-center w-100 gap-3 mt-3 mt-lg-0 ms-lg-2 py-lg-1 pb-3 pb-lg-0"
           >
-            <label class="text-light small mb-0 text-nowrap" for="escala-temp-detail">Escala</label>
-            <select
-              id="escala-temp-detail"
-              class="form-select form-select-sm border-success text-success bg-dark flex-shrink-0"
-              style="width: auto; min-width: 5rem"
-              v-model="escalaTemp"
+            <div class="d-none d-lg-block flex-lg-grow-1" aria-hidden="true" />
+            <div
+              class="d-flex flex-wrap align-items-center gap-2 justify-content-center flex-shrink-0 ms-0 ms-sm-2 ms-lg-5 ps-lg-2 ps-xl-4"
             >
-              <option value="°C">°C</option>
-              <option value="°F">°F</option>
-            </select>
-          </div>
-          <div
-            class="d-flex flex-wrap align-items-center gap-2 justify-content-center justify-content-md-end flex-shrink-0 ms-md-auto w-100 w-md-auto min-w-0"
-          >
-            <router-link
-              :to="{ name: 'mis-favoritos' }"
-              class="btn btn-outline-success btn-sm flex-shrink-0"
+              <label class="text-light small mb-0 text-nowrap" for="escala-temp-detail">Escala</label>
+              <select
+                id="escala-temp-detail"
+                class="form-select form-select-sm border-success text-success bg-dark flex-shrink-0"
+                style="width: auto; min-width: 5rem"
+                v-model="escalaTemp"
+              >
+                <option value="°C">°C</option>
+                <option value="°F">°F</option>
+              </select>
+            </div>
+            <div
+              class="d-flex flex-wrap align-items-center gap-2 justify-content-center justify-content-lg-end flex-lg-grow-1 w-100 min-w-0 ms-lg-auto"
             >
-              Mis favoritos
-            </router-link>
-            <span class="text-white small mb-0 text-center text-md-end text-break">{{ userLabel }}</span>
-            <button
-              type="button"
-              class="btn btn-outline-success btn-sm flex-shrink-0"
-              @click="onLogout"
-            >
-              Salir
-            </button>
+              <router-link
+                :to="{ name: 'mis-favoritos' }"
+                class="btn btn-outline-success btn-sm flex-shrink-0"
+              >
+                Mis favoritos
+              </router-link>
+              <span class="text-white small mb-0 text-center text-lg-start text-break mw-100 px-1">{{ userLabel }}</span>
+              <button
+                type="button"
+                class="btn btn-outline-success btn-sm flex-shrink-0"
+                @click="onLogout"
+              >
+                Salir
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -56,7 +72,7 @@
       class="container-fluid px-2 px-sm-3 pt-3 register-success-wrap"
     >
       <div
-        class="alert alert-success alert-dismissible text-start mb-0 py-2 small shadow-sm border-0"
+        class="app-banner app-banner--success app-banner--dismissible small mb-0"
         role="status"
       >
         <strong>Listo.</strong> Tu cuenta fue creada con éxito. Ya puedes ver el detalle de esta playa.
@@ -165,6 +181,60 @@
           </button>
         </div>
       </div>
+
+      <div
+        v-if="weatherRuleAlertView"
+        class="weather-rule-alert-wrap px-2 px-sm-3"
+        role="alert"
+      >
+        <div
+          class="app-weather-alert mb-0 small"
+          :class="weatherRuleAlertView.variant === 'danger' ? 'app-weather-alert--heat' : 'app-weather-alert--wet'"
+        >
+          <i
+            class="bi app-weather-alert__icon"
+            :class="weatherRuleAlertView.variant === 'danger' ? 'bi-thermometer-half' : 'bi-cloud-rain'"
+            aria-hidden="true"
+          />
+          <span class="app-weather-alert__text">{{ weatherRuleAlertView.message }}</span>
+        </div>
+      </div>
+
+      <section
+        v-if="weeklyStatsView"
+        class="weekly-stats px-2 px-sm-3"
+        aria-label="Estadísticas del pronóstico semanal"
+      >
+        <div class="weekly-stats-inner shadow-sm border border-success">
+          <h2 class="weekly-stats-title h5 fw-bold text-black mb-2">
+            Resumen semanal
+          </h2>
+          <p class="weekly-stats-sub small text-secondary mb-3 mb-md-4">
+            Calculado con los {{ weeklyStatsView.dayCount }} días mostrados en el pronóstico
+            (escala actual: {{ escalaTemp }}).
+          </p>
+
+          <div>
+            <h3 class="weekly-stats-h6 h6 fw-semibold text-dark mb-2">
+              Temperaturas
+            </h3>
+            <ul class="weekly-stats-list list-unstyled small mb-0 text-start">
+              <li>
+                <span class="weekly-stats-k">Mínimo de la semana</span>
+                <span class="weekly-stats-v">{{ weeklyStatsView.weekMin }}</span>
+              </li>
+              <li>
+                <span class="weekly-stats-k">Máximo de la semana</span>
+                <span class="weekly-stats-v">{{ weeklyStatsView.weekMax }}</span>
+              </li>
+              <li>
+                <span class="weekly-stats-k">Promedio semanal</span>
+                <span class="weekly-stats-v">{{ weeklyStatsView.avgWeekly }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
     </template>
 
     <div v-else class="container px-3 py-5 text-center text-dark">
@@ -177,52 +247,42 @@
 
 </template>
 
-
-
 <script setup>
 
-import { ref, computed, onMounted, onBeforeUnmount } from "vue";
-
-import { useRoute } from "vue-router";
-import { useStore } from "vuex";
-
-import Allplayas from "../data/playas.json";
-
-import PlayaCardDetalle from "../components/PlayaCardDetalle.vue"
-
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { useRoute } from 'vue-router'
+import { useStore } from 'vuex'
+import Allplayas from '../data/playas.json'
+import PlayaCardDetalle from '../components/PlayaCardDetalle.vue'
 import {
   FORECAST_STORAGE_KEY,
   FORECAST_CACHE_SCHEMA_VERSION
-} from "../utils/forecastCacheConstants"
+} from '../utils/forecastCacheConstants'
+import { computeWeeklyStatsFromPronSem } from '../utils/weeklyWeatherStats'
+import { getWeatherRuleAlert } from '../utils/weatherAlertRules'
 
+const playas = ref(Allplayas)
 
+const route = useRoute()
+const store = useStore()
 
-
-
-
-
-const playas = ref(Allplayas);
-
-const route = useRoute();
-const store = useStore();
-
-const userLabel = computed(() => store.getters.userNavLabel);
+const userLabel = computed(() => store.getters.userNavLabel)
 
 const registerSuccessBanner = computed(
-  () => store.state.flashAuthBanner === "registered"
-);
+  () => store.state.flashAuthBanner === 'registered'
+)
 
 function dismissRegisterBanner () {
-  store.commit("SET_FLASH_AUTH_BANNER", null);
+  store.commit('SET_FLASH_AUTH_BANNER', null)
 }
 
 const escalaTemp = computed({
   get: () => store.getters.tempScale,
-  set: (v) => store.dispatch("updateTempScale", v)
-});
+  set: (v) => store.dispatch('updateTempScale', v)
+})
 
 async function onLogout () {
-  await store.dispatch("logout");
+  await store.dispatch('logout')
 }
 
 const playa = computed(() => playas.value.find(playa => playa.id === route.params.id))
@@ -260,15 +320,13 @@ const pronSem = computed(() => {
   const entry = cache?.byId?.[playa.value.id]
   if (entry?.pronSemC?.length) return entry.pronSemC
 
-  // Fallback: si el usuario abre detalle directo sin pasar por Home
   return playa.value.pronSem || []
 })
 
-const carouselId = computed(() => `pronSemCarousel-${playa.value?.id || "default"}`)
-const viewportWidth = ref(typeof window !== "undefined" ? window.innerWidth : 1200)
+const carouselId = computed(() => `pronSemCarousel-${playa.value?.id || 'default'}`)
+const viewportWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 1200)
 const cardsPerSlide = computed(() => {
   const width = viewportWidth.value
-  // iPad Pro: touch + rango de anchura (coincide con la media query de padding que ya usaste)
   const coarse =
     typeof window !== 'undefined' &&
     typeof window.matchMedia === 'function' &&
@@ -292,11 +350,11 @@ function handleResize () {
 }
 
 onMounted(() => {
-  window.addEventListener("resize", handleResize)
+  window.addEventListener('resize', handleResize)
 })
 
 onBeforeUnmount(() => {
-  window.removeEventListener("resize", handleResize)
+  window.removeEventListener('resize', handleResize)
 })
 
 const pronSemSlides = computed(() => {
@@ -305,7 +363,6 @@ const pronSemSlides = computed(() => {
   if (!total) return []
 
   const k = Math.max(1, cardsPerSlide.value)
-  /* Ventanas solo con días consecutivos reales (sin % total, que mezclaba último + “Mañana”). */
   if (k >= total) {
     return [source.slice()]
   }
@@ -317,16 +374,34 @@ const pronSemSlides = computed(() => {
   return slides
 })
 
+/** Misma conversión °C→°F que en PlayaCardDetalle (enteros con techo). */
+function tempCtoFDisplay (c) {
+  return Math.ceil((c * 9) / 5 + 32)
+}
 
-// Acá va la lógica del array del pronSem para el promedio de temperatura//
+const weatherRuleAlertView = computed(() => getWeatherRuleAlert(pronSem.value))
 
-
-
-
+const weeklyStatsView = computed(() => {
+  const raw = computeWeeklyStatsFromPronSem(pronSem.value)
+  if (!raw) return null
+  const useF = store.getters.tempScale === '°F'
+  const fmtPoint = (c) => {
+    if (useF) return `${tempCtoFDisplay(c)} °F`
+    return `${Math.round(c)} °C`
+  }
+  const fmtWeeklyAvg = (c) => {
+    if (useF) return `${tempCtoFDisplay(c)} °F`
+    return `${Math.ceil(c)} °C`
+  }
+  return {
+    dayCount: raw.dayCount,
+    weekMin: fmtPoint(raw.weekMinC),
+    weekMax: fmtPoint(raw.weekMaxC),
+    avgWeekly: fmtWeeklyAvg(raw.avgWeeklyMeanC)
+  }
+})
 
 </script>
-
-
 
 <style scoped>
 
@@ -341,6 +416,12 @@ const pronSemSlides = computed(() => {
 
 .detail-nav-home-link {
   line-height: 1;
+}
+
+/* Misma barra que home: evitar el tamaño grande por defecto de .navbar-brand */
+.detail-nav .navbar-brand.detail-nav-home-link {
+  font-size: 1rem;
+  font-weight: inherit;
 }
 
 .detail-nav-home-link .detail-nav-home-icon {
@@ -461,6 +542,15 @@ const pronSemSlides = computed(() => {
     margin-top: 2.25rem;
   }
 
+  .weather-rule-alert-wrap {
+    margin-top: 1.75rem;
+  }
+
+  .weekly-stats {
+    margin-top: 2.25rem;
+    margin-bottom: 2.5rem;
+  }
+
   /* Mantener el tamaño visual de las tarjetas (como antes: 3 por slide) */
   .pronSem-carousel .carousel-item .row {
     justify-content: center;
@@ -478,6 +568,69 @@ const pronSemSlides = computed(() => {
   margin: 1.5rem auto 0;
   max-width: 1100px;
   width: min(100%, 1100px);
+}
+
+/* Móvil (< sm): ancho completo con el padding del bloque. Desde sm: columna acotada y centrada. */
+.weather-rule-alert-wrap {
+  margin: 1rem auto 0;
+  width: 100%;
+}
+
+.weekly-stats {
+  margin: 1.75rem auto 2rem;
+  width: 100%;
+}
+
+@media (min-width: 576px) {
+  .weather-rule-alert-wrap {
+    max-width: 36rem;
+  }
+
+  .weekly-stats {
+    max-width: 28rem;
+  }
+}
+
+.weekly-stats-inner {
+  background: #fff;
+  border-radius: 1.25rem;
+  padding: 1rem 1.25rem 1.35rem;
+  color: #2c3e50;
+  border-color: var(--bs-success);
+}
+
+.weekly-stats-title {
+  text-align: left;
+  letter-spacing: 0.02em;
+}
+
+.weekly-stats-sub {
+  text-align: left;
+  line-height: 1.4;
+}
+
+.weekly-stats-list li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.35rem 1rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.weekly-stats-list li:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.weekly-stats-k {
+  color: #495057;
+}
+
+.weekly-stats-v {
+  font-weight: 600;
+  color: #198754;
 }
 
 .pronSem-carousel .carousel-inner {

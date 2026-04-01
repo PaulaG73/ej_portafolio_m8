@@ -17,7 +17,7 @@
           <div class="col-12 col-sm-11 col-md-8 col-lg-5 col-xl-4">
             <div
               v-if="redirectNotice"
-              class="alert alert-info alert-login small mb-3 text-start border-0 shadow-sm"
+              class="app-banner app-banner--info small mb-3"
               role="status"
             >
               Inicia sesión para continuar hacia la página que intentaste abrir.
@@ -273,12 +273,6 @@ async function onSubmit () {
   font-size: 0.68rem;
   font-weight: 400;
   color: #868e96;
-}
-
-.alert-login {
-  border-radius: 0.75rem;
-  color: #055160;
-  background: #cff4fc;
 }
 
 .login-error {

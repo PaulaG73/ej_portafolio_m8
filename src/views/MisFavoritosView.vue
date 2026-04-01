@@ -2,12 +2,6 @@
   <div class="favoritos-page min-vh-100 overflow-x-hidden bg-light">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark favoritos-nav">
       <div class="container-fluid px-2 px-sm-3">
-        <router-link
-          :to="{ name: 'home' }"
-          class="navbar-brand text-success text-decoration-none small fw-semibold"
-        >
-          ← Playas soñadas
-        </router-link>
         <button
           class="navbar-toggler flex-shrink-0"
           type="button"
@@ -48,7 +42,7 @@
         Playas que marcaste con el corazón. Pulsa el corazón otra vez para quitarlas.
       </p>
 
-      <div v-if="!items.length" class="alert alert-secondary border-0 shadow-sm">
+      <div v-if="!items.length" class="app-banner app-banner--muted">
         Aún no tienes favoritos. Explora el home o una ficha de detalle y pulsa el corazón rojo.
       </div>
 

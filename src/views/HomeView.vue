@@ -84,7 +84,7 @@
       class="container-fluid px-2 px-sm-3 pt-3 register-success-wrap"
     >
       <div
-        class="alert alert-success alert-dismissible text-start mb-0 py-2 small shadow-sm border-0"
+        class="app-banner app-banner--success app-banner--dismissible small mb-0"
         role="status"
       >
         <strong>Listo.</strong> Tu cuenta fue creada con éxito. Ya puedes ver el detalle de cada playa.
@@ -103,9 +103,9 @@
       role="status"
       aria-live="polite"
     >
-      <div class="alert alert-info mb-0 py-2 small shadow-sm border-0 d-flex align-items-center gap-2">
+      <div class="app-banner app-banner--info app-banner--inline-flex small mb-0">
         <span
-          class="spinner-border spinner-border-sm text-info"
+          class="spinner-border spinner-border-sm text-primary"
           aria-hidden="true"
         />
         <span>Cargando datos del clima…</span>
@@ -115,9 +115,8 @@
     <div
       v-else-if="weatherError"
       class="container-fluid px-2 px-sm-3 pt-2"
-      role="alert"
     >
-      <div class="alert alert-warning mb-0 py-2 small shadow-sm border-0 text-dark">
+      <div class="app-banner app-banner--warn small mb-0" role="alert">
         {{ weatherError }}
       </div>
     </div>
@@ -137,9 +136,9 @@
 </template>
 
 <script setup>
-import FooterFooter from '../components/FooterFooter.vue';
-import PlayaGrid from '../components/PlayaGrid.vue';
-import playasData from '../data/playas.json';
+import FooterFooter from '../components/FooterFooter.vue'
+import PlayaGrid from '../components/PlayaGrid.vue'
+import playasData from '../data/playas.json'
 import { ref, onMounted, computed } from 'vue'
 import { useStore } from 'vuex'
 import { coordsById } from '../data/coordsById'
@@ -149,8 +148,7 @@ import {
   FORECAST_STORAGE_KEY,
   FORECAST_CACHE_SCHEMA_VERSION
 } from '../utils/forecastCacheConstants'
-// La UI espera `pronSem` con "Mañana" + 6 días = 7 items,
-// así que pedimos 8 días para cubrir mañana..día+6 con margen.
+
 const FORECAST_DAYS = 8
 const CACHE_TTL_MS = 30 * 60 * 1000 // 30 min
 
@@ -218,12 +216,10 @@ function buildPronSemFromDaily (daily) {
   const pronSem = []
   if (!daily?.time || !daily?.temperature_2m_min || !daily?.temperature_2m_max || !daily?.weather_code) return pronSem
 
-  // Queremos: Mañana + 6 días => índices 1..7 inclusive
   for (let j = 0; j < 7; j++) {
     const idx = 1 + j
     if (idx >= daily.time.length) break
 
-    // Open-Meteo `daily.time` es "YYYY-MM-DD"; `new Date(iso)` en UTC desfasa el día de la semana.
     const iso = daily.time[idx]
     const s = typeof iso === 'string' ? iso.slice(0, 10) : ''
     const parts = s.split('-').map((x) => parseInt(x, 10))
@@ -392,6 +388,12 @@ onMounted(async () => {
 <style>
 .home-playas-section {
   background-color: var(--app-success-surface);
+}
+
+/* Contorno “success” alrededor de las letras del título */
+.home-nav .home-nav-brand {
+  -webkit-text-stroke: 1px var(--bs-success);
+  paint-order: stroke fill;
 }
 
 @media (max-width: 991.98px) {

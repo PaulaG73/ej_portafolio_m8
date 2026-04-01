@@ -17,7 +17,7 @@
           <div class="col-12 col-sm-11 col-md-10 col-lg-8 col-xl-7">
             <div
               v-if="redirectNotice"
-              class="alert alert-info alert-login small mb-3 text-start border-0 shadow-sm"
+              class="app-banner app-banner--info small mb-3"
               role="status"
             >
               Tras registrarte irás a la página que intentaste abrir.
@@ -283,12 +283,6 @@ async function onSubmit () {
 .login-inline-link:focus-visible {
   color: #146c43;
   text-decoration: underline;
-}
-
-.alert-login {
-  border-radius: 0.75rem;
-  color: #055160;
-  background: #cff4fc;
 }
 
 .login-error {
