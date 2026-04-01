@@ -1,6 +1,6 @@
 # Portafolio playas (Vue 3 + Firebase)
 
-SPA que muestra  playas de América con clima (Open-Meteo), registro/inicio de sesión con **Firebase Auth**, perfil y **favoritos** guardados en **Cloud Firestore**.
+SPA que muestra playas de América con clima (Open-Meteo vía **Axios**), registro/inicio de sesión con **Firebase Auth**, perfil y **favoritos** guardados en **Cloud Firestore**.
 
 ## Stack
 
@@ -9,7 +9,7 @@ SPA que muestra  playas de América con clima (Open-Meteo), registro/inicio de s
 - **Vuex 4** (auth, preferencias de escala °C/°F, favoritos en tiempo real)
 - **Bootstrap 5** + **Bootstrap Icons**
 - **Firebase** (Auth + Firestore)
-- **Open-Meteo** (pronóstico y caché en `localStorage`)
+- **Open-Meteo** + **Axios** (`src/services/openMeteo.js`): pronóstico en vivo, caché en `localStorage` (~30 min)
 
 ## Requisitos
 
@@ -62,10 +62,15 @@ npm run deploy:firestore-rules
 
 ## Funcionalidad destacada
 
-- **Home**: selector °C / °F (persistente en `localStorage`), clima por playa con caché.
+- **Home**: selector °C / °F (persistente en `localStorage`); datos meteorológicos desde la **API Open-Meteo** (no solo el JSON estático). Mientras se obtiene el clima —cuando hace falta salir a red y no hay caché reciente— se muestra **«Cargando datos del clima…»** (spinner). Si la API falla, se muestra un **aviso** al usuario (fallo total o parcial); cuando hay caché anterior, puede usarse como respaldo.
 - **Detalle**: pronóstico en carrusel; favorito con corazón (usuario autenticado).
 - **Favoritos**: Firestore `users/{uid}/favorites/{playaId}` (nombre, país, imagen).
 - Invitados no ven favoritos en las tarjetas del home.
+
+### Comprobar carga y error del clima (manual)
+
+- **Cargando**: ventana de incógnito o borrar en DevTools → *Application* → *Local Storage* la clave `forecastById_v1` (definida en `src/utils/forecastCacheConstants.js`), luego recargar el home: debería verse brevemente el aviso azul de carga.
+- **Error**: con la misma base (sin caché fresca), en DevTools → *Red* activar **Sin conexión** y recargar: debería aparecer el aviso de error al no poder consultar la API.
 
 ## Estructura (resumida)
 
@@ -91,7 +96,7 @@ Proyecto académico. Ajusta si publicas con otra licencia.
 
 **[Paula Gajardo]** — *Estudiante de [Front End]*  
 📧 paulagajardosch@gmail.com  
-🐙 [@PEGSCH2025](https://github.com/PEGSCH2025)
+🐙 [PaulaG73](https://github.com/PaulaG73)
 
 ---
 

@@ -97,6 +97,31 @@
       </div>
     </div>
 
+    <div
+      v-if="weatherLoading"
+      class="container-fluid px-2 px-sm-3 pt-2"
+      role="status"
+      aria-live="polite"
+    >
+      <div class="alert alert-info mb-0 py-2 small shadow-sm border-0 d-flex align-items-center gap-2">
+        <span
+          class="spinner-border spinner-border-sm text-info"
+          aria-hidden="true"
+        />
+        <span>Cargando datos del clima…</span>
+      </div>
+    </div>
+
+    <div
+      v-else-if="weatherError"
+      class="container-fluid px-2 px-sm-3 pt-2"
+      role="alert"
+    >
+      <div class="alert alert-warning mb-0 py-2 small shadow-sm border-0 text-dark">
+        {{ weatherError }}
+      </div>
+    </div>
+
     <div class="home pb-2">
       <section class="home-playas-section py-2 pb-3 pb-md-4">
         <PlayaGrid
@@ -130,6 +155,9 @@ const FORECAST_DAYS = 8
 const CACHE_TTL_MS = 30 * 60 * 1000 // 30 min
 
 const playas = ref(playasData.map((p) => ({ ...p })))
+
+const weatherLoading = ref(false)
+const weatherError = ref(null)
 
 const store = useStore()
 
@@ -228,8 +256,22 @@ onMounted(async () => {
   const nowMs = Date.now()
   const cacheIsFresh = cache?.updatedAt && (nowMs - cache.updatedAt) < CACHE_TTL_MS
 
-  const resultsById = {}
+  const needsNetwork = playas.value.some((p) => {
+    const coords = coordsById[p.id]
+    if (!coords) return false
+    const ce = cache?.byId?.[p.id]
+    return !(ce && cacheIsFresh)
+  })
 
+  weatherError.value = null
+  weatherLoading.value = needsNetwork
+
+  const resultsById = {}
+  let apiAttempts = 0
+  let apiSuccess = 0
+  let apiFail = 0
+
+  try {
   // 1) Para cada playa: o usamos caché, o pedimos a Open-Meteo.
   await Promise.all(playas.value.map(async (playa) => {
     const coords = coordsById[playa.id]
@@ -241,6 +283,7 @@ onMounted(async () => {
       return
     }
 
+    apiAttempts++
     let data
     try {
       data = await fetchOpenMeteoForecast({
@@ -249,28 +292,49 @@ onMounted(async () => {
         forecastDays: FORECAST_DAYS
       })
     } catch {
+      apiFail++
+      if (cachedEntry) {
+        resultsById[playa.id] = cachedEntry
+      }
       return
     }
 
     const hourly = data?.hourly
     const daily = data?.daily
-    if (!hourly || !daily) return
+    if (!hourly || !daily) {
+      apiFail++
+      if (cachedEntry) resultsById[playa.id] = cachedEntry
+      return
+    }
 
     const times = hourly.time || []
-    if (!times.length) return
+    if (!times.length) {
+      apiFail++
+      if (cachedEntry) resultsById[playa.id] = cachedEntry
+      return
+    }
 
     const iNow = getClosestHourlyIndex(times, nowMs)
     const tempC = hourly.temperature_2m?.[iNow]
     const humPct = hourly.relative_humidity_2m?.[iNow]
     const codeNow = hourly.weather_code?.[iNow]
 
-    if (typeof tempC !== 'number' || Number.isNaN(tempC)) return
-    if (typeof humPct !== 'number' || Number.isNaN(humPct)) return
+    if (typeof tempC !== 'number' || Number.isNaN(tempC)) {
+      apiFail++
+      if (cachedEntry) resultsById[playa.id] = cachedEntry
+      return
+    }
+    if (typeof humPct !== 'number' || Number.isNaN(humPct)) {
+      apiFail++
+      if (cachedEntry) resultsById[playa.id] = cachedEntry
+      return
+    }
 
     const { estado, icon } = mapWeatherCodeToEstadoIcon(codeNow)
 
     const pronSem = buildPronSemFromDaily(daily)
 
+    apiSuccess++
     resultsById[playa.id] = {
       current: {
         tempTextC: `🌡️ ${Math.round(tempC)}°C`,
@@ -281,6 +345,16 @@ onMounted(async () => {
       pronSemC: pronSem
     }
   }))
+
+  if (apiAttempts > 0) {
+    if (apiSuccess === 0) {
+      weatherError.value =
+        'No se pudo consultar el clima (API). Comprueba tu conexión a internet o inténtalo más tarde.'
+    } else if (apiFail > 0) {
+      weatherError.value =
+        'El clima de una o más playas no pudo cargarse. El resto muestra datos actualizados o en caché.'
+    }
+  }
 
   // 2) Volcamos los resultados a `playas` (para que el grid se actualice) + guardamos caché.
   const nextCache = cache && typeof cache === 'object'
@@ -307,6 +381,9 @@ onMounted(async () => {
   }
 
   localStorage.setItem(FORECAST_STORAGE_KEY, JSON.stringify(nextCache))
+  } finally {
+    weatherLoading.value = false
+  }
 })
 
 
