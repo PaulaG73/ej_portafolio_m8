@@ -1,13 +1,3 @@
-/**
- * Estadísticas sobre `pronSem`: valores en °C (como vienen de Open-Meteo / caché).
- * @param {Array<{ min?: number, max?: number }>} pronSem
- * @returns {null | {
- *   weekMinC: number,
- *   weekMaxC: number,
- *   avgWeeklyMeanC: number,
- *   dayCount: number
- * }}
- */
 export function computeWeeklyStatsFromPronSem (pronSem) {
   if (!Array.isArray(pronSem) || pronSem.length === 0) return null
 

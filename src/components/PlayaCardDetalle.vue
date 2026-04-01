@@ -1,10 +1,13 @@
 <template>
     <div class="detail-card">
-        <h6 class="detail-card-title">{{ detalle.dia }}</h6>
-        <p class="icon-temp"> 🌡️</p>
-        <div class="container-temp">
-            <p class="detail-card-temp"> máx {{ maxDisplay }}{{ unidad }}</p>
-            <p class="detail-card-temp"> mín {{ minDisplay }}{{ unidad }}</p>
+        <div class="detail-card-header">
+            <h6 class="detail-card-title">{{ detalle.dia }}</h6>
+            <div class="detail-card-header-rule" aria-hidden="true" />
+        </div>
+        <div class="temp-row">
+            <p class="detail-card-temp temp-max">máx {{ maxDisplay }}{{ unidad }}</p>
+            <span class="icon-temp" aria-hidden="true">🌡️</span>
+            <p class="detail-card-temp temp-min">mín {{ minDisplay }}{{ unidad }}</p>
         </div>
         <p class="detail-card-temp detail-card-temp-prom"> prom {{ promDisplay }}{{ unidad }}</p>
         <div class="card-estado d-flex">
@@ -32,8 +35,6 @@ const props = defineProps({
 
 const store = useStore()
 
-// Evita destructuring (eslint: vue/no-setup-props-destructure).
-// En template, Vue desenvuelve refs automáticamente.
 const detalle = computed(() => props.detalle)
 
 const unidad = computed(() =>
@@ -84,29 +85,56 @@ const promDisplay = computed(() => {
     gap: 0.25rem;
 }
 
+.detail-card-header {
+  width: 100%;
+}
+
 .detail-card-title {
     font-weight: bold;
     font-size: 0.85rem;
     margin: 0;
+    text-align: center;
 }
 
-.container-temp{
-    display: flex;
-    font-size: 0.72rem;
-    justify-content: space-around;
-    gap: 0.35rem;
-    margin: 0;
+.detail-card-header-rule {
+  height: 2px;
+  background-color: var(--bs-success);
+  margin-top: 0.35rem;
+  border-radius: 1px;
 }
+
+.temp-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  column-gap: 0.35rem;
+  width: 100%;
+  margin-top: 0.2rem;
+}
+
 
 .icon-temp {
   margin: 0;
   line-height: 1;
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  justify-self: center;
+  flex-shrink: 0;
 }
 
 .detail-card-temp{
     font-size: 0.72rem;
     margin: 0;
     text-align: justify;
+}
+
+.detail-card-temp.temp-max {
+  text-align: end;
+}
+
+.detail-card-temp.temp-min {
+  text-align: start;
 }
 
 .detail-card-temp-prom {

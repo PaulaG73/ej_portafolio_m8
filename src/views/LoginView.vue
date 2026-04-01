@@ -123,7 +123,6 @@ const route = useRoute()
 const loginFormEl = ref(null)
 const email = ref('')
 const password = ref('')
-/** Evita que el autocompletado llene los campos antes de que el usuario interactúe (p. ej. tras cerrar sesión). */
 const loginFieldsLocked = ref(true)
 
 const loginFormResetNonce = computed(() => store.state.loginFormResetNonce)
@@ -228,7 +227,6 @@ async function onSubmit () {
   border-color: #ced4da;
 }
 
-/* Mismo tinte que `.login-page` / secciones (`--app-success-surface`). */
 .login-form .login-input {
   background-color: var(--app-success-surface);
 }
@@ -238,7 +236,6 @@ async function onSubmit () {
   box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.18);
 }
 
-/* Como en RegisterView: placeholders más pequeños que el texto escrito (form-control-lg). */
 .login-form .login-input::placeholder {
   font-size: 0.68rem;
   font-weight: 400;

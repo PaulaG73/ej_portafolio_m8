@@ -206,10 +206,13 @@
         aria-label="Estadísticas del pronóstico semanal"
       >
         <div class="weekly-stats-inner shadow-sm border border-success">
-          <h2 class="weekly-stats-title h5 fw-bold text-black mb-2">
-            Resumen semanal
-          </h2>
-          <p class="weekly-stats-sub small text-secondary mb-3 mb-md-4">
+          <div class="weekly-stats-header">
+            <h2 class="weekly-stats-title h5 fw-bold text-black mb-0">
+              Resumen semanal
+            </h2>
+            <div class="weekly-stats-header-rule" aria-hidden="true" />
+          </div>
+          <p class="weekly-stats-sub small text-secondary mt-2 mb-3 mb-md-4">
             Calculado con los {{ weeklyStatsView.dayCount }} días mostrados en el pronóstico
             (escala actual: {{ escalaTemp }}).
           </p>
@@ -233,6 +236,16 @@
               </li>
             </ul>
           </div>
+        </div>
+        <div class="weekly-stats-back-top d-flex justify-content-center">
+          <button
+            type="button"
+            class="btn btn-outline-success btn-sm align-self-center"
+            aria-label="Volver arriba de la página"
+            @click="scrollToTopSlow"
+          >
+            Volver arriba
+          </button>
         </div>
       </section>
     </template>
@@ -283,6 +296,29 @@ const escalaTemp = computed({
 
 async function onLogout () {
   await store.dispatch('logout')
+}
+
+function scrollToTopSlow () {
+  if (typeof window === 'undefined') return
+  const reduce =
+    typeof window.matchMedia === 'function' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const start =
+    window.scrollY ?? document.documentElement.scrollTop ?? 0
+  if (start <= 0) return
+  if (reduce) {
+    window.scrollTo(0, 0)
+    return
+  }
+  const durationMs = 1000
+  const t0 = performance.now()
+  function tick (now) {
+    const t = Math.min((now - t0) / durationMs, 1)
+    const eased = 1 - (1 - t) ** 2
+    window.scrollTo(0, Math.round(start * (1 - eased)))
+    if (t < 1) requestAnimationFrame(tick)
+  }
+  requestAnimationFrame(tick)
 }
 
 const playa = computed(() => playas.value.find(playa => playa.id === route.params.id))
@@ -374,7 +410,6 @@ const pronSemSlides = computed(() => {
   return slides
 })
 
-/** Misma conversión °C→°F que en PlayaCardDetalle (enteros con techo). */
 function tempCtoFDisplay (c) {
   return Math.ceil((c * 9) / 5 + 32)
 }
@@ -418,7 +453,6 @@ const weeklyStatsView = computed(() => {
   line-height: 1;
 }
 
-/* Misma barra que home: evitar el tamaño grande por defecto de .navbar-brand */
 .detail-nav .navbar-brand.detail-nav-home-link {
   font-size: 1rem;
   font-weight: inherit;
@@ -428,7 +462,6 @@ const weeklyStatsView = computed(() => {
   font-size: clamp(1.85rem, 5.5vw, 2.6rem);
 }
 
-/* Mismo criterio que .footer-home-text en FooterFooter.vue */
 .detail-nav-home-text {
   display: inline-block;
   max-width: 0;
@@ -513,7 +546,6 @@ const weeklyStatsView = computed(() => {
     padding-right: 2.25rem !important;
   }
 
-  /* Concentrar foto y texto hacia el centro */
   .detail-hero-img {
     width: auto !important;
     max-width: 680px;
@@ -523,13 +555,12 @@ const weeklyStatsView = computed(() => {
   }
 
   .desc {
-    width: auto !important; /* le gana a w-100 */
+    width: auto !important;
     max-width: 680px;
     margin-left: auto;
     margin-right: auto;
   }
 
-  /* Más aire vertical entre bloques principales en eje Y */
   .detail-top {
     margin-top: 2.5rem;
   }
@@ -551,7 +582,6 @@ const weeklyStatsView = computed(() => {
     margin-bottom: 2.5rem;
   }
 
-  /* Mantener el tamaño visual de las tarjetas (como antes: 3 por slide) */
   .pronSem-carousel .carousel-item .row {
     justify-content: center;
     max-width: 680px;
@@ -570,7 +600,6 @@ const weeklyStatsView = computed(() => {
   width: min(100%, 1100px);
 }
 
-/* Móvil (< sm): ancho completo con el padding del bloque. Desde sm: columna acotada y centrada. */
 .weather-rule-alert-wrap {
   margin: 1rem auto 0;
   width: 100%;
@@ -599,14 +628,30 @@ const weeklyStatsView = computed(() => {
   border-color: var(--bs-success);
 }
 
+.weekly-stats-header {
+  width: 100%;
+}
+
 .weekly-stats-title {
-  text-align: left;
+  text-align: center;
   letter-spacing: 0.02em;
 }
 
+.weekly-stats-header-rule {
+  height: 2px;
+  background-color: var(--bs-success);
+  margin-top: 0.35rem;
+  border-radius: 1px;
+}
+
 .weekly-stats-sub {
-  text-align: left;
+  text-align: center;
   line-height: 1.4;
+}
+
+.weekly-stats-back-top {
+  margin-top: 0.85rem;
+  width: 100%;
 }
 
 .weekly-stats-list li {

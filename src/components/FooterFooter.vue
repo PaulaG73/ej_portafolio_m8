@@ -72,7 +72,6 @@
   letter-spacing: 0.06em;
 }
 
-/* Mismo contorno success que el título del home en la NavBar */
 .footer-agency-title {
   -webkit-text-stroke: 1px var(--bs-success);
   paint-order: stroke fill;
@@ -112,7 +111,6 @@
     visibility 0.18s ease;
 }
 
-/* Flecha hacia la izquierda (apunta al botón) */
 .footer-wa-tooltip::after {
   content: '';
   position: absolute;
@@ -142,7 +140,6 @@
   line-height: 1;
 }
 
-/* Texto solo al pasar el mouse o al enfocar con teclado (sigue en el DOM para lectores de pantalla). */
 .footer-home-text {
   display: inline-block;
   max-width: 0;

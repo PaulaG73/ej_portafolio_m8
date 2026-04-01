@@ -2,7 +2,6 @@ import axios from 'axios'
 
 const OPEN_METEO_BASE_URL = 'https://api.open-meteo.com/v1/forecast'
 
-// Devuelve el JSON crudo de Open-Meteo para combinar "ahora" (hourly) + "semana" (daily).
 export async function fetchOpenMeteoForecast ({ latitude, longitude, forecastDays = 7 }) {
   const params = {
     latitude,

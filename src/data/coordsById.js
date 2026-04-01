@@ -1,4 +1,3 @@
-// Coordenadas por id (match 1 a 1 con `id` dentro de `src/data/playas.json`)
 export const coordsById = {
   p1: { latitude: -27.103509775516446, longitude: -70.85307910134252 }, // Bahia Inglesa
   p2: { latitude: -0.7608097065992125, longitude: -90.33329490651833 }, // Bahia Tortuga

@@ -37,7 +37,6 @@
             <p class="mb-0 text-center text-break card-estado-text">{{ playa.estado }}</p>
           </div>
 
-          <!-- Misma altura en todas las tarjetas; la alerta se lee en el modal -->
           <div class="playa-card-alert-slot">
             <button
               v-if="weatherRuleAlert"
@@ -104,7 +103,6 @@
 </template>
 
 <script setup>
-
 
 import { defineProps, computed } from 'vue'
 import { useStore } from 'vuex'

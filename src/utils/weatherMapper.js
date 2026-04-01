@@ -1,14 +1,11 @@
-// Mapeo desde `weather_code` de Open-Meteo (WMO) hacia el texto + ícono que usa tu UI.
 export function mapWeatherCodeToEstadoIcon (code) {
   const c = Number(code)
 
-  // Código no válido: fallback
   if (Number.isNaN(c)) {
     return { estado: 'Estado no disponible', icon: '🌡️' }
   }
 
   switch (c) {
-    // Cielo despejado / nubes
     case 0:
       return { estado: 'Soleado', icon: '☀️' }
     case 1:
@@ -18,13 +15,11 @@ export function mapWeatherCodeToEstadoIcon (code) {
     case 3:
       return { estado: 'Nublado', icon: '☁️' }
 
-    // Neblina
     case 45:
       return { estado: 'Niebla', icon: '🌫️' }
     case 48:
       return { estado: 'Niebla helada', icon: '🌫️' }
 
-    // Llovizna
     case 51:
       return { estado: 'Llovizna ligera', icon: '🌦️' }
     case 53:
@@ -36,7 +31,6 @@ export function mapWeatherCodeToEstadoIcon (code) {
     case 57:
       return { estado: 'Llovizna helada intensa', icon: '🌧️❄️' }
 
-    // Lluvia
     case 61:
       return { estado: 'Lluvia débil', icon: '🌧️' }
     case 63:
@@ -48,7 +42,6 @@ export function mapWeatherCodeToEstadoIcon (code) {
     case 67:
       return { estado: 'Lluvia helada intensa', icon: '🌧️❄️' }
 
-    // Nieve
     case 71:
       return { estado: 'Nieve ligera', icon: '❄️' }
     case 73:
@@ -58,7 +51,6 @@ export function mapWeatherCodeToEstadoIcon (code) {
     case 77:
       return { estado: 'Granos de nieve', icon: '🌨️' }
 
-    // Chubascos de lluvia
     case 80:
       return { estado: 'Chubascos de lluvia', icon: '🌦️' }
     case 81:
@@ -66,13 +58,11 @@ export function mapWeatherCodeToEstadoIcon (code) {
     case 82:
       return { estado: 'Chubascos intensos', icon: '🌧️' }
 
-    // Chubascos de nieve
     case 85:
       return { estado: 'Chubascos de nieve ligera', icon: '❄️' }
     case 86:
       return { estado: 'Chubascos de nieve intensa', icon: '🌨️' }
 
-    // Tormentas
     case 95:
       return { estado: 'Tormenta', icon: '⛈️' }
     case 96:

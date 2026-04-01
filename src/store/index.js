@@ -22,10 +22,8 @@ import {
   REGISTER_PASSWORD_POLICY_MESSAGE
 } from '../utils/registerPassword'
 
-// Misma clave que ya usan HomeView y PlayaCardDetalle
 const TEMP_SCALE_KEY = 'escalaTemp'
 
-/** URL tras restablecer contraseña en la página de Firebase (dominio autorizado en consola). */
 function getPasswordResetContinueUrl () {
   if (typeof window === 'undefined') return undefined
   const raw = process.env.BASE_URL || '/'
@@ -50,7 +48,6 @@ function saveTempScale (value) {
   }
 }
 
-/** @type {null | (() => void)} */
 let favoritesUnsubscribe = null
 
 function stopFavoritesListener () {
@@ -79,22 +76,18 @@ export default createStore({
     user: null,
     authLoading: false,
     authError: null,
-    /** 'registered' | null — aviso puntual tras crear cuenta (home o detalle). */
     flashAuthBanner: null,
     authReady: false,
-    /** Se incrementa en cada logout para que LoginView vacíe el formulario al reentrar. */
     loginFormResetNonce: 0,
     preferences: {
       tempScale: loadTempScale()
     },
-    /** Firestore: `users/{uid}/favorites/{playaId}` */
     favoritesById: {}
   },
   getters: {
     isAuthenticated: (state) => !!state.user,
     userEmail: (state) => state.user?.email || '',
     userName: (state) => state.user?.displayName || state.user?.email || '',
-    /** Texto para navbar: nombre + apellido (Firestore), si no displayName de Auth; no usa el correo. */
     userNavLabel: (state) => {
       const u = state.user
       if (!u) return ''
@@ -222,7 +215,6 @@ export default createStore({
         return true
       } catch (err) {
         const code = err?.code || ''
-        // Ayuda a depurar en DevTools sin exponer datos sensibles
         if (process.env.NODE_ENV === 'development') {
           console.warn('[Firebase Auth]', code, err?.message)
         }
@@ -276,7 +268,6 @@ export default createStore({
           console.warn('[Firebase Auth recuperar]', code, err?.message)
         }
 
-        // Evita filtrar si el email existe o no (comportamiento habitual en Firebase).
         if (code === 'auth/user-not-found') {
           return true
         }
@@ -330,7 +321,6 @@ export default createStore({
         const displayName = `${n} ${a}`.trim()
         await updateProfile(cred.user, { displayName })
         commit('MERGE_USER', { displayName, nombre: n, apellido: a })
-        // No esperamos Firestore: si el proyecto o la red van lentos, no bloquea el registro.
         setDoc(doc(db, 'users', cred.user.uid), {
           nombre: n,
           apellido: a,

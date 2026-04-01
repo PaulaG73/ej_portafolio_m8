@@ -232,7 +232,6 @@ async function onSubmit () {
   box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.18);
 }
 
-/* Placeholders claramente más pequeños que el texto escrito (inputs siguen en form-control-lg). */
 .register-form .login-input::placeholder {
   font-size: 0.68rem;
   font-weight: 400;

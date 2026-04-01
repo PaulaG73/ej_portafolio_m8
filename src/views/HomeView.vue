@@ -390,7 +390,6 @@ onMounted(async () => {
   background-color: var(--app-success-surface);
 }
 
-/* Contorno “success” alrededor de las letras del título */
 .home-nav .home-nav-brand {
   -webkit-text-stroke: 1px var(--bs-success);
   paint-order: stroke fill;

@@ -1,4 +1,3 @@
-/** U+2265 MAYOR O IGUAL (tipográficamente > sobre =). */
 const GTE_SYMBOL = '\u2265'
 
 const HEAT_MAX_THRESHOLD_C = 30
@@ -42,11 +41,6 @@ function hasRainyWeek (pronSem) {
   return count >= RAINY_MIN_DAYS
 }
 
-/**
- * Una sola alerta. Si aplican ola de calor y semana lluviosa, prioriza semana lluviosa.
- * @param {Array<{ max?: number, estado?: string }>} pronSem
- * @returns { null | { message: string, variant: 'danger' | 'warning' } }
- */
 export function getWeatherRuleAlert (pronSem) {
   if (hasRainyWeek(pronSem)) {
     return {
