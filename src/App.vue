@@ -6,23 +6,32 @@
 /* Superficie muy clara en la gama Bootstrap success (tinte, no el verde pleno). */
 :root {
   --app-success-surface: color-mix(in srgb, var(--bs-success) 16%, white 84%);
+  --app-font-family: 'Fredoka', system-ui, sans-serif;
+  /* Reboot y componentes Bootstrap heredan la misma familia. */
+  --bs-body-font-family: var(--app-font-family);
+  --bs-font-sans-serif: var(--app-font-family);
 }
 
 html {
   scroll-behavior: smooth;
+  font-family: var(--app-font-family);
+}
+
+body {
+  font-family: var(--app-font-family);
 }
 
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: var(--app-font-family);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
 }
 
-/* Misma pila tipográfica en navbar y footer (Bootstrap puede usar otra fuente en el body). */
+/* Navbar y footer (Bootstrap puede fijar otra fuente en el body). */
 #app :is(.navbar, .footer) {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: var(--app-font-family);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

@@ -108,7 +108,7 @@
                     class="btn btn-success w-100 py-2 fw-semibold login-submit"
                     :disabled="authLoading"
                   >
-                    {{ authLoading ? 'Creando cuenta…' : 'Registrarme' }}
+                    {{ authLoading ? 'Creando cuenta…' : 'Registrarse' }}
                   </button>
                 </form>
 

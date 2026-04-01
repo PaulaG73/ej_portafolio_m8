@@ -16,7 +16,7 @@
           </div>
           <div class="card__estado flex-wrap">
             <p class="mb-0">{{ playa.íconoEst }}</p>
-            <p class="mb-0 text-center text-break">{{ playa.estado }}</p>
+            <p class="mb-0 text-center text-break card-estado-text">{{ playa.estado }}</p>
           </div>
           <router-link
             class="btn btn-outline-success btn-sm mt-auto align-self-center"
@@ -83,6 +83,12 @@ const cambiotemperatura=computed(()=>{
     align-items: center;
     gap: 0.1rem;
     text-align: center;
+    margin-bottom: 0.65rem;
+}
+
+.card-estado-text {
+  font-size: 0.72rem;
+  line-height: 1.3;
 }
 
 .card__temp__hum {

@@ -192,7 +192,13 @@ function buildPronSemFromDaily (daily) {
     const idx = 1 + j
     if (idx >= daily.time.length) break
 
-    const date = new Date(daily.time[idx])
+    // Open-Meteo `daily.time` es "YYYY-MM-DD"; `new Date(iso)` en UTC desfasa el día de la semana.
+    const iso = daily.time[idx]
+    const s = typeof iso === 'string' ? iso.slice(0, 10) : ''
+    const parts = s.split('-').map((x) => parseInt(x, 10))
+    const date = (parts.length === 3 && !parts.some((n) => Number.isNaN(n)))
+      ? new Date(parts[0], parts[1] - 1, parts[2])
+      : new Date(NaN)
     const dia = j === 0
       ? 'Mañana'
       : new Intl.DateTimeFormat('es-ES', { weekday: 'long' }).format(date)

@@ -7,10 +7,12 @@
         <div class="d-flex flex-column flex-md-row align-items-stretch align-items-md-center w-100 gap-2 gap-md-3">
           <div class="d-flex justify-content-between align-items-center w-100 w-md-auto flex-shrink-0">
             <router-link
-              class="text-success text-decoration-none small fw-semibold py-1"
+              class="detail-nav-home-link text-success text-decoration-none d-inline-flex align-items-center gap-1 py-1 px-1"
               :to="{ name: 'home' }"
+              aria-label="Ir al Home"
             >
-              ← Inicio
+              <i class="bi bi-arrow-left detail-nav-home-icon flex-shrink-0" aria-hidden="true" />
+              <span class="detail-nav-home-text small fw-semibold">Ir al Home</span>
             </router-link>
           </div>
           <div
@@ -118,22 +120,26 @@
 
           <button
             v-if="pronSemSlides.length > 1"
-            class="carousel-control-prev"
+            class="carousel-control-prev pronSem-carousel-control"
             type="button"
             :data-bs-target="`#${carouselId}`"
             data-bs-slide="prev"
           >
-            <span class="carousel-control-prev-icon" aria-hidden="true" />
+            <span class="pronSem-carousel-arrow text-success" aria-hidden="true">
+              <i class="bi bi-chevron-left" />
+            </span>
             <span class="visually-hidden">Anterior</span>
           </button>
           <button
             v-if="pronSemSlides.length > 1"
-            class="carousel-control-next"
+            class="carousel-control-next pronSem-carousel-control"
             type="button"
             :data-bs-target="`#${carouselId}`"
             data-bs-slide="next"
           >
-            <span class="carousel-control-next-icon" aria-hidden="true" />
+            <span class="pronSem-carousel-arrow text-success" aria-hidden="true">
+              <i class="bi bi-chevron-right" />
+            </span>
             <span class="visually-hidden">Siguiente</span>
           </button>
         </div>
@@ -270,14 +276,15 @@ const pronSemSlides = computed(() => {
   const total = source.length
   if (!total) return []
 
+  const k = Math.max(1, cardsPerSlide.value)
+  /* Ventanas solo con días consecutivos reales (sin % total, que mezclaba último + “Mañana”). */
+  if (k >= total) {
+    return [source.slice()]
+  }
+
   const slides = []
-  for (let start = 0; start < total; start++) {
-    const window = []
-    for (let offset = 0; offset < cardsPerSlide.value; offset++) {
-      const idx = (start + offset) % total
-      window.push(source[idx])
-    }
-    slides.push(window)
+  for (let start = 0; start <= total - k; start++) {
+    slides.push(source.slice(start, start + k))
   }
   return slides
 })
@@ -294,6 +301,42 @@ const pronSemSlides = computed(() => {
 
 
 <style scoped>
+
+.detail-nav-home-link {
+  line-height: 1;
+}
+
+.detail-nav-home-link .detail-nav-home-icon {
+  font-size: clamp(1.85rem, 5.5vw, 2.6rem);
+}
+
+/* Mismo criterio que .footer-home-text en FooterFooter.vue */
+.detail-nav-home-text {
+  display: inline-block;
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  vertical-align: middle;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  transition:
+    max-width 0.22s ease,
+    opacity 0.18s ease;
+}
+
+.detail-nav-home-link:hover .detail-nav-home-text,
+.detail-nav-home-link:focus-visible .detail-nav-home-text {
+  max-width: 11rem;
+  opacity: 1;
+  text-decoration: underline;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .detail-nav-home-text {
+    transition: none;
+  }
+}
 
 .detail-hero-img {
   width: 100%;
@@ -409,10 +452,26 @@ const pronSemSlides = computed(() => {
   margin: 0 auto;
 }
 
-.pronSem-carousel .carousel-control-prev,
-.pronSem-carousel .carousel-control-next {
-  width: 2rem;
-  opacity: 0.9;
+.pronSem-carousel .pronSem-carousel-control.carousel-control-prev,
+.pronSem-carousel .pronSem-carousel-control.carousel-control-next {
+  width: 2.75rem;
+  opacity: 1;
+  color: var(--bs-success);
+}
+
+.pronSem-carousel .pronSem-carousel-control:hover,
+.pronSem-carousel .pronSem-carousel-control:focus {
+  color: var(--bs-success);
+  opacity: 1;
+}
+
+.pronSem-carousel .pronSem-carousel-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  line-height: 1;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.12));
 }
 
 .card-detail {

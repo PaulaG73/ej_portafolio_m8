@@ -82,7 +82,7 @@
                   :to="registerTo"
                   class="btn btn-outline-success w-100 py-2 fw-semibold mt-3 login-register-cta"
                 >
-                  Crear cuenta nueva
+                  Registrarse
                 </router-link>
 
                 <router-link
