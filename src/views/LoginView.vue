@@ -30,28 +30,38 @@
                   Ingresa para acceder al detalle de playas.
                 </p>
 
-                <form @submit.prevent="onSubmit" class="login-form">
+                <form
+                  ref="loginFormEl"
+                  :key="'login-form-' + loginFormResetNonce"
+                  class="login-form"
+                  autocomplete="off"
+                  @submit.prevent="onSubmit"
+                >
                   <div class="mb-3 text-start">
-                    <label class="form-label fw-semibold" for="email">Email</label>
+                    <label class="form-label fw-semibold" for="login-email">Email</label>
                     <input
-                      id="email"
+                      id="login-email"
                       v-model="email"
                       type="email"
                       class="form-control form-control-lg login-input"
                       placeholder="tuemail@dominio.com"
-                      autocomplete="email"
+                      autocomplete="username"
+                      :readonly="loginFieldsLocked"
+                      @focus="unlockLoginFields"
                     >
                   </div>
 
                   <div class="mb-2 text-start">
-                    <label class="form-label fw-semibold" for="password">Contraseña</label>
+                    <label class="form-label fw-semibold" for="login-password">Contraseña</label>
                     <input
-                      id="password"
+                      id="login-password"
                       v-model="password"
                       type="password"
                       class="form-control form-control-lg login-input"
                       placeholder="Tu contraseña"
                       autocomplete="current-password"
+                      :readonly="loginFieldsLocked"
+                      @focus="unlockLoginFields"
                     >
                   </div>
 
@@ -101,7 +111,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 
@@ -109,8 +119,33 @@ const store = useStore()
 const router = useRouter()
 const route = useRoute()
 
+const loginFormEl = ref(null)
 const email = ref('')
 const password = ref('')
+/** Evita que el autocompletado llene los campos antes de que el usuario interactúe (p. ej. tras cerrar sesión). */
+const loginFieldsLocked = ref(true)
+
+const loginFormResetNonce = computed(() => store.state.loginFormResetNonce)
+
+function unlockLoginFields () {
+  loginFieldsLocked.value = false
+}
+
+async function clearLoginForm () {
+  email.value = ''
+  password.value = ''
+  loginFieldsLocked.value = true
+  await nextTick()
+  loginFormEl.value?.reset()
+}
+
+watch(
+  () => store.state.loginFormResetNonce,
+  () => {
+    void clearLoginForm()
+  },
+  { immediate: true }
+)
 
 const authLoading = computed(() => store.state.authLoading)
 const authError = computed(() => store.state.authError)
@@ -145,6 +180,7 @@ async function onSubmit () {
   })
 
   if (ok) {
+    clearLoginForm()
     const redirect = route.query.redirect
     if (typeof redirect === 'string' && redirect.startsWith('/')) {
       await router.replace(redirect)
@@ -187,7 +223,7 @@ async function onSubmit () {
 }
 
 .login-card {
-  border-radius: 0.75rem;
+  border-radius: 1.2rem;
   border-top: 3px solid #198754;
   background: #fff;
 }
@@ -202,8 +238,13 @@ async function onSubmit () {
 }
 
 .login-input {
-  border-radius: 0.5rem;
+  border-radius: 0.85rem;
   border-color: #ced4da;
+}
+
+/* Mismo tinte que `.login-page` / secciones (`--app-success-surface`). */
+.login-form .login-input {
+  background-color: var(--app-success-surface);
 }
 
 .login-input:focus {
@@ -211,8 +252,31 @@ async function onSubmit () {
   box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.18);
 }
 
+/* Como en RegisterView: placeholders más pequeños que el texto escrito (form-control-lg). */
+.login-form .login-input::placeholder {
+  font-size: 0.68rem;
+  font-weight: 400;
+  line-height: 1.35;
+  color: #868e96;
+  opacity: 1;
+}
+
+.login-form .login-input::-moz-placeholder {
+  font-size: 0.68rem;
+  font-weight: 400;
+  line-height: 1.35;
+  color: #868e96;
+  opacity: 1;
+}
+
+.login-form .login-input:-ms-input-placeholder {
+  font-size: 0.68rem;
+  font-weight: 400;
+  color: #868e96;
+}
+
 .alert-login {
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   color: #055160;
   background: #cff4fc;
 }
@@ -223,16 +287,20 @@ async function onSubmit () {
   background: rgba(220, 53, 69, 0.08);
 }
 
+.login-submit {
+  border-radius: 0.75rem;
+}
+
 .login-submit:disabled {
   opacity: 0.75;
 }
 
 .login-back {
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
 }
 
 .login-register-cta {
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
 }
 
 .login-forgot-link {

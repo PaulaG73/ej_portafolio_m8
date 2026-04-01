@@ -32,6 +32,12 @@
           <div
             class="d-flex flex-wrap align-items-center gap-2 justify-content-center justify-content-md-end flex-shrink-0 ms-md-auto w-100 w-md-auto min-w-0"
           >
+            <router-link
+              :to="{ name: 'mis-favoritos' }"
+              class="btn btn-outline-success btn-sm flex-shrink-0"
+            >
+              Mis favoritos
+            </router-link>
             <span class="text-white small mb-0 text-center text-md-end text-break">{{ userLabel }}</span>
             <button
               type="button"
@@ -68,9 +74,24 @@
 
         <div>
 
-          <h3 class="text-capitalize pt-2 pt-md-3 detail-title px-1">
-            {{ playa.name2 }}
-          </h3>
+          <div class="d-flex align-items-start justify-content-between gap-2 flex-wrap pt-2 pt-md-3 px-1">
+            <h3 class="text-capitalize detail-title mb-0 flex-grow-1">
+              {{ playa.name2 }}
+            </h3>
+            <button
+              type="button"
+              class="btn btn-link p-1 detail-favorite-btn flex-shrink-0"
+              :aria-label="detailFavorite ? 'Quitar de favoritos' : 'Añadir a favoritos'"
+              :aria-pressed="detailFavorite"
+              @click="onToggleFavoriteDetail"
+            >
+              <i
+                class="bi fs-2"
+                :class="detailFavorite ? 'bi-heart-fill text-danger' : 'bi-heart text-success'"
+                aria-hidden="true"
+              />
+            </button>
+          </div>
 
           <div class="row g-3 g-md-4 detail-content-row mx-0">
             <div class="col-12 col-xl-6 px-2 px-xl-0 detail-ipad-pro-pad">
@@ -162,7 +183,7 @@
 
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 
-import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 import { useStore } from "vuex";
 
 import Allplayas from "../data/playas.json";
@@ -183,7 +204,6 @@ import {
 const playas = ref(Allplayas);
 
 const route = useRoute();
-const router = useRouter();
 const store = useStore();
 
 const userLabel = computed(() => store.getters.userNavLabel);
@@ -203,10 +223,18 @@ const escalaTemp = computed({
 
 async function onLogout () {
   await store.dispatch("logout");
-  router.push({ name: "home" });
 }
 
 const playa = computed(() => playas.value.find(playa => playa.id === route.params.id))
+
+const detailFavorite = computed(
+  () =>
+    !!(playa.value?.id && store.state.favoritesById[playa.value.id])
+)
+
+function onToggleFavoriteDetail () {
+  if (playa.value) store.dispatch('toggleFavorite', playa.value)
+}
 
 function readForecastCache () {
   try {
@@ -301,6 +329,15 @@ const pronSemSlides = computed(() => {
 
 
 <style scoped>
+
+.detail-favorite-btn {
+  line-height: 1;
+  text-decoration: none;
+}
+
+.detail-favorite-btn:hover .bi-heart.text-success {
+  color: #157347 !important;
+}
 
 .detail-nav-home-link {
   line-height: 1;

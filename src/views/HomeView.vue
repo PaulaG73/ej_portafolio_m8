@@ -44,6 +44,12 @@
               class="d-flex flex-wrap align-items-center gap-2 justify-content-center justify-content-lg-end flex-lg-grow-1 w-100 min-w-0 ms-lg-auto"
             >
               <template v-if="isAuthenticated">
+                <router-link
+                  :to="{ name: 'mis-favoritos' }"
+                  class="btn btn-outline-success btn-sm flex-shrink-0"
+                >
+                  Mis favoritos
+                </router-link>
                 <span class="text-white small mb-0 text-center text-lg-start text-break mw-100 px-1">{{ userLabel }}</span>
                 <button
                   type="button"
@@ -111,7 +117,6 @@ import PlayaGrid from '../components/PlayaGrid.vue';
 import playasData from '../data/playas.json';
 import { ref, onMounted, computed } from 'vue'
 import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
 import { coordsById } from '../data/coordsById'
 import { fetchOpenMeteoForecast } from '../services/openMeteo'
 import { mapWeatherCodeToEstadoIcon } from '../utils/weatherMapper'
@@ -127,7 +132,6 @@ const CACHE_TTL_MS = 30 * 60 * 1000 // 30 min
 const playas = ref(playasData.map((p) => ({ ...p })))
 
 const store = useStore()
-const router = useRouter()
 
 const registerSuccessBanner = computed(
   () => store.state.flashAuthBanner === 'registered'
@@ -147,7 +151,6 @@ const escalaTemp = computed({
 
 async function onLogout () {
   await store.dispatch('logout')
-  router.push({ name: 'home' })
 }
 
 function readForecastCache () {

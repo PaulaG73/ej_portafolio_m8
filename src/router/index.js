@@ -5,6 +5,7 @@ import DetallePlayas from '../views/PlayasDetallesView.vue'
 import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import ForgotPasswordView from '../views/ForgotPasswordView.vue'
+import MisFavoritosView from '../views/MisFavoritosView.vue'
 
 const routes = [
   {
@@ -35,6 +36,12 @@ const routes = [
     path: '/detalle_playas/:id',
     name: 'detalle_playas',
     component: DetallePlayas,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/mis-favoritos',
+    name: 'mis-favoritos',
+    component: MisFavoritosView,
     meta: { requiresAuth: true }
   }
 ]

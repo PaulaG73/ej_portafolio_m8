@@ -186,6 +186,29 @@ function onSendAnother () {
   box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.18);
 }
 
+/* Mismo criterio que RegisterView / LoginView */
+.login-form .login-input::placeholder {
+  font-size: 0.68rem;
+  font-weight: 400;
+  line-height: 1.35;
+  color: #868e96;
+  opacity: 1;
+}
+
+.login-form .login-input::-moz-placeholder {
+  font-size: 0.68rem;
+  font-weight: 400;
+  line-height: 1.35;
+  color: #868e96;
+  opacity: 1;
+}
+
+.login-form .login-input:-ms-input-placeholder {
+  font-size: 0.68rem;
+  font-weight: 400;
+  color: #868e96;
+}
+
 .forgot-success {
   border-radius: 0.5rem;
   color: #0f5132;

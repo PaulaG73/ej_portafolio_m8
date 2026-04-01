@@ -218,7 +218,7 @@ async function onSubmit () {
 }
 
 .login-card {
-  border-radius: 0.75rem;
+  border-radius: 1.2rem;
   border-top: 3px solid #198754;
   background: #fff;
 }
@@ -233,8 +233,12 @@ async function onSubmit () {
 }
 
 .login-input {
-  border-radius: 0.5rem;
+  border-radius: 0.85rem;
   border-color: #ced4da;
+}
+
+.register-form .login-input {
+  background-color: var(--app-success-surface);
 }
 
 .login-input:focus {
@@ -282,7 +286,7 @@ async function onSubmit () {
 }
 
 .alert-login {
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   color: #055160;
   background: #cff4fc;
 }
@@ -293,12 +297,16 @@ async function onSubmit () {
   background: rgba(220, 53, 69, 0.08);
 }
 
+.login-submit {
+  border-radius: 0.75rem;
+}
+
 .login-submit:disabled {
   opacity: 0.75;
 }
 
 .login-back {
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
 }
 
 @media (max-width: 576px) {

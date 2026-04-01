@@ -1,115 +1,96 @@
+# Portafolio playas (Vue 3 + Firebase)
 
-# 🌤️ ej_portafolio_gm8 (Playas Soñadas de América) - App de Clima por Lugares
+SPA que muestra  playas de América con clima (Open-Meteo), registro/inicio de sesión con **Firebase Auth**, perfil y **favoritos** guardados en **Cloud Firestore**.
 
-> Proyecto desarrollado como parte del curso de Desarrollo Web con Vue.js
+## Stack
 
----
+- **Vue 3** (Composition API / `<script setup>` en varias vistas)
+- **Vue Router 4** con rutas públicas y protegidas
+- **Vuex 4** (auth, preferencias de escala °C/°F, favoritos en tiempo real)
+- **Bootstrap 5** + **Bootstrap Icons**
+- **Firebase** (Auth + Firestore)
+- **Open-Meteo** (pronóstico y caché en `localStorage`)
 
-## 📋 Descripción
+## Requisitos
 
-**Playas Soñadas de América** es una aplicación web desarrollada con **Vue.js** que permite a los usuarios consultar el clima actual y el pronóstico semanal de diferentes playas de América. La temática de la app gira en torno a la exploración de destacados destinos turísticos, mostrando información meteorológica relevante como temperatura, humedad y condiciones generales del tiempo.
+- **Node.js** (recomendado LTS) y **npm**
+- Proyecto **Firebase** con:
+  - Authentication → Email/contraseña habilitado
+  - **Cloud Firestore** creado (puede requerir cuenta de facturación en Google Cloud)
+  - Reglas de seguridad publicadas (`firestore.rules` o consola → Firestore → Reglas)
 
-La aplicación consume datos de un archivo.json (playas.json) y presenta la información de forma clara y visual.
+## Variables de entorno
 
----
+Crea un archivo **`.env.local`** en la raíz (no se sube a git) con las claves de tu app web en Firebase:
 
-## 🖥️ Vistas principales
-
-| Vista | Ruta | Descripción |
-|-------|------|-------------|
-| **Home** | `/` | Pantalla principal con un gran título y tarjetas de 12 playas destacadas, con fotografía, bandera del país correspondiente e información de temperatura, humedad relativa y estado del tiempo. Al final de la tarjeta, hay un botón que te lleva directamente al detalle. Finaliza la vista, con un footer con datos sobre la Agencia de Turismo.
-| **Detalle de las playas** | `/detalle_playas/:id` | Muestra una tarjeta con fotografía ampliada, descripción e información detallada del clima de una playa específica: temperatura, humedad, y pronóstico semanal. Al final de la tarjeta hay un bot´+on para volver a la vista principal (Home).
----
-
-## 🗺️ Rutas configuradas en Vue Router
-
-Las rutas están definidas en `src/router/index.js`:
-
-```js
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import DetallePlayas from '../views/PlayasDetallesView.vue'
-
-const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: HomeView
-  },
- 
-  {
-    path: '/detalle_playas/:id',
-    name: 'detalle_playas',
-    component: DetallePlayas
-  }
-]
-
-const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes
-})
-
-export default router
+```env
+VUE_APP_FIREBASE_API_KEY=
+VUE_APP_FIREBASE_AUTH_DOMAIN=
+VUE_APP_FIREBASE_PROJECT_ID=
+VUE_APP_FIREBASE_STORAGE_BUCKET=
+VUE_APP_FIREBASE_MESSAGING_SENDER_ID=
+VUE_APP_FIREBASE_APP_ID=
 ```
 
----
+Tras cambiarlas, reinicia `npm run serve`.
 
-## 🚀 Instrucciones para ejecutar el proyecto
-
-### Requisitos previos
-
-- [Node.js](https://nodejs.org/) v16 o superior
-- [npm](https://www.npmjs.com/) 
-- Vue CLI instalado globalmente 
-
-```bash
-npm install -g @vue/cli
-```
-
-### Pasos para correr el proyecto
-
-**1. Clonar el repositorio**
-
-```bash
-git clone https://github.com/tu-usuario/weather-places.git
-cd ej_portafolio_m6
-```
-
-**2. Instalar dependencias**
+## Instalación y scripts
 
 ```bash
 npm install
+npm run serve    # desarrollo
+npm run build    # compilación → /dist
+npm run lint     # ESLint
 ```
 
-**3. Configurar variables de entorno**
+**Reglas de Firestore** (con [Firebase CLI](https://firebase.google.com/docs/cli) tras `firebase login`):
 
+```bash
+npm run deploy:firestore-rules
+```
 
-### Otros comandos útiles
+## Rutas principales
 
-| Comando | Descripción |
-|---------|-------------|
-| `npm run build` | Genera la build de producción en `/dist` |
-| `npm run lint` | Revisa el código con ESLint |
+| Ruta | Descripción |
+|------|-------------|
+| `/` | Home con rejilla de playas y clima |
+| `/login` | Inicio de sesión (solo invitados) |
+| `/register` | Registro (solo invitados) |
+| `/forgot-password` | Recuperar contraseña (solo invitados) |
+| `/detalle_playas/:id` | Detalle de una playa (requiere sesión) |
+| `/mis-favoritos` | Favoritos del usuario (requiere sesión) |
 
----
+## Funcionalidad destacada
 
-## 🔗 Repositorio
+- **Home**: selector °C / °F (persistente en `localStorage`), clima por playa con caché.
+- **Detalle**: pronóstico en carrusel; favorito con corazón (usuario autenticado).
+- **Favoritos**: Firestore `users/{uid}/favorites/{playaId}` (nombre, país, imagen).
+- Invitados no ven favoritos en las tarjetas del home.
 
-📂 **GitHub:** [https://github.com/PaulaG73/ej_portafolio_m6.git]
+## Estructura (resumida)
 
----
+```
+src/
+  components/     # Tarjetas, footer, rejilla…
+  data/             # playas.json, coordsById…
+  firebase/         # Inicialización Firebase
+  router/
+  services/         # Open-Meteo
+  store/            # Vuex
+  views/
+  utils/
+```
 
-## 🛠️ Tecnologías utilizadas
+## Licencia / uso
 
-- [Vue.js 3](https://vuejs.org/)
-- [Vue Router 4](https://router.vuejs.org/)
+Proyecto académico. Ajusta si publicas con otra licencia.
 
 ---
 
 ## 👨‍💻 Autor
 
-**[Paula Gajardo]** — *Estudiante de [Front End]*
-📧 paulagajardosch@gmail.com
+**[Paula Gajardo]** — *Estudiante de [Front End]*  
+📧 paulagajardosch@gmail.com  
 🐙 [@PEGSCH2025](https://github.com/PEGSCH2025)
 
 ---

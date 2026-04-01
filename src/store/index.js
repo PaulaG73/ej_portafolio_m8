@@ -7,7 +7,15 @@ import {
   updateProfile,
   sendPasswordResetEmail
 } from 'firebase/auth'
-import { doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore'
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  onSnapshot,
+  serverTimestamp,
+  setDoc
+} from 'firebase/firestore'
 import { auth, db } from '../firebase'
 import {
   isRegisterPasswordValid,
@@ -33,6 +41,30 @@ function saveTempScale (value) {
   }
 }
 
+/** @type {null | (() => void)} */
+let favoritesUnsubscribe = null
+
+function stopFavoritesListener () {
+  if (favoritesUnsubscribe) {
+    favoritesUnsubscribe()
+    favoritesUnsubscribe = null
+  }
+}
+
+function playaPais (playa) {
+  if (!playa || typeof playa !== 'object') return ''
+  return typeof playa.país === 'string'
+    ? playa.país
+    : (typeof playa.pais === 'string' ? playa.pais : '')
+}
+
+function favoriteSortMs (updatedAt) {
+  if (!updatedAt) return 0
+  if (typeof updatedAt.toMillis === 'function') return updatedAt.toMillis()
+  if (typeof updatedAt.seconds === 'number') return updatedAt.seconds * 1000
+  return 0
+}
+
 export default createStore({
   state: {
     user: null,
@@ -41,9 +73,13 @@ export default createStore({
     /** 'registered' | null — aviso puntual tras crear cuenta (home o detalle). */
     flashAuthBanner: null,
     authReady: false,
+    /** Se incrementa en cada logout para que LoginView vacíe el formulario al reentrar. */
+    loginFormResetNonce: 0,
     preferences: {
       tempScale: loadTempScale()
-    }
+    },
+    /** Firestore: `users/{uid}/favorites/{playaId}` */
+    favoritesById: {}
   },
   getters: {
     isAuthenticated: (state) => !!state.user,
@@ -61,7 +97,15 @@ export default createStore({
       if (dn) return dn
       return 'Usuario'
     },
-    tempScale: (state) => state.preferences.tempScale
+    tempScale: (state) => state.preferences.tempScale,
+    isFavorite: (state) => (playaId) =>
+      !!(playaId && state.favoritesById[playaId]),
+    favoritesList: (state) =>
+      Object.entries(state.favoritesById)
+        .map(([playaId, data]) => ({ playaId, ...data }))
+        .sort(
+          (a, b) => favoriteSortMs(b.updatedAt) - favoriteSortMs(a.updatedAt)
+        )
   },
   mutations: {
     SET_USER (state, payload) {
@@ -85,6 +129,16 @@ export default createStore({
     },
     SET_TEMP_SCALE (state, payload) {
       state.preferences.tempScale = payload
+    },
+    BUMP_LOGIN_FORM_RESET (state) {
+      state.loginFormResetNonce += 1
+    },
+    SET_FAVORITES_BY_ID (state, payload) {
+      state.favoritesById =
+        payload && typeof payload === 'object' ? { ...payload } : {}
+    },
+    CLEAR_FAVORITES (state) {
+      state.favoritesById = {}
     }
   },
   actions: {
@@ -92,6 +146,7 @@ export default createStore({
       return new Promise((resolve) => {
         let firstEvent = true
         onAuthStateChanged(auth, (firebaseUser) => {
+          stopFavoritesListener()
           if (firebaseUser) {
             commit('SET_USER', {
               uid: firebaseUser.uid,
@@ -100,6 +155,23 @@ export default createStore({
               nombre: null,
               apellido: null
             })
+            commit('CLEAR_FAVORITES')
+            const favCol = collection(db, 'users', firebaseUser.uid, 'favorites')
+            favoritesUnsubscribe = onSnapshot(
+              favCol,
+              (snap) => {
+                const map = {}
+                snap.forEach((d) => {
+                  map[d.id] = d.data()
+                })
+                commit('SET_FAVORITES_BY_ID', map)
+              },
+              (e) => {
+                if (process.env.NODE_ENV === 'development') {
+                  console.warn('[Firestore favoritos]', e?.code, e?.message)
+                }
+              }
+            )
             void (async () => {
               try {
                 const snap = await getDoc(doc(db, 'users', firebaseUser.uid))
@@ -118,6 +190,7 @@ export default createStore({
             })()
           } else {
             commit('SET_USER', null)
+            commit('CLEAR_FAVORITES')
           }
           commit('SET_AUTH_READY', true)
           if (firstEvent) {
@@ -138,6 +211,7 @@ export default createStore({
       commit('SET_AUTH_LOADING', true)
       try {
         await signInWithEmailAndPassword(auth, email, password)
+        commit('BUMP_LOGIN_FORM_RESET')
         return true
       } catch (err) {
         const code = err?.code || ''
@@ -279,9 +353,47 @@ export default createStore({
         commit('SET_AUTH_LOADING', false)
       }
     },
+    async toggleFavorite ({ state }, playa) {
+      const uid = state.user?.uid
+      const id = playa?.id
+      if (!uid || !id) return
+
+      const favRef = doc(db, 'users', uid, 'favorites', id)
+      try {
+        if (state.favoritesById[id]) {
+          await deleteDoc(favRef)
+        } else {
+          await setDoc(favRef, {
+            nombrePlaya: typeof playa.name1 === 'string' ? playa.name1 : '',
+            pais: playaPais(playa),
+            fotoThumbUrl: typeof playa.img === 'string' ? playa.img : '',
+            updatedAt: serverTimestamp()
+          })
+        }
+      } catch (e) {
+        if (process.env.NODE_ENV === 'development') {
+          console.warn('[Firestore favorito toggle]', e?.code, e?.message)
+        }
+      }
+    },
     async logout ({ commit }) {
-      await signOut(auth)
+      stopFavoritesListener()
+      commit('SET_AUTH_LOADING', false)
+      commit('SET_AUTH_ERROR', null)
+      commit('SET_FLASH_AUTH_BANNER', null)
+      commit('CLEAR_FAVORITES')
       commit('SET_USER', null)
+      try {
+        await signOut(auth)
+      } catch (err) {
+        if (process.env.NODE_ENV === 'development') {
+          console.warn('[Firebase Auth logout]', err?.code, err?.message)
+        }
+      }
+      commit('SET_USER', null)
+      commit('BUMP_LOGIN_FORM_RESET')
+      const { default: router } = await import('../router')
+      await router.push({ name: 'home' }).catch(() => {})
     },
     updateTempScale ({ commit }, value) {
       commit('SET_TEMP_SCALE', value)

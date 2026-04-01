@@ -1,7 +1,23 @@
 <template>
     <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex">
       <div class="card home-playa-card flex-fill w-100 shadow-sm">
-        <img :src="playa.img" class="card-img-top card-img-fixed" :alt="playa.name1 || 'Playa'">
+        <div class="position-relative">
+          <img :src="playa.img" class="card-img-top card-img-fixed" :alt="playa.name1 || 'Playa'">
+          <button
+            v-if="isAuthenticated"
+            type="button"
+            class="btn playa-favorite-btn"
+            :aria-label="cardFavorite ? 'Quitar de favoritos' : 'Añadir a favoritos'"
+            :aria-pressed="cardFavorite"
+            @click.stop="onToggleFavorite"
+          >
+            <i
+              class="bi fs-5"
+              :class="cardFavorite ? 'bi-heart-fill text-danger' : 'bi-heart text-white'"
+              aria-hidden="true"
+            />
+          </button>
+        </div>
 
         <div class="card-body d-flex flex-column">
           <h5 class="card-title fw-bold small text-break">
@@ -33,9 +49,10 @@
 <script setup>
 
 
-import { defineProps, computed } from 'vue';
+import { defineProps, computed } from 'vue'
+import { useStore } from 'vuex'
 
-const prop=defineProps({
+const prop = defineProps({
     playa: {
         type: Object,
         required: true
@@ -49,7 +66,21 @@ const prop=defineProps({
 
 })
 
-const cambiotemperatura=computed(()=>{
+const store = useStore()
+
+const isAuthenticated = computed(() => store.getters.isAuthenticated)
+
+/* `store.state.favoritesById`: los getters que devuelven funciones a veces no
+   refrescan el computed cuando Firestore actualiza favoritos. */
+const cardFavorite = computed(
+  () => !!(prop.playa?.id && store.state.favoritesById[prop.playa.id])
+)
+
+function onToggleFavorite () {
+  store.dispatch('toggleFavorite', prop.playa)
+}
+
+const cambiotemperatura = computed(() => {
 
   if (prop.escalaTemp === '°C') return prop.playa.temp
 
@@ -59,7 +90,6 @@ const cambiotemperatura=computed(()=>{
   const f = Number.isFinite(c) ? Math.ceil((c * 9 / 5) + 32) : ''
 
   return `🌡️${f}°F`
-
 })
 
 </script>
@@ -69,6 +99,28 @@ const cambiotemperatura=computed(()=>{
 .home-playa-card {
   border-radius: 1rem;
   overflow: hidden;
+}
+
+.playa-favorite-btn {
+  position: absolute;
+  top: 0.35rem;
+  right: 0.35rem;
+  z-index: 2;
+  line-height: 1;
+  padding: 0.2rem 0.45rem;
+  border: none;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 999px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.playa-favorite-btn:hover {
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.playa-favorite-btn:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
 }
 
 .card-img-fixed{
