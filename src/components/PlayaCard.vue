@@ -41,14 +41,15 @@
             <button
               v-if="weatherRuleAlert"
               type="button"
-              class="btn btn-outline-success btn-sm playa-weather-popup-btn rounded-pill"
+              class="btn btn-sm playa-weather-popup-btn rounded-pill"
+              :class="weatherRuleAlert.variant === 'danger' ? 'btn-outline-danger' : 'btn-outline-warning'"
               data-bs-toggle="modal"
               :data-bs-target="'#playaWeatherModal-' + playa.id"
               :aria-label="'Abrir alerta meteorológica: ' + weatherRuleAlert.message"
             >
               <i
-                class="bi"
-                :class="weatherRuleAlert.variant === 'danger' ? 'bi-thermometer-high' : 'bi-cloud-rain'"
+                class="bi bi-exclamation-triangle-fill fs-5"
+                :class="weatherRuleAlert.variant === 'danger' ? 'text-danger' : 'text-warning'"
                 aria-hidden="true"
               />
             </button>
