@@ -173,15 +173,9 @@ proyecto/
 
 ---
 
-## Licencia / uso
-
-Proyecto académico. Ajusta si publicas con otra licencia.
-
----
-
 ## Autor
 
-**Paula Gajardo** — *Estudiante de Front End*  
+**Paula Gajardo Schmidlin** — *Estudiante de Front End*  
 📧 paulagajardosch@gmail.com  
 🐙 [PaulaG73](https://github.com/PaulaG73)
 
