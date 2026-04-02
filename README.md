@@ -18,7 +18,7 @@ SPA que muestra playas de América con clima en vivo (**Open-Meteo** vía **Axio
 - Proyecto **Firebase** con:
   - **Authentication** → correo/contraseña habilitado
   - **Authentication** → **Settings** → **Authorized domains**: debe incluir el host donde se sirve la app (p. ej. `localhost`, dominio **Netlify** `*.netlify.app`, dominio propio). Necesario para enlaces de **recuperación de contraseña**.
-  - **Cloud Firestore** (puede requerir facturación en Google Cloud)
+  - **Cloud Firestore** 
   - **Reglas** publicadas: `firestore.rules` en la raíz (ver script `deploy:firestore-rules`)
 
 ## Variables de entorno
@@ -33,17 +33,9 @@ VUE_APP_FIREBASE_STORAGE_BUCKET=
 VUE_APP_FIREBASE_MESSAGING_SENDER_ID=
 VUE_APP_FIREBASE_APP_ID=
 ```
-
-**Recuperación de contraseña** — si aparece `auth/unauthorized-continue-uri`, Firebase rechaza la URL de retorno del correo. Sin variable fija, se usa el **origen del navegador** al enviar el formulario (p. ej. IP local `192.168…` desde el móvil suele fallar).
-
-- **Desarrollo** (`npm run serve`): opcional en `.env.local`: `VUE_APP_PASSWORD_RESET_CONTINUE_URL`. En código, `127.0.0.1` se normaliza a `localhost` al armar la URL por defecto.
-- **Producción** (`npm run build`): conviene fijar la URL pública de login (mismo host que en *Authorized domains*):
-
-```env
+env
 VUE_APP_PASSWORD_RESET_CONTINUE_URL=https://tu-sitio.netlify.app/login
 ```
-
-(También válido: dominio Firebase Hosting, dominio propio, siempre con `https` y ruta `/login`.)
 
 Plantilla: **`.env.production.example`**. Cópiala a **`.env.production`** o **`.env.production.local`** (este último está en `.gitignore`, como `.env.local`). Si el build lo hace **Netlify** (u otro CI), define las mismas variables `VUE_APP_*` en el panel del servicio.
 
@@ -101,7 +93,7 @@ El `firebase.json` del repo está orientado a **reglas de Firestore**; el front 
 | Regla | Criterio (sobre `pronSem` en caché / API) |
 |--------|-------------------------------------------|
 | **Ola de calor** | Al menos **3 días seguidos** con máxima **≥ 30 °C**. |
-| **Semana lluviosa** | Al menos **4 días** cuyo estado contiene **lluvia**, **llovizna** o **chubasco** (sin mayúsculas). |
+| **Semana lluviosa** | Al menos **4 días** cuyo estado contiene **lluvia**, **llovizna** o **chubasco** |
 
 Solo una alerta a la vez; si aplican ambas, gana **semana lluviosa**.
 
@@ -145,12 +137,6 @@ src/
 firestore.rules
 firebase.json             # despliegue de reglas Firestore
 ```
-
-## Licencia / uso
-
-Proyecto académico. Ajusta si publicas con otra licencia.
-
----
 
 ## Autor
 
