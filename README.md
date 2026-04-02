@@ -33,15 +33,18 @@ VUE_APP_FIREBASE_MESSAGING_SENDER_ID=
 VUE_APP_FIREBASE_APP_ID=
 ```
 
-Opcional — **recuperación de contraseña** si aparece `auth/unauthorized-continue-uri`: fuerza la URL a la que Firebase redirige tras el enlace del email (debe ser un dominio listado en Firebase → **Authentication** → **Settings** → **Authorized domains**):
+**Recuperación de contraseña** (`auth/unauthorized-continue-uri`): Firebase valida la URL de retorno del correo. Si no la fijas, se usa el **origen del navegador** en ese momento (p. ej. móvil en `http://192.168…` suele fallar).
+
+- **Desarrollo** (`npm run serve`): opcional en `.env.local` — `VUE_APP_PASSWORD_RESET_CONTINUE_URL`. En local, `127.0.0.1` se normaliza a `localhost` en código.
+- **Producción** (`npm run build`): conviene **definir siempre** la URL pública de login para que el enlace del email sea único y esté autorizado:
 
 ```env
-VUE_APP_PASSWORD_RESET_CONTINUE_URL=https://tu-dominio.com/login
+VUE_APP_PASSWORD_RESET_CONTINUE_URL=https://tu-dominio-o-proyecto.web.app/login
 ```
 
-En local, Firebase suele tener **localhost** autorizado pero no **127.0.0.1**; el código normaliza `127.0.0.1` → `localhost` al armar la URL. Si sigue fallando, abre la app como `http://localhost:PUERTO`, añade tu dominio de producción en **Authorized domains**, o usa la variable de arriba con la URL exacta.
+Debe ser la URL **exacta** (https, host y ruta) permitida en Firebase → **Authentication** → **Settings** → **Authorized domains**. Plantilla: **`.env.production.example`** en la raíz; cópiala a **`.env.production`** o **`.env.production.local`** (este último no se sube a git) junto con las `VUE_APP_FIREBASE_*`. En CI/hosting puedes definir las mismas variables antes del build.
 
-Tras modificarlas, reinicia `npm run serve`.
+Tras cambiar `.env.local`, reinicia `npm run serve`. Tras cambiar variables de producción, vuelve a ejecutar `npm run build`.
 
 ## Instalación y scripts
 
