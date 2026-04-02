@@ -36,7 +36,7 @@
     "estado": "Lluvia débil",
     "íconoEst":"🌧️​",
     "flag": "/imagenes/B_Ec.jpg",
-    "desc": "Bahía Tortuga está situada en la isla de Santa Cruz en las Galápagos, Ecuador. Puerto Ayora está alrededor de 40 minutos a pie. Hay un pequeño camino de 2500 metros de largo y se debe iniciar y cerrar sesión en la oficina del Parque Nacional Galápagos, cuando el acceso a la Bahía Tortuga se concede a los visitantes de forma gratuita.La playa está perfectamente preservarda y con presencia de animales salvajes como iguanas, cangrejos de playa. Sólo se permite nadar en el manglar que está separado de la playa.",
+    "desc": "Bahía Tortuga está situada en la isla de Santa Cruz en las Galápagos, Ecuador. Puerto Ayora está alrededor de 40 minutos a pie. Hay un pequeño camino de 2500 metros de largo y se debe iniciar y cerrar sesión en la oficina del Parque Nacional Galápagos, cuando el acceso a la Bahía Tortuga se concede a los visitantes de forma gratuita. La playa está perfectamente preservarda y con presencia de animales salvajes como iguanas, cangrejos de playa. Sólo se permite nadar en el manglar que está separado de la playa.",
     "pronSem": [
       
       {"dia": "Mañana","min": 24,"max": 28,"estado": "Tormenta", "icon":"​⛈️​"},
@@ -111,7 +111,7 @@
     "estado": "Parcialmente nublado",
     "íconoEst": "🌥️​",
     "flag": "/imagenes/B_Ve.jpg",
-    "desc": "El archipiélago de Los Roques es una dependencia federal que agrupa un conjunto de islas y cayos en las Antillas Menores pertenecientes a Venezuela y es considerado el segundo parque marino más grande de América Latina (Parque nacional Archipiélago de Los Roques). Además el archipiélago posee el arrecife coralino más grande del sur del mar Caribe. Las actividades turísticas han sido estimuladas por sus playas de arenas blancas, navegación recreativa en diversos tipos de embarcaciones como kayak, velero, bote de remo y catamarán; windsurf, buceo o submarinismo sin tanques, pesca deportiva con caña, observación de aves y excursiones a pie. ",
+    "desc": "El archipiélago de Los Roques es una dependencia federal que agrupa un conjunto de islas y cayos en las Antillas Menores pertenecientes a Venezuela y es considerado el segundo parque marino más grande de América Latina (Parque nacional Archipiélago de Los Roques). Además el archipiélago posee el arrecife coralino más grande del sur del mar Caribe. Las actividades turísticas han sido estimuladas por sus playas de arenas blancas, navegación recreativa en diversos tipos de embarcaciones como kayak, velero, bote de remo y catamarán, windsurf, buceo o submarinismo sin tanques, pesca deportiva con caña, observación de aves y excursiones a pie. ",
     "pronSem": [
      
       {"dia": "Mañana", "min": 25,"max": 27,"estado": "Lluvia débil", "icon":"🌧️​"},
@@ -136,7 +136,7 @@
     "estado": "Parcialmente nublado",
     "íconoEst": "🌥️​",
     "flag": "/imagenes/B_Pe.jpg",
-    "desc": "Máncora es un balneario y localidad del norte del Perú,capital del distrito de Máncora, en la provincia de Talara, departamento de Piura. Además de su función como caleta de pesca, Máncora se ha consolidado en las últimas décadas como un destino turístico de playa, reconocido por sus condiciones favorables para la práctica del surf y otras actividades acuáticas.",
+    "desc": "Máncora es un balneario y localidad del norte del Perú, capital del distrito de Máncora, en la provincia de Talara, departamento de Piura. Además de su función como caleta de pesca, Máncora se ha consolidado en las últimas décadas como un destino turístico de playa, reconocido por sus condiciones favorables para la práctica del surf y otras actividades acuáticas.",
     "pronSem": [
    
       {"dia": "Mañana","min": 24,"max": 28,"estado": "Lluvia débil", "icon":"🌧️​"},
@@ -161,7 +161,7 @@
     "estado": "Parcialmente nublado",
     "íconoEst": "🌥️​",
     "flag": "/imagenes/B_Arg.jpg",
-    "desc": "Mar del Plata es una ciudad ubicada en el sudeste de la provincia de Buenos Aires, Argentina, sobre la costa del mar argentino. Es la localidad balnearia más importante del país y el segundo destino turístico después de Buenos Aires. Conocida por su extensa costa atlántica, ofreceuna variedad de playas que se adaptan a todos los gustos, desde las más animadas y céntricas hasta las tranquilas y naturales. Cada playa de Mar del Plata tiene su propia personalidad, desde el bullicio de Bristol hasta la calma de Chapadmalal.",
+    "desc": "Mar del Plata es una ciudad ubicada en el sudeste de la provincia de Buenos Aires, Argentina, sobre la costa del mar argentino. Es la localidad balnearia más importante del país y el segundo destino turístico después de Buenos Aires. Conocida por su extensa costa atlántica, ofrece una variedad de playas que se adaptan a todos los gustos, desde las más animadas y céntricas hasta las tranquilas y naturales. Cada playa de Mar del Plata tiene su propia personalidad, desde el bullicio de Bristol hasta la calma de Chapadmalal.",
     "pronSem": [
      
       {"dia": "Mañana","min": 14,"max": 20,"estado": "Lluvia débil", "icon":"🌧️​"},
@@ -236,7 +236,7 @@
     "estado": "Lluvia débil",
     "íconoEst": "🌧️​",
     "flag": "/imagenes/B_Mx.jpg",
-    "desc": "Situada en el corazón de la Riviera Maya, Playa del Carmen es una increíble mezcla de hermosas playas de fina arena, hoteles para todos los gustos, y los mejores restaurantes y bares con una incomparable vida nocturna. En Playa del Carmen, antiguamente llamada Xamán-Ha, conviven dos mundos.Por un lado, el ambiente pueblerino que se respira de una aldea dedicada a la pesca. Y, por otro, la mezcla cultural y social que generación tras generación ha dado vida a un centro de moda conformado por una arquitectura y gastronomía eclécticas.",
+    "desc": "Situada en el corazón de la Riviera Maya, Playa del Carmen es una increíble mezcla de hermosas playas de fina arena, hoteles para todos los gustos, y los mejores restaurantes y bares con una incomparable vida nocturna. En Playa del Carmen, antiguamente llamada Xamán-Ha, conviven dos mundos. Por un lado, el ambiente pueblerino que se respira de una aldea dedicada a la pesca. Y, por otro, la mezcla cultural y social que generación tras generación ha dado vida a un centro de moda conformado por una arquitectura y gastronomía eclécticas.",
     "pronSem": [
 
       {"dia": "Mañana","min": 22,"max": 28,"estado": "Lluvia débil", "icon":"🌧️​"},
@@ -260,7 +260,7 @@
     "estado": "Lluvia débil",
     "íconoEst": "🌧️​",
     "flag": "/imagenes/B_RD.jpg",
-    "desc": "Punta Cana es el sinónimo de descanso y relajación frente al mar. Aquí, donde el Océano Atlántico se encuentra con el Mar Caribe, desde el extremo norte en Uvero Alto al sur en Cap Cana, los resorts todo incluido y hoteles boutique ofrecen todos los mimos y el confort de la vidamoderna frente al mar. Las familias podrán disfrutar de centros de entretenimiento en miniatura, así como parques de agua para niños, mientras que las parejas hallarán enclaves de ensueño para celebrar bodas, con ofertas recluidas en la playa para una estancia aún más romántica. Pero no solo encontrarás diversión bajo el sol, con fina arena blanca y un mar cristalino e iridiscente para nadar, pescar, o darte un chapuzón entre vida marina y barcos hundidos. Punta Cana, también es el paraíso para los golfistas, con 10 campos de golf ubicados a lo largo de la costa, un escape de playa con lujosas marinas y cenas gourmet, y una zona de bienestar con los mejores spas del país.",
+    "desc": "Punta Cana es el sinónimo de descanso y relajación frente al mar. Aquí, donde el Océano Atlántico se encuentra con el Mar Caribe, desde el extremo norte en Uvero Alto al sur en Cap Cana, los resorts todo incluido y hoteles boutique ofrecen todos los mimos y el confort de la vida moderna frente al mar. Las familias podrán disfrutar de centros de entretenimiento en miniatura, así como parques de agua para niños, mientras que las parejas hallarán enclaves de ensueño para celebrar bodas, con ofertas recluidas en la playa para una estancia aún más romántica. Pero no solo encontrarás diversión bajo el sol, con fina arena blanca y un mar cristalino e iridiscente para nadar, pescar, o darte un chapuzón entre vida marina y barcos hundidos. Punta Cana, también es el paraíso para los golfistas, con 10 campos de golf ubicados a lo largo de la costa, un escape de playa con lujosas marinas y cenas gourmet, y una zona de bienestar con los mejores spas del país.",
     "pronSem": [
       
       {"dia": "Mañana","min": 21,"max": 27,"estado": "Lluvia débil", "icon":"🌧️​"},

@@ -33,6 +33,14 @@ VUE_APP_FIREBASE_MESSAGING_SENDER_ID=
 VUE_APP_FIREBASE_APP_ID=
 ```
 
+Opcional — **recuperación de contraseña** si aparece `auth/unauthorized-continue-uri`: fuerza la URL a la que Firebase redirige tras el enlace del email (debe ser un dominio listado en Firebase → **Authentication** → **Settings** → **Authorized domains**):
+
+```env
+VUE_APP_PASSWORD_RESET_CONTINUE_URL=https://tu-dominio.com/login
+```
+
+En local, Firebase suele tener **localhost** autorizado pero no **127.0.0.1**; el código normaliza `127.0.0.1` → `localhost` al armar la URL. Si sigue fallando, abre la app como `http://localhost:PUERTO`, añade tu dominio de producción en **Authorized domains**, o usa la variable de arriba con la URL exacta.
+
 Tras modificarlas, reinicia `npm run serve`.
 
 ## Instalación y scripts

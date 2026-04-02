@@ -26,10 +26,25 @@ const TEMP_SCALE_KEY = 'escalaTemp'
 
 function getPasswordResetContinueUrl () {
   if (typeof window === 'undefined') return undefined
+
+  const envUrl = (process.env.VUE_APP_PASSWORD_RESET_CONTINUE_URL || '').trim()
+  if (envUrl) return envUrl
+
   const raw = process.env.BASE_URL || '/'
   const trimmed = raw === '/' ? '' : raw.replace(/\/$/, '')
   const path = trimmed ? `${trimmed}/login` : '/login'
-  return `${window.location.origin}${path.startsWith('/') ? path : `/${path}`}`
+  const pathFixed = path.startsWith('/') ? path : `/${path}`
+
+  const page = new URL(window.location.href)
+  if (
+    page.hostname === '127.0.0.1' ||
+    page.hostname === '::1' ||
+    page.hostname === '[::1]'
+  ) {
+    page.hostname = 'localhost'
+  }
+
+  return `${page.origin}${pathFixed}`
 }
 
 function loadTempScale () {
@@ -279,6 +294,8 @@ export default createStore({
             'No pudimos enviar el enlace con ese dato. Revisa que el email sea el mismo con el que te registraste.',
           'auth/invalid-login-credentials':
             'No pudimos enviar el enlace. Revisa el email o inténtalo más tarde.',
+          'auth/unauthorized-continue-uri':
+            'Firebase no autoriza la URL de retorno del correo. En la consola: Authentication → Settings → Authorized domains: añade tu dominio (y en local, localhost). Si usas otra URL pública, define VUE_APP_PASSWORD_RESET_CONTINUE_URL en .env.local. Ver README.',
           'auth/too-many-requests': 'Demasiados intentos. Espera unos minutos.',
           'auth/network-request-failed': 'Sin conexión o error de red. Revisa tu internet.',
           'auth/operation-not-allowed': 'La recuperación por email no está disponible. Revisa Authentication en Firebase (Sign-in method → Email/Password).',
