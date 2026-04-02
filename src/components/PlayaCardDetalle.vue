@@ -17,9 +17,6 @@
             <h6 class="detail-card-subtitle">{{ detalle.estado }}</h6>
         </div>
     </div>
-
-
-
 </template>
 
 <script setup>
@@ -111,7 +108,6 @@ const promDisplay = computed(() => {
   width: 100%;
   margin-top: 0.2rem;
 }
-
 
 .icon-temp {
   margin: 0;

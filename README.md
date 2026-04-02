@@ -5,24 +5,25 @@ SPA que muestra playas de América con clima en vivo (**Open-Meteo** vía **Axio
 ## Stack
 
 - **Vue 3** (Composition API / `<script setup>` en vistas y componentes clave)
-- **Vue Router 4** — rutas públicas (`guestOnly`) y protegidas (`requiresAuth`); redirección con `?redirect=` tras login
+- **Vue Router 4** — history mode; rutas públicas (`guestOnly`) y protegidas (`requiresAuth`); redirección con `?redirect=` tras login
 - **Vuex 4** — sesión, escala °C/°F persistente, listener de favoritos, alternar favorito por playa
 - **Bootstrap 5** + **Bootstrap Icons**
-- **Estilos de avisos propios** — `src/styles/app-alerts.css` (import en `main.js`): bloques tipo banner (`app-banner`) y alertas meteorológicas (`app-weather-alert`), alineados con el verde del proyecto
+- **Estilos de avisos propios** — `src/styles/app-alerts.css` (import en `main.js`): `app-banner`, `app-weather-alert`
 - **Firebase** (Auth + Firestore)
-- **Open-Meteo** + **Axios** (`src/services/openMeteo.js`) — pronóstico actualizado; caché en `localStorage` (TTL ~30 min, clave y versión en `src/utils/forecastCacheConstants.js`)
+- **Open-Meteo** + **Axios** (`src/services/openMeteo.js`) — pronóstico; caché en `localStorage` (TTL ~30 min; clave y versión en `src/utils/forecastCacheConstants.js`)
 
 ## Requisitos
 
 - **Node.js** (recomendado LTS) y **npm**
 - Proyecto **Firebase** con:
   - **Authentication** → correo/contraseña habilitado
-  - **Cloud Firestore** creado (puede requerir facturación en Google Cloud)
-  - **Reglas** publicadas (`firestore.rules` en la raíz o consola → Firestore → Reglas)
+  - **Authentication** → **Settings** → **Authorized domains**: debe incluir el host donde se sirve la app (p. ej. `localhost`, dominio **Netlify** `*.netlify.app`, dominio propio). Necesario para enlaces de **recuperación de contraseña**.
+  - **Cloud Firestore** (puede requerir facturación en Google Cloud)
+  - **Reglas** publicadas: `firestore.rules` en la raíz (ver script `deploy:firestore-rules`)
 
 ## Variables de entorno
 
-Crea **`.env.local`** en la raíz (no debe subirse a git) con las claves de la app web de Firebase:
+En la raíz del repo, **`.env.local`** (ignorado por git) con la app web de Firebase:
 
 ```env
 VUE_APP_FIREBASE_API_KEY=
@@ -33,33 +34,39 @@ VUE_APP_FIREBASE_MESSAGING_SENDER_ID=
 VUE_APP_FIREBASE_APP_ID=
 ```
 
-**Recuperación de contraseña** (`auth/unauthorized-continue-uri`): Firebase valida la URL de retorno del correo. Si no la fijas, se usa el **origen del navegador** en ese momento (p. ej. móvil en `http://192.168…` suele fallar).
+**Recuperación de contraseña** — si aparece `auth/unauthorized-continue-uri`, Firebase rechaza la URL de retorno del correo. Sin variable fija, se usa el **origen del navegador** al enviar el formulario (p. ej. IP local `192.168…` desde el móvil suele fallar).
 
-- **Desarrollo** (`npm run serve`): opcional en `.env.local` — `VUE_APP_PASSWORD_RESET_CONTINUE_URL`. En local, `127.0.0.1` se normaliza a `localhost` en código.
-- **Producción** (`npm run build`): conviene **definir siempre** la URL pública de login para que el enlace del email sea único y esté autorizado:
+- **Desarrollo** (`npm run serve`): opcional en `.env.local`: `VUE_APP_PASSWORD_RESET_CONTINUE_URL`. En código, `127.0.0.1` se normaliza a `localhost` al armar la URL por defecto.
+- **Producción** (`npm run build`): conviene fijar la URL pública de login (mismo host que en *Authorized domains*):
 
 ```env
-VUE_APP_PASSWORD_RESET_CONTINUE_URL=https://tu-dominio-o-proyecto.web.app/login
+VUE_APP_PASSWORD_RESET_CONTINUE_URL=https://tu-sitio.netlify.app/login
 ```
 
-Debe ser la URL **exacta** (https, host y ruta) permitida en Firebase → **Authentication** → **Settings** → **Authorized domains**. Plantilla: **`.env.production.example`** en la raíz; cópiala a **`.env.production`** o **`.env.production.local`** (este último no se sube a git) junto con las `VUE_APP_FIREBASE_*`. En CI/hosting puedes definir las mismas variables antes del build.
+(También válido: dominio Firebase Hosting, dominio propio, siempre con `https` y ruta `/login`.)
 
-Tras cambiar `.env.local`, reinicia `npm run serve`. Tras cambiar variables de producción, vuelve a ejecutar `npm run build`.
+Plantilla: **`.env.production.example`**. Cópiala a **`.env.production`** o **`.env.production.local`** (este último está en `.gitignore`, como `.env.local`). Si el build lo hace **Netlify** (u otro CI), define las mismas variables `VUE_APP_*` en el panel del servicio.
+
+Tras cambiar `.env.local`, reinicia `npm run serve`. Tras cambiar variables de producción, vuelve a ejecutar `npm run build` (o dispara un deploy con caché limpia en el hosting).
 
 ## Instalación y scripts
 
 ```bash
 npm install
-npm run serve    # desarrollo
-npm run build    # compilación → /dist
-npm run lint     # ESLint
+npm run serve                 # desarrollo
+npm run build                 # salida en /dist
+npm run lint                  # ESLint
+npm run deploy:firestore-rules   # publicar reglas (Firebase CLI, proyecto vinculado)
 ```
 
-**Reglas de Firestore** (con [Firebase CLI](https://firebase.google.com/docs/cli) tras `firebase login` y proyecto vinculado):
+## Despliegue (Netlify u hosting estático)
 
-```bash
-npm run deploy:firestore-rules
-```
+- **Build command:** `npm run build`
+- **Publish directory:** `dist`
+- **Variables de entorno** en el panel: mismas `VUE_APP_*` que en local, incluida `VUE_APP_PASSWORD_RESET_CONTINUE_URL` con la URL real de `/login`.
+- **SPA (Vue Router):** en `public/_redirects` hay la regla `/* /index.html 200` para que Netlify sirva `index.html` en rutas profundas (`/login`, `/detalle_playas/...`, etc.); el archivo se copia a `dist` al compilar.
+
+El `firebase.json` del repo está orientado a **reglas de Firestore**; el front puede hospedarse donde prefieras (Netlify, Firebase Hosting, etc.).
 
 ## Rutas principales
 
@@ -67,73 +74,76 @@ npm run deploy:firestore-rules
 |------|-------------|
 | `/` | Home: rejilla de playas y datos de clima |
 | `/login` | Inicio de sesión (solo invitados) |
-| `/register` | Registro con validación de contraseña (`src/utils/registerPassword.js`) (solo invitados) |
-| `/forgot-password` | Enlace de recuperación por email (solo invitados) |
+| `/register` | Registro con validación (`src/utils/registerPassword.js`) (solo invitados) |
+| `/forgot-password` | Recuperación por email (solo invitados) |
 | `/detalle_playas/:id` | Detalle de una playa (**requiere sesión**) |
-| `/mis-favoritos` | Listado de favoritos (**requiere sesión**) |
+| `/mis-favoritos` | Favoritos (**requiere sesión**) |
 
 ## Funcionalidad destacada
 
 ### Home
 
-- Título de marca **«Playas soñadas de América»** en la barra: contorno fino color success (`-webkit-text-stroke`) sobre fondo oscuro.
-- Selector **°C / °F** (Vuex + `localStorage`) dentro de la barra colapsable (misma lógica que el detalle).
-- Datos meteorológicos desde **Open-Meteo** cuando no hay caché válida: mensaje **«Cargando datos del clima…»** con spinner (`app-banner--info`). Si la petición falla, aviso tipo advertencia (`app-banner--warn`). Si existe caché anterior, puede usarse como respaldo.
-- **Reglas meteorológicas** (`src/utils/weatherAlertRules.js`) en cada tarjeta del home: si aplica ola de calor o semana lluviosa, un botón con icono abre un **modal** con el texto (todas las tarjetas conservan la misma altura). En la **vista detalle** la alerta sigue en línea (`app-weather-alert`) bajo el carrusel.
-- Invitados no ven el botón de corazón / favoritos en las tarjetas.
+- Marca **«Playas soñadas de América»** en la barra con contorno fino color success (`-webkit-text-stroke`).
+- Selector **°C / °F** (Vuex + `localStorage`) en la barra colapsable.
+- Clima desde **Open-Meteo** si no hay caché válida: banner de carga (`app-banner--info`); si falla la red, advertencia (`app-banner--warn`); caché anterior como respaldo.
+- **Reglas meteorológicas** (`src/utils/weatherAlertRules.js`): si aplica ola de calor o semana lluviosa, un botón con icono de **alerta** abre un **modal**. En **detalle**, la misma lógica se muestra en bloque `app-weather-alert` bajo el carrusel.
+- Invitados no ven el botón de favoritos en las tarjetas.
 
 ### Detalle de playa
 
-- Barra **navbar-expand-lg** alineada con el patrón del home (selector de escala, Mis favoritos, usuario, Salir).
-- Carrusel de pronóstico diario; corazón para añadir o quitar **favorito** (misma colección Firestore que el home).
-- **Alerta de reglas** bajo el carrusel cuando corresponda (misma prioridad que en tarjeta: si aplican ambas, se prioriza **semana lluviosa**).
-- **Resumen semanal** (`src/utils/weeklyWeatherStats.js`): temperatura **mínima** y **máxima** de la semana según los días mostrados; **promedio semanal** (media de las medias diarias (mín+máx)/2); en °C el promedio se muestra con **techo** (`Math.ceil`). En vista no móvil el bloque tiene ancho máximo acotado (~`28rem`) y centrado.
-- Escala °C/°F coherente con el resto de la app (incl. resumen).
+- Navbar alineada con el home (escala, Mis favoritos, usuario, Salir).
+- Carrusel de pronóstico diario; favorito con corazón.
+- **Resumen semanal** (`src/utils/weeklyWeatherStats.js`): mín/máx de la semana y promedio; °C con techo en el promedio mostrado; bloque acotado en escritorio.
+- Tras el resumen, botón para **volver arriba** con scroll suave (respetando `prefers-reduced-motion`).
 
 ### Reglas de alerta (implementación)
 
 | Regla | Criterio (sobre `pronSem` en caché / API) |
 |--------|-------------------------------------------|
-| **Ola de calor** | Al menos **3 días seguidos** con máxima **≥ 30 °C** (mensaje con símbolo ≥). |
-| **Semana lluviosa** | Al menos **4 días** cuyo texto de estado contiene **lluvia**, **llovizna** o **chubasco** (sin distinguir mayúsculas). |
+| **Ola de calor** | Al menos **3 días seguidos** con máxima **≥ 30 °C**. |
+| **Semana lluviosa** | Al menos **4 días** cuyo estado contiene **lluvia**, **llovizna** o **chubasco** (sin mayúsculas). |
 
-Solo se muestra **una** alerta a la vez; si encajan ambas, gana la de **semana lluviosa**.
+Solo una alerta a la vez; si aplican ambas, gana **semana lluviosa**.
 
 ### Favoritos
 
-- Firestore: colección **`users/{uid}/favorites/{playaId}`** — cada documento con datos útiles para listar (nombre, país, miniatura, etc.).
-- **Mis favoritos**: lista desde el listener Vuex; barra con **flecha al home** a la izquierda (igual que en formularios de auth) y a la derecha usuario + **Salir**.
-- Reglas: solo el usuario autenticado puede leer/escribir su documento de usuario y subcolección `favorites` (ver `firestore.rules`).
+- Firestore: **`users/{uid}/favorites/{playaId}`** con datos para listar.
+- **Mis favoritos**: lista vía listener Vuex; barra con enlace al home (flecha) y Salir.
+- Reglas en `firestore.rules`.
 
-### Flujo de auth
+### Auth
 
-- Tras **registro** correcto puede mostrarse un aviso de bienvenida (banner flash) en home o detalle según redirección.
-- Errores de login/registro se limpian al navegar entre vistas de auth.
+- Tras **registro** puede mostrarse banner flash en home o detalle según redirección.
+- Errores entre vistas de auth se limpian en el router.
 
 ## Comprobar carga y error del clima (manual)
 
-1. **Cargando**: ventana de incógnito o borrar en DevTools → *Application* → *Local Storage* la clave **`forecastById_v1`**, luego recargar el home → debería verse el banner de carga.
-2. **Error**: sin caché fresca, en DevTools → *Red* activar **Sin conexión** y recargar → debería mostrarse el banner de error.
+1. **Cargando:** incógnito o borrar en DevTools → *Application* → *Local Storage* la clave **`forecastById_v1`**, recargar el home.
+2. **Error:** sin caché fresca, *Red* en **Sin conexión** y recargar.
 
 ## Estructura (resumida)
 
 ```
+public/
+  _redirects              # SPA fallback (p. ej. Netlify)
 src/
-  components/          # PlayaCard, PlayaCardDetalle, rejilla, footer…
-  data/                  # playas.json, coordsById.js…
-  firebase/              # Inicialización Firebase
+  components/             # PlayaCard, PlayaCardDetalle, PlayaGrid, FooterFooter…
+  data/                   # playas.json, coordsById.js
+  firebase/
   router/
-  services/              # Open-Meteo (Axios)
-  store/                 # Vuex (auth, favoritos, escala)
+  services/               # openMeteo.js
+  store/
   styles/
-    app-alerts.css       # app-banner, app-weather-alert
-  views/                 # Home, Detalle, Login, Register, ForgotPassword, MisFavoritos
+    app-alerts.css
+  views/
   utils/
-    forecastCacheConstants.js  # clave y versión de caché de pronóstico
-    weatherAlertRules.js       # alertas ola de calor / lluvia
-    weatherMapper.js           # mapeo API → UI
-    weeklyWeatherStats.js      # stats para resumen semanal en detalle
-    registerPassword.js        # reglas de contraseña en registro
+    forecastCacheConstants.js
+    weatherAlertRules.js
+    weatherMapper.js
+    weeklyWeatherStats.js
+    registerPassword.js
+firestore.rules
+firebase.json             # despliegue de reglas Firestore
 ```
 
 ## Licencia / uso

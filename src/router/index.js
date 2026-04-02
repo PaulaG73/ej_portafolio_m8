@@ -31,7 +31,6 @@ const routes = [
     component: ForgotPasswordView,
     meta: { guestOnly: true }
   },
-
   {
     path: '/detalle_playas/:id',
     name: 'detalle_playas',

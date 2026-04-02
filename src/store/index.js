@@ -59,7 +59,7 @@ function saveTempScale (value) {
   try {
     localStorage.setItem(TEMP_SCALE_KEY, value)
   } catch {
-    // ignore localStorage errors
+    void 0
   }
 }
 
@@ -423,4 +423,3 @@ export default createStore({
     }
   }
 })
-

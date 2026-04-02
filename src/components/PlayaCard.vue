@@ -100,27 +100,22 @@
         </Teleport>
       </div>
     </div>
-
 </template>
 
 <script setup>
-
 import { defineProps, computed } from 'vue'
 import { useStore } from 'vuex'
 import { getWeatherRuleAlert } from '../utils/weatherAlertRules'
 
 const prop = defineProps({
-    playa: {
-        type: Object,
-        required: true
-    },
-
-    escalaTemp: {
-
-        type: String,
-        default: "°C"
-    }
-
+  playa: {
+    type: Object,
+    required: true
+  },
+  escalaTemp: {
+    type: String,
+    default: '°C'
+  }
 })
 
 const store = useStore()
@@ -140,7 +135,6 @@ function onToggleFavorite () {
 }
 
 const cambiotemperatura = computed(() => {
-
   if (prop.escalaTemp === '°C') return prop.playa.temp
 
   const tempText = String(prop.playa.temp ?? '')
@@ -154,7 +148,6 @@ const cambiotemperatura = computed(() => {
 </script>
 
 <style scoped>
-
 .home-playa-card.card {
   border-radius: 1rem;
   overflow: hidden;

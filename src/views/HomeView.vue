@@ -132,7 +132,6 @@
       <FooterFooter />
     </div>
   </div>
-
 </template>
 
 <script setup>
@@ -150,7 +149,7 @@ import {
 } from '../utils/forecastCacheConstants'
 
 const FORECAST_DAYS = 8
-const CACHE_TTL_MS = 30 * 60 * 1000 // 30 min
+const CACHE_TTL_MS = 30 * 60 * 1000
 
 const playas = ref(playasData.map((p) => ({ ...p })))
 
@@ -268,7 +267,6 @@ onMounted(async () => {
   let apiFail = 0
 
   try {
-  // 1) Para cada playa: o usamos caché, o pedimos a Open-Meteo.
   await Promise.all(playas.value.map(async (playa) => {
     const coords = coordsById[playa.id]
     if (!coords) return
@@ -352,7 +350,6 @@ onMounted(async () => {
     }
   }
 
-  // 2) Volcamos los resultados a `playas` (para que el grid se actualice) + guardamos caché.
   const nextCache = cache && typeof cache === 'object'
     ? cache
     : { updatedAt: nowMs, byId: {} }
@@ -369,8 +366,6 @@ onMounted(async () => {
     playa.hum = entry.current.humText
     playa.estado = entry.current.estado
     playa['íconoEst'] = entry.current.icon
-
-    // También actualizamos por si el detalle llegara sin caché.
     playa.pronSem = entry.pronSemC
 
     nextCache.byId[playa.id] = entry
@@ -381,7 +376,6 @@ onMounted(async () => {
     weatherLoading.value = false
   }
 })
-
 
 </script>
 

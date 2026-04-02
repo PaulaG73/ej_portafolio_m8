@@ -1,5 +1,4 @@
 <template>
-
   <div class="card-detail min-vh-100 overflow-x-hidden">
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary shadow-sm detail-nav">
@@ -257,11 +256,9 @@
       </router-link>
     </div>
   </div>
-
 </template>
 
 <script setup>
-
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
@@ -439,7 +436,6 @@ const weeklyStatsView = computed(() => {
 </script>
 
 <style scoped>
-
 .detail-favorite-btn {
   line-height: 1;
   text-decoration: none;
@@ -539,7 +535,6 @@ const weeklyStatsView = computed(() => {
   margin-top: 0.35rem;
 }
 
-/* iPad Pro: padding lateral bastante mayor sin cambiar tamaño de texto */
 @media (pointer: coarse) and (min-width: 900px) and (max-width: 1400px) {
   .detail-ipad-pro-pad {
     padding-left: 2.25rem !important;

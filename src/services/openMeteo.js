@@ -15,4 +15,3 @@ export async function fetchOpenMeteoForecast ({ latitude, longitude, forecastDay
   const { data } = await axios.get(OPEN_METEO_BASE_URL, { params })
   return data
 }
-
