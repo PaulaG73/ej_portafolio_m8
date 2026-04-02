@@ -1,4 +1,7 @@
-# Portafolio playas (Vue 3 + Firebase)
+# API Clima: Playas soñadas de América
+
+- **Repositorio:** [GitHub — ej_portafolio_m8](https://github.com/PaulaG73/ej_portafolio_m8)
+- **Demo (producción):** [portafoliom8.netlify.app](https://portafoliom8.netlify.app)
 
 SPA con playas de América, clima en vivo (**Open-Meteo** + **Axios**), **Firebase Auth** (registro, login, recuperación de contraseña) y favoritos en **Cloud Firestore**.
 
@@ -177,7 +180,8 @@ proyecto/
 
 **Paula Gajardo Schmidlin** — *Estudiante de Front End*  
 📧 paulagajardosch@gmail.com  
-🐙 [PaulaG73](https://github.com/PaulaG73)
+🐙 [PaulaG73](https://github.com/PaulaG73) 
+
 
 ---
 
